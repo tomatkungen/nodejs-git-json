@@ -1,4 +1,5 @@
 import { Commit, ConvenientPatch, Reference, StatusFile } from "nodegit";
+import { GitRef, Gitstatus } from "./git-types";
 
 export const lg = (...args: any[]) => {
     console.log(...args);
@@ -16,36 +17,16 @@ export const pr_commit = (commit: Commit) => {
     lg("\n    " + commit.message());
 }
 
-export const pr_status = (statusFile: StatusFile) => {
-    const status: string[] = [];
+export const pr_status = (gitStatus: Gitstatus) => {
 
-    // statusFile.inIndex()        && status.push('IN-INDEX');
-    statusFile.inWorkingTree()  && status.push('WORKINGTREE');
-    statusFile.isConflicted()   && status.push('CONFLICT');
-    statusFile.isDeleted()      && status.push('DELETED');
-    statusFile.isIgnored()      && status.push('IGNORED');
-    statusFile.isModified()     && status.push('MODIFIED');
-    statusFile.isNew()          && status.push('NEW');
-    statusFile.isRenamed()      && status.push('RENAMED');
-    statusFile.isTypechange()   && status.push('TYPECHANGE');
+    lg(`${cF(gitStatus.path, 'cfGREEN')} <${cF(gitStatus.status.join(', '), 'cfCYAN')}> ${gitStatus.statusFile.join(',')}`)
 
-    lg(`${cF(statusFile.path(), 'cfGREEN')} <${cF(status.join(', '), 'cfCYAN')}> ${statusFile.status().join(',')}`)
 }
 
-export const pr_reference = (reference: Reference) => {
+export const pr_reference = (gitRef: GitRef) => {
 
-    const statusRef: string[] = [];
-
-    reference.isBranch() === 1      && statusRef.push('BRANCH');
-    reference.isHead()              && statusRef.push('HEAD');
-    reference.isNote() === 1        && statusRef.push('NOTE');
-    reference.isRemote() === 1      && statusRef.push('REMOTE');
-    reference.isTag() === 1         && statusRef.push('TAG');
-    reference.isSymbolic() === true && statusRef.push('SYMBOLIC');
-    reference.isValid() === false   && statusRef.push('NOTVALID');
-
-    lg(cF(`sha: ${reference.target().tostrS()}`, 'cfYELLOW'), cF(statusRef.join(', '), 'cfCYAN'));
-    lg(`${reference.name()}`);
+    lg(cF(`sha: ${gitRef.sha}`, 'cfYELLOW'), cF(gitRef.status.join(', '), 'cfCYAN'));
+    lg(`${gitRef.name}`);
     lg();
 }
 export const pr_patches = (patches: ConvenientPatch) => {

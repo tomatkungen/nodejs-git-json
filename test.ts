@@ -5,13 +5,13 @@ import { git_refs } from './src/public/git_refs';
 
 (async () => {
 
-    const status = await git_status();
+    // const status = await git_status();
     // lg('status', status);
     
     // const log = await git_log();
     // lg('log', log);
 
-    // const refs = await git_refs();
-    // lg('refs', refs);
+    const refs = await git_refs();
+    lg('refs', refs);
 
 })()

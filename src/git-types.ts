@@ -19,8 +19,9 @@ export type GitCommitFile = {
 }
 
 export type Gitstatus = {
-    path: string,
-    status: string[]
+    path: string;
+    status: string[];
+    statusFile: string[];
 }
 
 export type GitRef = {

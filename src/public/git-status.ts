@@ -12,8 +12,6 @@ export const git_status = async (): Promise<GitStatuses> => {
 
     // Return statuses
     return statusFiles.reduce<GitStatuses>((prev, statusFile) => {
-        pr_status(statusFile);
-
         const status: string[] = [];
 
         // statusFile.inIndex()        && status.push('IN-INDEX');
@@ -30,7 +28,10 @@ export const git_status = async (): Promise<GitStatuses> => {
         prev.push({
             path: statusFile.path(),
             status,
+            statusFile: statusFile.status()
         });
+
+        pr_status(prev[prev.length - 1]);
 
         return prev;
     }, [])

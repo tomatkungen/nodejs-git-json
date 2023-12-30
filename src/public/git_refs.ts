@@ -13,20 +13,21 @@ export const git_refs = async (): Promise<GitRefs> => {
     return references.reduce<GitRefs>((prev, reference) => {
         const statusRef: string[] = [];
 
-        reference.isBranch() === 1 && statusRef.push('BRANCH');
-        reference.isHead() && statusRef.push('HEAD');
-        reference.isNote() === 1 && statusRef.push('NOTE');
-        reference.isRemote() === 1 && statusRef.push('REMOTE');
-        reference.isTag() === 1 && statusRef.push('TAG');
+        reference.isBranch() === 1      && statusRef.push('BRANCH');
+        reference.isHead()              && statusRef.push('HEAD');
+        reference.isNote() === 1        && statusRef.push('NOTE');
+        reference.isRemote() === 1      && statusRef.push('REMOTE');
+        reference.isTag() === 1         && statusRef.push('TAG');
         reference.isSymbolic() === true && statusRef.push('SYMBOLIC');
-        reference.isValid() === false && statusRef.push('NOTVALID');
+        reference.isValid() === false   && statusRef.push('NOTVALID');
 
-        pr_reference(reference);
         prev.push({
             sha: reference.target().tostrS(),
             status: statusRef,
             name: reference.name(),
         });
+
+        pr_reference(prev[prev.length -1]);
 
         return prev;
     }, []);
