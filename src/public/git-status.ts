@@ -1,6 +1,7 @@
-import { GitStatuses } from './git-types';
-import { git_repo } from './git_repo';
-import { pr_status } from './pr_lg';
+import { GitStatuses } from "../git-types";
+import { git_repo } from "../private/git_repo";
+import { pr_status } from "../pr_lg";
+
 
 export const git_status = async (): Promise<GitStatuses> => {
     // Get Repo

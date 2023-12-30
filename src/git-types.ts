@@ -1,4 +1,4 @@
-type GitLog = {
+export type GitLog = {
     sha: string;
     date: string;
     message: string;
@@ -18,12 +18,12 @@ export type GitCommitFile = {
     status: string[];
 }
 
-type Gitstatus = {
+export type Gitstatus = {
     path: string,
     status: string[]
 }
 
-type GitRef = {
+export type GitRef = {
     sha: string;
     status: string[];
     name: string;

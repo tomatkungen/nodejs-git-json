@@ -1,6 +1,7 @@
-import { git_repo } from "./git_repo";
-import { pr_reference } from "./pr_lg";
-import { GitRefs } from "./git-types";
+import { GitRefs } from "../git-types";
+import { git_repo } from "../private/git_repo";
+import { pr_reference } from "../pr_lg";
+
 
 export const git_refs = async (): Promise<GitRefs> => {
     // Get Repo
