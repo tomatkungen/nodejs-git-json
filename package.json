@@ -1,0 +1,21 @@
+{
+  "name": "native-client",
+  "version": "1.0.0",
+  "description": "native-client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "yarn ts-node test.ts"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@mapbox/node-pre-gyp": "^1.0.11",
+    "nodegit": "^0.28.0-alpha.1"
+  },
+  "devDependencies": {
+    "@types/nodegit": "^0.28.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
