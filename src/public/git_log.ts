@@ -1,5 +1,5 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
-import { GitLogs } from "./../git-types";
+import { GitCommitFiles, GitLog, GitLogs } from "./../git-types";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_repo } from "./../private/git_repo";
 import { pr_log } from "./../pr_lg";
@@ -21,6 +21,7 @@ export const git_log = async (): Promise<GitLogs> => {
     if (commits.length === 0)
         return [];
 
+    // Init empty git logs
     const gitLogs: GitLogs = [];
 
     // Get Commits diff files anre return git log
@@ -29,22 +30,29 @@ export const git_log = async (): Promise<GitLogs> => {
         // Get commit diff
         const gitCommitFiles = await git_commit_files(repo, commit, commits[index + 1]);
 
-        gitLogs.push({
-            sha: commit.sha(),
-            date: commit.date().toISOString(),
-            message: commit.message(),
-            authorName: commit.author().name(),
-            authorEmail: commit.author().email(),
-            commiterName: commit.committer().name(),
-            commiterEmail: commit.committer().email(),
-            files: gitCommitFiles,
-        });
+        // Add created log
+        gitLogs.push(
+            create_log(commit, gitCommitFiles)
+        );
 
         pr_log(gitLogs[gitLogs.length - 1]);
 
     }
 
     return gitLogs;
+}
+
+const create_log = (commit: Commit, gitCommitFiles: GitCommitFiles): GitLog => {
+    return {
+        sha: commit.sha(),
+        date: commit.date().toISOString(),
+        message: commit.message(),
+        authorName: commit.author().name(),
+        authorEmail: commit.author().email(),
+        commiterName: commit.committer().name(),
+        commiterEmail: commit.committer().email(),
+        files: gitCommitFiles,
+    }
 }
 
 const get_commits = async (history: HistoryEventEmitter): Promise<Commit[]> => {

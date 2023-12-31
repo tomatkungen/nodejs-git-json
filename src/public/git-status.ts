@@ -1,7 +1,7 @@
-import { GitStatuses } from "../git-types";
+import { StatusFile } from "nodegit";
+import { Gitstatus, GitStatuses } from "../git-types";
 import { git_repo } from "../private/git_repo";
 import { pr_status } from "../pr_lg";
-
 
 export const git_status = async (): Promise<GitStatuses> => {
     // Get Repo
@@ -12,27 +12,33 @@ export const git_status = async (): Promise<GitStatuses> => {
 
     // Return statuses
     return statusFiles.reduce<GitStatuses>((prev, statusFile) => {
-        const status: string[] = [];
-
-        // statusFile.inIndex()        && status.push('IN-INDEX');
-        statusFile.isNew()          && status.push('NEW');
-        statusFile.isModified()     && status.push('MODIFIED');
-        statusFile.isTypechange()   && status.push('TYPECHANGE');
-        statusFile.isRenamed()      && status.push('RENAMED');
-        statusFile.isIgnored()      && status.push('IGNORED');
-        statusFile.inWorkingTree()  && status.push('WORKING-TREE');
-        statusFile.isConflicted()   && status.push('CONFLICT');
-        statusFile.isDeleted()      && status.push('DELETED');
-        statusFile.isIgnored()      && status.push('IGNORED');
-
-        prev.push({
-            path: statusFile.path(),
-            status,
-            statusFile: statusFile.status()
-        });
+        
+        // Add created status
+        prev.push(create_status(statusFile));
 
         pr_status(prev[prev.length - 1]);
 
         return prev;
     }, [])
+}
+
+const create_status = (statusFile: StatusFile): Gitstatus => {
+    const status: string[] = [];
+
+    // statusFile.inIndex()        && status.push('IN-INDEX');
+    statusFile.isNew()          && status.push('NEW');
+    statusFile.isModified()     && status.push('MODIFIED');
+    statusFile.isTypechange()   && status.push('TYPECHANGE');
+    statusFile.isRenamed()      && status.push('RENAMED');
+    statusFile.isIgnored()      && status.push('IGNORED');
+    statusFile.inWorkingTree()  && status.push('WORKING-TREE');
+    statusFile.isConflicted()   && status.push('CONFLICT');
+    statusFile.isDeleted()      && status.push('DELETED');
+    statusFile.isIgnored()      && status.push('IGNORED');
+
+    return {
+        path: statusFile.path(),
+        status,
+        statusFile: statusFile.status()
+    }
 }

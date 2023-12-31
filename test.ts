@@ -5,10 +5,10 @@ import { git_reference } from './src/public/git_reference';
 
 (async () => {
 
-    // const status = await git_status();
-    // lg('status', status);
+    const status = await git_status();
+    lg('status', status);
     
-    const log = await git_log();
+    // const log = await git_log();
     // lg('log', log);
 
     // const refs = await git_reference();
