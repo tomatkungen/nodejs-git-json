@@ -1,6 +1,5 @@
 import { Commit, Diff, Repository } from "nodegit";
 import { GitCommitFile, GitCommitFiles } from "../git-types";
-import { pr_patches } from "../pr_lg";
 
 export const git_commit_files = async (
     repo: Repository,
@@ -18,7 +17,6 @@ export const git_commit_files = async (
     const patches = await diff.patches();
 
     return patches.map<GitCommitFile>((patches) => {
-        pr_patches(patches);
 
         const status: string[] = [];
 

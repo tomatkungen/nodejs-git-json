@@ -2,7 +2,7 @@ import { Commit, HistoryEventEmitter } from "nodegit/commit";
 import { GitLogs } from "./../git-types";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_repo } from "./../private/git_repo";
-import { pr_commit } from "./../pr_lg";
+import { pr_log } from "./../pr_lg";
 
 export const git_log = async (): Promise<GitLogs> => {
     // Get Repo
@@ -25,8 +25,8 @@ export const git_log = async (): Promise<GitLogs> => {
 
     // Get Commits diff files anre return git log
     for (const [index, commit] of commits.entries()) {
-        pr_commit(commit);
 
+        // Get commit diff
         const gitCommitFiles = await git_commit_files(repo, commit, commits[index + 1]);
 
         gitLogs.push({
@@ -38,7 +38,10 @@ export const git_log = async (): Promise<GitLogs> => {
             commiterName: commit.committer().name(),
             commiterEmail: commit.committer().email(),
             files: gitCommitFiles,
-        })
+        });
+
+        pr_log(gitLogs[gitLogs.length - 1]);
+
     }
 
     return gitLogs;

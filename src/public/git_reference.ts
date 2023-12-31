@@ -3,7 +3,7 @@ import { git_repo } from "../private/git_repo";
 import { pr_reference } from "../pr_lg";
 
 
-export const git_refs = async (): Promise<GitRefs> => {
+export const git_reference = async (): Promise<GitRefs> => {
     // Get Repo
     const repo = await git_repo();
 

@@ -1,5 +1,5 @@
 import { Commit, ConvenientPatch, Reference, StatusFile } from "nodegit";
-import { GitRef, Gitstatus } from "./git-types";
+import { GitCommitFile, GitCommitFiles, GitLog, GitRef, Gitstatus } from "./git-types";
 
 export const lg = (...args: any[]) => {
     console.log(...args);
@@ -9,12 +9,27 @@ export const lgN = () => {
     lg('\n');
 }
 
-export const pr_commit = (commit: Commit) => {
+export const pr_log = (gitLog: GitLog) => {
     lgN();
-    lg(cF(`commit ${commit.sha()}$`, 'cfYELLOW'));
-    lg(`Author: ${commit.author().name()} <${commit.author().email()}>`);
-    lg(`Date: ${commit.date().toISOString()}`);
-    lg("\n    " + commit.message());
+    lg(cF(`commit ${gitLog.sha}`, 'cfYELLOW'));
+    lg(`Author: ${gitLog.authorName} <${gitLog.authorEmail}>`);
+    lg(`Date: ${gitLog.date}`);
+    lg("\n    " + gitLog.message);
+
+    gitLog.files.forEach(pr_log_files);
+    lg();
+}
+
+export const pr_log_files = (gitCommitFile: GitCommitFile) => {
+    const fileSize = gitCommitFile.newFileSize;
+    const filePath = gitCommitFile.newFilePath;
+    const contextLines = gitCommitFile.contextLines;
+    const addedLines = gitCommitFile.addedLines;
+    const deletedLines = gitCommitFile.deletedLines;
+
+    const lineStats = `${contextLines}c ${cF(`+${addedLines}a`, 'cfGREEN')} ${cF(`-${deletedLines}d`, 'cfRED')}`;
+
+    lg(`${sR(gitCommitFile.status.join(', '), 6, 2)}${cF(filePath, 'cfGREEN')} <${lineStats} ${cF(`${Math.round(fileSize) / 100}K`, 'cfCYAN')}> `)
 }
 
 export const pr_status = (gitStatus: Gitstatus) => {
@@ -28,28 +43,7 @@ export const pr_reference = (gitRef: GitRef) => {
     lg(cF(`sha: ${gitRef.sha}`, 'cfYELLOW'), cF(gitRef.status.join(', '), 'cfCYAN'));
     lg(`${gitRef.name}`);
     lg();
-}
-export const pr_patches = (patches: ConvenientPatch) => {
-    const status: string[] = [];
 
-    patches.isUnmodified()  && status.push('UNMODIFIED');
-    patches.isAdded()       && status.push('ADDED');
-    patches.isDeleted()     && status.push('DELETED');
-    patches.isModified()    && status.push('MODIFIED');
-    patches.isIgnored()     && status.push('IGNORED');
-    patches.isTypeChange()  && status.push('TYPECHANGE');
-    patches.isUnreadable()  && status.push('UNREADABLE');
-    patches.isConflicted()  && status.push('CONFLICT');
-
-    const fileSize = patches.newFile().size();
-    const filePath = patches.newFile().path();
-    const contextLines = patches.lineStats().total_context;
-    const addedLines = patches.lineStats().total_additions;
-    const deletedLines = patches.lineStats().total_deletions;
-
-    const lineStats = `${contextLines}c ${cF(`+${addedLines}a`, 'cfGREEN')} ${cF(`-${deletedLines}d`, 'cfRED')}`;
-
-    lg(`${sR(status.join(', '), 6, 2)}${cF(filePath, 'cfGREEN')} <${lineStats} ${cF(`${Math.round(fileSize) / 100}K`, 'cfCYAN')}> `)
 }
 
 // fill Space to the right
