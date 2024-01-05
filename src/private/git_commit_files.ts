@@ -1,5 +1,5 @@
 import { Commit, Diff, Repository } from "nodegit";
-import { GitCommitFile, GitCommitFiles } from "../git-types";
+import { GitCommitFile, GitCommitFiles } from "../types/git-types";
 
 export const git_commit_files = async (
     repo: Repository,

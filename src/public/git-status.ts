@@ -1,7 +1,7 @@
 import { StatusFile } from "nodegit";
-import { Gitstatus, GitStatuses } from "../git-types";
+import { Gitstatus, GitStatuses } from "../types/git-types";
 import { git_repo } from "../private/git_repo";
-import { pr_status } from "../pr_lg";
+import { pr_status } from "../util/pr_lg";
 
 export const git_status = async (path: string = './'): Promise<GitStatuses> => {
     // Get Repo

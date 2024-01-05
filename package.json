@@ -1,19 +1,26 @@
 {
-  "name": "native-client",
+  "name": "nodejs-git-json",
   "version": "1.0.0",
-  "description": "native-client",
-  "main": "index.js",
+  "description": "nodejs-git-json",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "yarn ts-node test.ts"
+    "dev": "yarn ts-node test.ts",
+    "dev:compile": "yarn tsc -p tsconfig.json --noEmit",
+    "package:build": "rimraf ./build && tsc -p tsconfig.json"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomatkungen/nodejs-git-json"
+  },
+  "author": "mr_a2@hotmail.com",
   "license": "MIT",
   "dependencies": {
     "nodegit": "^0.28.0-alpha.1"
   },
   "devDependencies": {
     "@types/nodegit": "^0.28.7",
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

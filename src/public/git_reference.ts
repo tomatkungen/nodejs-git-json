@@ -1,7 +1,7 @@
 import { Reference } from "nodegit";
-import { GitRef, GitRefs } from "../git-types";
+import { GitRef, GitRefs } from "../types/git-types";
 import { git_repo } from "../private/git_repo";
-import { pr_reference } from "../pr_lg";
+import { pr_reference } from "../util/pr_lg";
 
 export const git_reference = async (path: string = './', ): Promise<GitRefs> => {
     // Get Repo

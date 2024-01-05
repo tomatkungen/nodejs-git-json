@@ -1,8 +1,8 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
-import { GitCommitFiles, GitLog, GitLogs } from "./../git-types";
+import { GitCommitFiles, GitLog, GitLogs } from "../types/git-types";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_repo } from "./../private/git_repo";
-import { pr_log } from "./../pr_lg";
+import { pr_log } from "../util/pr_lg";
 
 export const git_log = async (path: string = './'): Promise<GitLogs> => {
     // Get Repo

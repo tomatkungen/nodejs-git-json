@@ -1,5 +1,4 @@
-import { Commit, ConvenientPatch, Reference, StatusFile } from "nodegit";
-import { GitCommitFile, GitCommitFiles, GitLog, GitRef, Gitstatus } from "./git-types";
+import { GitCommitFile, GitLog, GitRef, Gitstatus } from "../types/git-types";
 
 export const lg = (...args: any[]) => {
     console.log(...args);

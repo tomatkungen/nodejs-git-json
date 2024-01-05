@@ -1,7 +1,7 @@
 import { git_status } from './src/public/git-status';
-import { lg } from './src/pr_lg';
-import { git_log } from './src/public/git_log';
-import { git_reference } from './src/public/git_reference';
+import { lg } from './src/util/pr_lg';
+// import { git_log } from './src/public/git_log';
+// import { git_reference } from './src/public/git_reference';
 
 (async () => {
 
