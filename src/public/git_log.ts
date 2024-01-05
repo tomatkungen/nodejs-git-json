@@ -4,12 +4,18 @@ import { git_commit_files } from "./../private/git_commit_files";
 import { git_repo } from "./../private/git_repo";
 import { pr_log } from "./../pr_lg";
 
-export const git_log = async (): Promise<GitLogs> => {
+export const git_log = async (path: string = './'): Promise<GitLogs> => {
     // Get Repo
-    const repo = await git_repo();
+    const repo = await git_repo(path);
+
+    // Get Branch reference
+    const reference = await repo.getCurrentBranch();
+
+    // Get Branch name from HEAD
+    const branchName = reference.shorthand();
 
     // Main Branch
-    const branch = await repo.getBranchCommit('main');
+    const branch = await repo.getBranchCommit(branchName);
 
     // Branch History
     const history = branch.history();

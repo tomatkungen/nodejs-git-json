@@ -89,7 +89,7 @@ const Colors: { [key in Colors]: string } ={
     cbWHITE : '\x1b[47m',
 }
 
-const cF = (str: string, color: Colors) => {
+export const cF = (str: string, color: Colors) => {
     const cEND = '\x1b[0m';
 
     return `${Colors[color]}${str}${cEND}`

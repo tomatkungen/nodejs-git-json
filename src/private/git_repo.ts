@@ -1,5 +1,13 @@
 import { Repository } from 'nodegit';
+import { cF, lg } from '../pr_lg';
 
 export const git_repo = async (path: string = './'): Promise<Repository> => {
-    return await Repository.open(path);
+    const repo = await Repository.open(path);
+
+    lg(cF(`Workdir: ${repo.workdir()}`, 'cfMAGENTA'));
+    lg(cF(`RepoPath: ${repo.path()}`, 'cfMAGENTA'));
+    lg();
+    // lg(`Common ${repo.commondir()}`);
+
+    return repo;
 }

@@ -3,10 +3,10 @@ import { Gitstatus, GitStatuses } from "../git-types";
 import { git_repo } from "../private/git_repo";
 import { pr_status } from "../pr_lg";
 
-export const git_status = async (): Promise<GitStatuses> => {
+export const git_status = async (path: string = './'): Promise<GitStatuses> => {
     // Get Repo
-    const repo = await git_repo();
-    
+    const repo = await git_repo(path);
+
     // Get files with status
     const statusFiles = await repo.getStatus();
 
