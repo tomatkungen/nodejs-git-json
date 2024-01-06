@@ -4,6 +4,10 @@
   "description": "nodejs-git-json",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
+  "files": [
+    "build",
+    "README.md"
+  ],
   "scripts": {
     "dev": "yarn ts-node test.ts",
     "dev:compile": "yarn tsc -p tsconfig.json --noEmit",
@@ -16,7 +20,7 @@
   "author": "mr_a2@hotmail.com",
   "license": "MIT",
   "dependencies": {
-    "nodegit": "^0.28.0-alpha.1"
+    "nodegit": "0.28.0-alpha.1"
   },
   "devDependencies": {
     "@types/nodegit": "^0.28.7",
