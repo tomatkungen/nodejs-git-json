@@ -11,7 +11,8 @@
   "scripts": {
     "dev": "yarn ts-node test.ts",
     "dev:compile": "yarn tsc -p tsconfig.json --noEmit",
-    "package:build": "rimraf ./build && tsc -p tsconfig.json"
+    "package:build": "rimraf ./build && tsc -p tsconfig.json",
+    "package:publish": "yarn version --patch && git push --tags && yarn publish . --tag $npm_package_version && git push && echo \"Successfully released version $npm_package_version!\""
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,13 @@
   "dependencies": {
     "nodegit": "0.28.0-alpha.1"
   },
+  "keywords": [
+    "git",
+    "node",
+    "nodejs",
+    "commit",
+    "json"
+  ],
   "devDependencies": {
     "@types/nodegit": "^0.28.7",
     "rimraf": "^5.0.5",
