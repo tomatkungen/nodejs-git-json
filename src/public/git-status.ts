@@ -3,7 +3,7 @@ import { Gitstatus, GitStatuses } from "../types/git-types";
 import { git_repo } from "../private/git_repo";
 import { pr_status } from "../util/pr_lg";
 
-export const git_status = async (path: string = './'): Promise<GitStatuses> => {
+export const git_status = async (path: string = './', stdOut: boolean = false): Promise<GitStatuses> => {
     // Get Repo
     const repo = await git_repo(path);
 
@@ -16,7 +16,7 @@ export const git_status = async (path: string = './'): Promise<GitStatuses> => {
         // Add created status
         prev.push(create_status(statusFile));
 
-        pr_status(prev[prev.length - 1]);
+        stdOut && pr_status(prev[prev.length - 1]);
 
         return prev;
     }, [])

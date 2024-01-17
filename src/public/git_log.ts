@@ -4,7 +4,7 @@ import { git_commit_files } from "./../private/git_commit_files";
 import { git_repo } from "./../private/git_repo";
 import { pr_log } from "../util/pr_lg";
 
-export const git_log = async (path: string = './'): Promise<GitLogs> => {
+export const git_log = async (path: string = './', stdOut: boolean = false): Promise<GitLogs> => {
     // Get Repo
     const repo = await git_repo(path);
 
@@ -41,7 +41,7 @@ export const git_log = async (path: string = './'): Promise<GitLogs> => {
             create_log(commit, gitCommitFiles)
         );
 
-        pr_log(gitLogs[gitLogs.length - 1]);
+        stdOut && pr_log(gitLogs[gitLogs.length - 1]);
 
     }
 

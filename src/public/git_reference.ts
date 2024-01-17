@@ -3,7 +3,7 @@ import { GitRef, GitRefs } from "../types/git-types";
 import { git_repo } from "../private/git_repo";
 import { pr_reference } from "../util/pr_lg";
 
-export const git_reference = async (path: string = './', ): Promise<GitRefs> => {
+export const git_reference = async (path: string = './', stdOut: boolean = false): Promise<GitRefs> => {
     // Get Repo
     const repo = await git_repo(path);
 
@@ -16,7 +16,7 @@ export const git_reference = async (path: string = './', ): Promise<GitRefs> => 
         // Add created reference
         prev.push(create_reference(reference));
 
-        pr_reference(prev[prev.length -1]);
+        stdOut && pr_reference(prev[prev.length -1]);
 
         return prev;
     }, []);

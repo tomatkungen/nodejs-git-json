@@ -5,7 +5,7 @@ import { lg } from './src/util/pr_lg';
 
 (async () => {
 
-    const status = await git_status();
+    const status = await git_status('./', false);
     lg('status', status);
     
     // const log = await git_log();
