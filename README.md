@@ -14,9 +14,21 @@ npm i nodejs-git-json
 yarn add nodejs-git-json
 ```
 
+## Commands
+
+```typescript 
+    // Alias
+    git_status(path: string = './', stdOut: boolean = false): Promise<GitStatuses>
+    git_log(path: string = './', stdOut: boolean = false): Promise<GitLogs>
+    git_reference(path?: string, stdOut?: boolean = false): Promise<GitRefs>
+
+```
+
 ## Usage
 
 ```typescript
+main.ts
+
 import {
     git_status,
     git_log,
