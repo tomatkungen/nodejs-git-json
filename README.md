@@ -4,14 +4,21 @@ It is based on [nodegit](https://github.com/nodegit/nodegit) v0.28.0-alpha.1
 
 Nodejs-git-json is a NPM module library that can output json from git repository.
 
+# Prerequisites
+
+[NodeJS](https://nodejs.org/en/about/previous-releases) >= v18.6.0
+
 ## Installation
 
 ```shell
+# It takes a while to download and build nodegit when installing!
+
 # npm
 npm i nodejs-git-json
 
 #Yarn
 yarn add nodejs-git-json
+
 ```
 
 ## Commands
@@ -27,7 +34,7 @@ yarn add nodejs-git-json
 ## Usage
 
 ```typescript
-main.ts
+// main.ts
 
 import {
     git_status,

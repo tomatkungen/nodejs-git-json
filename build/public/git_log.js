@@ -13,7 +13,7 @@ exports.git_log = void 0;
 const git_commit_files_1 = require("./../private/git_commit_files");
 const git_repo_1 = require("./../private/git_repo");
 const pr_lg_1 = require("../util/pr_lg");
-const git_log = (path = './') => __awaiter(void 0, void 0, void 0, function* () {
+const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 0, function* () {
     const repo = yield (0, git_repo_1.git_repo)(path);
     const reference = yield repo.getCurrentBranch();
     const branchName = reference.shorthand();
@@ -26,7 +26,7 @@ const git_log = (path = './') => __awaiter(void 0, void 0, void 0, function* () 
     for (const [index, commit] of commits.entries()) {
         const gitCommitFiles = yield (0, git_commit_files_1.git_commit_files)(repo, commit, commits[index + 1]);
         gitLogs.push(create_log(commit, gitCommitFiles));
-        (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
+        stdOut && (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
     }
     return gitLogs;
 });

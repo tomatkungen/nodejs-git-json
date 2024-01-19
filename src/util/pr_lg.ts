@@ -1,4 +1,4 @@
-import { GitCommitFile, GitLog, GitRef, Gitstatus } from "../types/git-types";
+import { GitCommitFile, GitLog, GitRef, Gitstatus } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
     console.log(...args);

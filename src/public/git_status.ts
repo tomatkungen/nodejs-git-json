@@ -1,5 +1,5 @@
 import { StatusFile } from "nodegit";
-import { Gitstatus, GitStatuses } from "../types/git-types";
+import { Gitstatus, GitStatuses } from "../types/git_types";
 import { git_repo } from "../private/git_repo";
 import { pr_status } from "../util/pr_lg";
 

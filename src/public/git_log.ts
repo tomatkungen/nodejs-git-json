@@ -1,5 +1,5 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
-import { GitCommitFiles, GitLog, GitLogs } from "../types/git-types";
+import { GitCommitFiles, GitLog, GitLogs } from "../types/git_types";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_repo } from "./../private/git_repo";
 import { pr_log } from "../util/pr_lg";

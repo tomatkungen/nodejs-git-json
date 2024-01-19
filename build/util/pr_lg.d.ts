@@ -1,4 +1,4 @@
-import { GitCommitFile, GitLog, GitRef, Gitstatus } from "../types/git-types";
+import { GitCommitFile, GitLog, GitRef, Gitstatus } from "../types/git_types";
 export declare const lg: (...args: any[]) => void;
 export declare const lgN: () => void;
 export declare const pr_log: (gitLog: GitLog) => void;

@@ -1,5 +1,5 @@
 import { Reference } from "nodegit";
-import { GitRef, GitRefs } from "../types/git-types";
+import { GitRef, GitRefs } from "../types/git_types";
 import { git_repo } from "../private/git_repo";
 import { pr_reference } from "../util/pr_lg";
 
