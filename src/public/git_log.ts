@@ -1,8 +1,9 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
-import { GitCommitFiles, GitLog, GitLogs } from "../types/git_types";
-import { git_commit_files } from "./../private/git_commit_files";
-import { git_repo } from "./../private/git_repo";
+import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from "../types/git_types";
 import { pr_log } from "../util/pr_lg";
+import { git_commit_files } from "./../private/git_commit_files";
+import { git_commit_stats } from "./../private/git_commit_stats";
+import { git_repo } from "./../private/git_repo";
 
 export const git_log = async (path: string = './', stdOut: boolean = false): Promise<GitLogs> => {
     // Get Repo
@@ -36,9 +37,12 @@ export const git_log = async (path: string = './', stdOut: boolean = false): Pro
         // Get commit diff
         const gitCommitFiles = await git_commit_files(repo, commit, commits[index + 1]);
 
+        // Get commit stats
+        const gitCommitStats = await git_commit_stats(repo, commit, commits[index + 1]);
+
         // Add created log
         gitLogs.push(
-            create_log(commit, gitCommitFiles)
+            create_log(commit, gitCommitFiles, gitCommitStats)
         );
 
         stdOut && pr_log(gitLogs[gitLogs.length - 1]);
@@ -48,7 +52,7 @@ export const git_log = async (path: string = './', stdOut: boolean = false): Pro
     return gitLogs;
 }
 
-const create_log = (commit: Commit, gitCommitFiles: GitCommitFiles): GitLog => {
+const create_log = (commit: Commit, gitCommitFiles: GitCommitFiles, gitCommitStat: GitCommitStat): GitLog => {
     return {
         sha: commit.sha(),
         date: commit.date().toISOString(),
@@ -57,6 +61,9 @@ const create_log = (commit: Commit, gitCommitFiles: GitCommitFiles): GitLog => {
         authorEmail: commit.author().email(),
         commiterName: commit.committer().name(),
         commiterEmail: commit.committer().email(),
+        insertion: gitCommitStat.insertion,
+        deletion: gitCommitStat.deletion,
+        fileChanged: gitCommitStat.fileChanged,
         files: gitCommitFiles,
     }
 }

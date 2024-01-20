@@ -1,5 +1,5 @@
-import { Commit, Diff, Repository } from "nodegit";
-import { GitCommitFile, GitCommitFiles } from "../types/git_types";
+import { Commit, Diff, Repository, ConvenientPatch } from "nodegit";
+import { GitCommitFiles } from "../types/git_types";
 
 export const git_commit_files = async (
     repo: Repository,
@@ -16,26 +16,56 @@ export const git_commit_files = async (
 
     const patches = await diff.patches();
 
-    return patches.map<GitCommitFile>((patches) => {
+    const gitCommitFile: GitCommitFiles = [];
 
+    for (const patch of patches) {
         const status: string[] = [];
 
-        patches.isUnmodified()  && status.push('UNMODIFIED');
-        patches.isAdded()       && status.push('ADDED');
-        patches.isDeleted()     && status.push('DELETED');
-        patches.isModified()    && status.push('MODIFIED');
-        patches.isIgnored()     && status.push('IGNORED');
-        patches.isTypeChange()  && status.push('TYPECHANGE');
-        patches.isUnreadable()  && status.push('UNREADABLE');
-        patches.isConflicted()  && status.push('CONFLICT');
+        // Line length insertion or deletion
+        const { insertion, deletion } = await get_line_length(patch)
 
-        return {
-            newFilePath: patches.newFile().path(),
-            newFileSize: patches.newFile().size(),
-            contextLines: patches.lineStats().total_context,
-            addedLines: patches.lineStats().total_additions,
-            deletedLines: patches.lineStats().total_deletions,
+        patch.isUnmodified() && status.push('UNMODIFIED');
+        patch.isAdded() && status.push('ADDED');
+        patch.isDeleted() && status.push('DELETED');
+        patch.isModified() && status.push('MODIFIED');
+        patch.isIgnored() && status.push('IGNORED');
+        patch.isTypeChange() && status.push('TYPECHANGE');
+        patch.isUnreadable() && status.push('UNREADABLE');
+        patch.isConflicted() && status.push('CONFLICT');
+
+        gitCommitFile.push({
+            newFilePath: patch.newFile().path(),
+            newFileSize: patch.newFile().size(),
+            contextLines: patch.lineStats().total_context,
+            addedLines: patch.lineStats().total_additions,
+            deletedLines: patch.lineStats().total_deletions,
+            insertion,
+            deletion,
             status: status
-        }
-    });
+        })
+    }
+
+    return gitCommitFile;
+}
+
+const get_line_length = async (
+    patch: ConvenientPatch
+): Promise<{ insertion: number, deletion: number }> => {
+
+    let insertion = 0, deletion = 0;
+    const hunks = await patch.hunks();
+    for (const hunk of hunks) {
+        const lines = await hunk.lines();
+
+        lines.forEach((line) => {
+            if (line.origin() === Diff.LINE.ADDITION) {
+                insertion += line.content().length;
+            }
+            if (line.origin() === Diff.LINE.DELETION) {
+                deletion += line.content().length;
+            }
+        });
+    }
+
+    return { insertion, deletion };
 }

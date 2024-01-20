@@ -27,7 +27,10 @@ yarn add nodejs-git-json
     // Alias
     git_status(path: string = './', stdOut: boolean = false): Promise<GitStatuses>
     git_log(path: string = './', stdOut: boolean = false): Promise<GitLogs>
-    git_reference(path?: string, stdOut?: boolean = false): Promise<GitRefs>
+    git_reference(path: string = './', stdOut: boolean = false): Promise<GitRefs>
+
+    // @path string - Relative or absolute path for folder where git repository exist
+    // @stdOut boolean - output print to the terminal or console
 
 ```
 
