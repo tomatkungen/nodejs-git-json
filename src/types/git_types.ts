@@ -12,12 +12,6 @@ export type GitLog = {
     files: GitCommitFiles;
 }
 
-export type GitCommitStat = {
-    insertion: number;
-    deletion: number;
-    fileChanged: number;
-}
-
 export type GitCommitFile = {
     newFilePath: string;
     newFileSize: number;
@@ -52,6 +46,12 @@ export type GitUserStat = {
     lastCommitSha: string;
     firstCommitDate: string;
     lastCommitDate: string;
+}
+
+export type GitCommitStat = {
+    insertion: number;
+    deletion: number;
+    fileChanged: number;
 }
 
 export type GitLogs = GitLog[];

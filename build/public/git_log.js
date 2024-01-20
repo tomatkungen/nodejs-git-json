@@ -10,9 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_log = void 0;
-const git_commit_files_1 = require("./../private/git_commit_files");
-const git_repo_1 = require("./../private/git_repo");
 const pr_lg_1 = require("../util/pr_lg");
+const git_commit_files_1 = require("./../private/git_commit_files");
+const git_commit_stats_1 = require("./../private/git_commit_stats");
+const git_repo_1 = require("./../private/git_repo");
 const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 0, function* () {
     const repo = yield (0, git_repo_1.git_repo)(path);
     const reference = yield repo.getCurrentBranch();
@@ -25,13 +26,14 @@ const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 
     const gitLogs = [];
     for (const [index, commit] of commits.entries()) {
         const gitCommitFiles = yield (0, git_commit_files_1.git_commit_files)(repo, commit, commits[index + 1]);
-        gitLogs.push(create_log(commit, gitCommitFiles));
+        const gitCommitStats = yield (0, git_commit_stats_1.git_commit_stats)(repo, commit, commits[index + 1]);
+        gitLogs.push(create_log(commit, gitCommitFiles, gitCommitStats));
         stdOut && (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
     }
     return gitLogs;
 });
 exports.git_log = git_log;
-const create_log = (commit, gitCommitFiles) => {
+const create_log = (commit, gitCommitFiles, gitCommitStat) => {
     return {
         sha: commit.sha(),
         date: commit.date().toISOString(),
@@ -40,6 +42,9 @@ const create_log = (commit, gitCommitFiles) => {
         authorEmail: commit.author().email(),
         commiterName: commit.committer().name(),
         commiterEmail: commit.committer().email(),
+        insertion: gitCommitStat.insertion,
+        deletion: gitCommitStat.deletion,
+        fileChanged: gitCommitStat.fileChanged,
         files: gitCommitFiles,
     };
 };

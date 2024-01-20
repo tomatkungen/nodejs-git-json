@@ -41,7 +41,7 @@ export const git_commit_files = async (
             deletedLines: patch.lineStats().total_deletions,
             insertion,
             deletion,
-            status: status
+            status
         })
     }
 

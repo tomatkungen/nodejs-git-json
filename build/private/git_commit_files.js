@@ -16,24 +16,45 @@ const git_commit_files = (repo, currentCommit, prevCommit) => __awaiter(void 0, 
     const pT = prevCommit ? yield prevCommit.getTree() : prevCommit;
     const diff = yield nodegit_1.Diff.treeToTree(repo, pT, cT);
     const patches = yield diff.patches();
-    return patches.map((patches) => {
+    const gitCommitFile = [];
+    for (const patch of patches) {
         const status = [];
-        patches.isUnmodified() && status.push('UNMODIFIED');
-        patches.isAdded() && status.push('ADDED');
-        patches.isDeleted() && status.push('DELETED');
-        patches.isModified() && status.push('MODIFIED');
-        patches.isIgnored() && status.push('IGNORED');
-        patches.isTypeChange() && status.push('TYPECHANGE');
-        patches.isUnreadable() && status.push('UNREADABLE');
-        patches.isConflicted() && status.push('CONFLICT');
-        return {
-            newFilePath: patches.newFile().path(),
-            newFileSize: patches.newFile().size(),
-            contextLines: patches.lineStats().total_context,
-            addedLines: patches.lineStats().total_additions,
-            deletedLines: patches.lineStats().total_deletions,
-            status: status
-        };
-    });
+        const { insertion, deletion } = yield get_line_length(patch);
+        patch.isUnmodified() && status.push('UNMODIFIED');
+        patch.isAdded() && status.push('ADDED');
+        patch.isDeleted() && status.push('DELETED');
+        patch.isModified() && status.push('MODIFIED');
+        patch.isIgnored() && status.push('IGNORED');
+        patch.isTypeChange() && status.push('TYPECHANGE');
+        patch.isUnreadable() && status.push('UNREADABLE');
+        patch.isConflicted() && status.push('CONFLICT');
+        gitCommitFile.push({
+            newFilePath: patch.newFile().path(),
+            newFileSize: patch.newFile().size(),
+            contextLines: patch.lineStats().total_context,
+            addedLines: patch.lineStats().total_additions,
+            deletedLines: patch.lineStats().total_deletions,
+            insertion,
+            deletion,
+            status
+        });
+    }
+    return gitCommitFile;
 });
 exports.git_commit_files = git_commit_files;
+const get_line_length = (patch) => __awaiter(void 0, void 0, void 0, function* () {
+    let insertion = 0, deletion = 0;
+    const hunks = yield patch.hunks();
+    for (const hunk of hunks) {
+        const lines = yield hunk.lines();
+        lines.forEach((line) => {
+            if (line.origin() === 43) {
+                insertion += line.content().length;
+            }
+            if (line.origin() === 45) {
+                deletion += line.content().length;
+            }
+        });
+    }
+    return { insertion, deletion };
+});

@@ -14,6 +14,8 @@ const pr_log = (gitLog) => {
     (0, exports.lg)((0, exports.cF)(`commit ${gitLog.sha}`, 'cfYELLOW'));
     (0, exports.lg)(`Author: ${gitLog.authorName} <${gitLog.authorEmail}>`);
     (0, exports.lg)(`Date: ${gitLog.date}`);
+    (0, exports.lg)(`Files: ${gitLog.fileChanged}`);
+    (0, exports.lg)(`Lines: ${(0, exports.cF)(`+L${gitLog.insertion}`, 'cfGREEN')} ${(0, exports.cF)(`-L${gitLog.deletion}`, 'cfRED')}`);
     (0, exports.lg)("\n    " + gitLog.message);
     gitLog.files.forEach(exports.pr_log_files);
     (0, exports.lg)();
@@ -25,8 +27,9 @@ const pr_log_files = (gitCommitFile) => {
     const contextLines = gitCommitFile.contextLines;
     const addedLines = gitCommitFile.addedLines;
     const deletedLines = gitCommitFile.deletedLines;
-    const lineStats = `${contextLines}c ${(0, exports.cF)(`+${addedLines}a`, 'cfGREEN')} ${(0, exports.cF)(`-${deletedLines}d`, 'cfRED')}`;
-    (0, exports.lg)(`${sR(gitCommitFile.status.join(', '), 6, 2)}${(0, exports.cF)(filePath, 'cfGREEN')} <${lineStats} ${(0, exports.cF)(`${Math.round(fileSize) / 100}K`, 'cfCYAN')}> `);
+    const lineStats = `${contextLines}c ${(0, exports.cF)(`+L${addedLines}`, 'cfGREEN')} ${(0, exports.cF)(`-L${deletedLines}`, 'cfRED')}`;
+    const fileStats = `+T${(0, exports.cF)(`${gitCommitFile.insertion}`, 'cfGREEN')} ${(0, exports.cF)(`-T${gitCommitFile.deletion}`, 'cfRED')}`;
+    (0, exports.lg)(`${sR(gitCommitFile.status.join(', '), 6, 2)}${(0, exports.cF)(filePath, 'cfGREEN')} <${lineStats} ${fileStats} ${(0, exports.cF)(`${Math.round(fileSize) / 100}K`, 'cfCYAN')}> `);
 };
 exports.pr_log_files = pr_log_files;
 const pr_status = (gitStatus) => {
