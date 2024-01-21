@@ -1,4 +1,4 @@
-«# nodejs git json
+# nodejs git json
 
 It is based on [nodegit](https://github.com/nodegit/nodegit) v0.28.0-alpha.1
 
