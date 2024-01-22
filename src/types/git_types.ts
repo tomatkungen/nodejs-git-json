@@ -6,11 +6,8 @@ export type GitLog = {
     authorEmail: string;
     commiterName: string;
     commiterEmail: string;
-    insertion: number;
-    deletion: number;
-    fileChanged: number;
-    files: GitCommitFiles;
-}
+    files: GitCommitFiles | null;
+} & GitCommitStat;
 
 export type GitCommitFile = {
     newFilePath: string;
@@ -49,9 +46,9 @@ export type GitUserStat = {
 }
 
 export type GitCommitStat = {
-    insertion: number;
-    deletion: number;
-    fileChanged: number;
+    insertion: number | null;
+    deletion: number | null;
+    fileChanged: number | null;
 }
 
 export type GitLogs = GitLog[];

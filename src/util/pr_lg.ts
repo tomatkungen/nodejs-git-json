@@ -17,7 +17,7 @@ export const pr_log = (gitLog: GitLog) => {
     lg(`Lines: ${cF(`+L${gitLog.insertion}`, 'cfGREEN')} ${cF(`-L${gitLog.deletion}`, 'cfRED')}`)
     lg("\n    " + gitLog.message);
 
-    gitLog.files.forEach(pr_log_files);
+    gitLog.files && gitLog.files.forEach(pr_log_files);
     lg();
 }
 

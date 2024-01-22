@@ -1,11 +1,12 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
 import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from "../types/git_types";
 import { pr_log } from "../util/pr_lg";
+import { pr_lg_prg } from "../util/pr_lg_prg";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_commit_stats } from "./../private/git_commit_stats";
 import { git_repo } from "./../private/git_repo";
 
-export const git_log = async (path: string = './', stdOut: boolean = false): Promise<GitLogs> => {
+export const git_log = async (path: string = './', stdOut: boolean = false, shortLog = true): Promise<GitLogs> => {
     // Get Repo
     const repo = await git_repo(path);
 
@@ -33,16 +34,17 @@ export const git_log = async (path: string = './', stdOut: boolean = false): Pro
 
     // Get Commits diff files anre return git log
     for (const [index, commit] of commits.entries()) {
-
-        // Get commit diff
-        const gitCommitFiles = await git_commit_files(repo, commit, commits[index + 1]);
+        !stdOut && pr_lg_prg(commits.length, index, 'Commit');
 
         // Get commit stats
-        const gitCommitStats = await git_commit_stats(repo, commit, commits[index + 1]);
+        const gitCommitStats = shortLog ? empty_git_commit_stats() : await git_commit_stats(repo, commit, commits[index + 1]);
+
+        // Get commit diff
+        const gitCommitFiles = shortLog ? empty_git_commit_files() : await git_commit_files(repo, commit, commits[index + 1]);
 
         // Add created log
         gitLogs.push(
-            create_log(commit, gitCommitFiles, gitCommitStats)
+            create_log(commit, gitCommitStats, gitCommitFiles)
         );
 
         stdOut && pr_log(gitLogs[gitLogs.length - 1]);
@@ -52,7 +54,7 @@ export const git_log = async (path: string = './', stdOut: boolean = false): Pro
     return gitLogs;
 }
 
-const create_log = (commit: Commit, gitCommitFiles: GitCommitFiles, gitCommitStat: GitCommitStat): GitLog => {
+const create_log = (commit: Commit, gitCommitStat: GitCommitStat, gitCommitFiles: GitCommitFiles): GitLog => {
     return {
         sha: commit.sha(),
         date: commit.date().toISOString(),
@@ -77,3 +79,11 @@ const get_commits = async (history: HistoryEventEmitter): Promise<Commit[]> => {
         history.start();
     });
 }
+
+const empty_git_commit_stats = (): GitCommitStat => ({
+    insertion: null,
+    deletion: null,
+    fileChanged: null
+});
+
+const empty_git_commit_files = (): GitCommitFiles => ([])
