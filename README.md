@@ -27,21 +27,26 @@ yarn add nodejs-git-json
 // main.ts
 
 import {
-    git_status,
+    git_log_short,
     git_log,
+    git_status,
     git_reference 
 } from 'nodejs-git-json';
 
 (async () => {
-    const status    = await git_status('/my-path/git/git-nodejs-git-json/');
+    const log_short = await git_log_short('./my-path/git/git-nodejs-git-json/');
     const log       = await git_log('/my-path/git/git-nodejs-git-json/');
+    const status    = await git_status('/my-path/git/git-nodejs-git-json/');
     const reference = await git_reference('/my-path/git/git-nodejs-git-json/');
+
+    // log json object equal to "git log"
+    console.log(log_short);
+    
+    // log json object equal to "git log --shortstat"
+    console.log(log);
 
     // log json object equal to "git status"
     console.log(status);
-
-    // log json object equal to "git log"
-    console.log(log);
 
     // log json object equal to "git tag" "git branch -r"
     console.log(reference);
@@ -52,8 +57,9 @@ import {
 
 ```typescript 
     // Alias
+    git_log_short(path: string = './', stdOut: boolean = false): Promise<GitLogsShort>  // Fast
+    git_log(path: string = './', stdOut: boolean = false): Promise<GitLogs>             // Slow
     git_status(path: string = './', stdOut: boolean = false): Promise<GitStatuses>
-    git_log(path: string = './', stdOut: boolean = false): Promise<GitLogs>
     git_reference(path: string = './', stdOut: boolean = false): Promise<GitRefs>
 
     // @path string - Relative or absolute path for folder where git repository exist
@@ -63,19 +69,28 @@ import {
 
 ### Types
 
-#### GitStatuses
+#### GitLogs
 ```typescript
- GitStatuses = [
+GitLogsShort = [
     {
-        // <relativ path from git repo>/filename ex: README.md, 'src/types/git_types.ts
-        path: string;
-        // NEW, MODIFIED, TYPECHANGE, RENAMED, IGNORED, WORKING-TREE, CONFLICT, DELETED, IGNORED
-        status: string[]; 
-        // WT_NEW, WT_MODIFIED, WT_DELETED, WT_TYPECHANGE, WT_RENAMED
-        statusFile: string[];
+        // Commit unique ID sha-1
+        sha: string;
+        // Commit date as ISO 
+        date: string;
+        // Commit message
+        message: string;
+        // Commit signature author name
+        authorName: string;
+        // Commit signature author email
+        authorEmail: string;
+        // Commit committer name
+        commiterName: string;
+        // Commit commiter email
+        commiterEmail: string;
+        // Commit total number of insertions
     }
     ...
- ]
+]
 ```
 
 #### GitLogs
@@ -127,8 +142,23 @@ GitLogs = [
     }
     ...
 ]
-
 ```
+
+#### GitStatuses
+```typescript
+ GitStatuses = [
+    {
+        // <relativ path from git repo>/filename ex: README.md, 'src/types/git_types.ts
+        path: string;
+        // NEW, MODIFIED, TYPECHANGE, RENAMED, IGNORED, WORKING-TREE, CONFLICT, DELETED, IGNORED
+        status: string[]; 
+        // WT_NEW, WT_MODIFIED, WT_DELETED, WT_TYPECHANGE, WT_RENAMED
+        statusFile: string[];
+    }
+    ...
+ ]
+```
+
 #### GitRefs
 ```typescript
 GitRefs = [

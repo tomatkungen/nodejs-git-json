@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_status = exports.git_reference = exports.git_log = void 0;
+exports.git_status = exports.git_reference = exports.git_log = exports.git_log_short = void 0;
+const git_log_short_1 = require("./public/git_log_short");
+Object.defineProperty(exports, "git_log_short", { enumerable: true, get: function () { return git_log_short_1.git_log_short; } });
 const git_log_1 = require("./public/git_log");
 Object.defineProperty(exports, "git_log", { enumerable: true, get: function () { return git_log_1.git_log; } });
 const git_reference_1 = require("./public/git_reference");

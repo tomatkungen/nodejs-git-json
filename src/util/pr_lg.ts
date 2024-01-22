@@ -1,4 +1,4 @@
-import { GitCommitFile, GitLog, GitRef, Gitstatus } from "../types/git_types";
+import { GitCommitFile, GitLog, GitLogShort, GitRef, Gitstatus } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
     console.log(...args);
@@ -6,6 +6,14 @@ export const lg = (...args: any[]) => {
 
 export const lgN = () => {
     lg('\n');
+}
+
+export const pr_log_short = (gitLogShort: GitLogShort) => {
+    lg(cF(`commit ${gitLogShort.sha}`, 'cfYELLOW'));
+    lg(`Author: ${gitLogShort.authorName} <${gitLogShort.authorEmail}>`);
+    lg(`Commiter: ${gitLogShort.commiterName} <${gitLogShort.commiterEmail}>`);
+    lg(`Date: ${gitLogShort.date}`);
+    lg("\n    " + gitLogShort.message);
 }
 
 export const pr_log = (gitLog: GitLog) => {
@@ -17,7 +25,7 @@ export const pr_log = (gitLog: GitLog) => {
     lg(`Lines: ${cF(`+L${gitLog.insertion}`, 'cfGREEN')} ${cF(`-L${gitLog.deletion}`, 'cfRED')}`)
     lg("\n    " + gitLog.message);
 
-    gitLog.files && gitLog.files.forEach(pr_log_files);
+    gitLog.files.forEach(pr_log_files);
     lg();
 }
 

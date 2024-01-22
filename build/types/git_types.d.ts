@@ -1,3 +1,12 @@
+export type GitLogShort = {
+    sha: string;
+    date: string;
+    message: string;
+    authorName: string;
+    authorEmail: string;
+    commiterName: string;
+    commiterEmail: string;
+};
 export type GitLog = {
     sha: string;
     date: string;
@@ -6,11 +15,8 @@ export type GitLog = {
     authorEmail: string;
     commiterName: string;
     commiterEmail: string;
-    insertion: number;
-    deletion: number;
-    fileChanged: number;
     files: GitCommitFiles;
-};
+} & GitCommitStat;
 export type GitCommitFile = {
     newFilePath: string;
     newFileSize: number;
@@ -48,6 +54,7 @@ export type GitCommitStat = {
     deletion: number;
     fileChanged: number;
 };
+export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
 export type GitStatuses = Gitstatus[];

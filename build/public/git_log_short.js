@@ -9,33 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_log = void 0;
+exports.git_log_short = void 0;
+const git_repo_1 = require("../private/git_repo");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
-const git_commit_files_1 = require("./../private/git_commit_files");
-const git_commit_stats_1 = require("./../private/git_commit_stats");
-const git_repo_1 = require("./../private/git_repo");
-const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 0, function* () {
+const git_log_short = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 0, function* () {
     const repo = yield (0, git_repo_1.git_repo)(path);
     const reference = yield repo.getCurrentBranch();
     const branchName = reference.shorthand();
     const branch = yield repo.getBranchCommit(branchName);
     const history = branch.history();
     const commits = yield get_commits(history);
-    if (commits.length === 0)
-        return [];
-    const gitLogs = [];
-    for (const [index, commit] of commits.entries()) {
+    return commits.map((commit, index) => {
         !stdOut && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
-        const gitCommitStats = yield (0, git_commit_stats_1.git_commit_stats)(repo, commit, commits[index + 1]);
-        const gitCommitFiles = yield (0, git_commit_files_1.git_commit_files)(repo, commit, commits[index + 1]);
-        gitLogs.push(create_log(commit, gitCommitStats, gitCommitFiles));
-        stdOut && (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
-    }
-    return gitLogs;
+        const gitLogShort = create_log(commit);
+        stdOut && (0, pr_lg_1.pr_log_short)(gitLogShort);
+        return gitLogShort;
+    });
 });
-exports.git_log = git_log;
-const create_log = (commit, gitCommitStat, gitCommitFiles) => {
+exports.git_log_short = git_log_short;
+const create_log = (commit) => {
     return {
         sha: commit.sha(),
         date: commit.date().toISOString(),
@@ -44,10 +37,6 @@ const create_log = (commit, gitCommitStat, gitCommitFiles) => {
         authorEmail: commit.author().email(),
         commiterName: commit.committer().name(),
         commiterEmail: commit.committer().email(),
-        insertion: gitCommitStat.insertion,
-        deletion: gitCommitStat.deletion,
-        fileChanged: gitCommitStat.fileChanged,
-        files: gitCommitFiles,
     };
 };
 const get_commits = (history) => __awaiter(void 0, void 0, void 0, function* () {

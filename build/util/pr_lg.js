@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_reference = exports.pr_status = exports.pr_log_files = exports.pr_log = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_reference = exports.pr_status = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -9,6 +9,14 @@ const lgN = () => {
     (0, exports.lg)('\n');
 };
 exports.lgN = lgN;
+const pr_log_short = (gitLogShort) => {
+    (0, exports.lg)((0, exports.cF)(`commit ${gitLogShort.sha}`, 'cfYELLOW'));
+    (0, exports.lg)(`Author: ${gitLogShort.authorName} <${gitLogShort.authorEmail}>`);
+    (0, exports.lg)(`Commiter: ${gitLogShort.commiterName} <${gitLogShort.commiterEmail}>`);
+    (0, exports.lg)(`Date: ${gitLogShort.date}`);
+    (0, exports.lg)("\n    " + gitLogShort.message);
+};
+exports.pr_log_short = pr_log_short;
 const pr_log = (gitLog) => {
     (0, exports.lgN)();
     (0, exports.lg)((0, exports.cF)(`commit ${gitLog.sha}`, 'cfYELLOW'));

@@ -6,7 +6,7 @@ import { git_commit_files } from "./../private/git_commit_files";
 import { git_commit_stats } from "./../private/git_commit_stats";
 import { git_repo } from "./../private/git_repo";
 
-export const git_log = async (path: string = './', stdOut: boolean = false, shortLog = true): Promise<GitLogs> => {
+export const git_log = async (path: string = './', stdOut: boolean = false): Promise<GitLogs> => {
     // Get Repo
     const repo = await git_repo(path);
 
@@ -34,13 +34,13 @@ export const git_log = async (path: string = './', stdOut: boolean = false, shor
 
     // Get Commits diff files anre return git log
     for (const [index, commit] of commits.entries()) {
-        !stdOut && pr_lg_prg(commits.length, index, 'Commit');
+        !stdOut && pr_lg_prg(commits.length, index + 1, 'Commit');
 
         // Get commit stats
-        const gitCommitStats = shortLog ? empty_git_commit_stats() : await git_commit_stats(repo, commit, commits[index + 1]);
+        const gitCommitStats = await git_commit_stats(repo, commit, commits[index + 1]);
 
         // Get commit diff
-        const gitCommitFiles = shortLog ? empty_git_commit_files() : await git_commit_files(repo, commit, commits[index + 1]);
+        const gitCommitFiles = await git_commit_files(repo, commit, commits[index + 1]);
 
         // Add created log
         gitLogs.push(
@@ -79,11 +79,3 @@ const get_commits = async (history: HistoryEventEmitter): Promise<Commit[]> => {
         history.start();
     });
 }
-
-const empty_git_commit_stats = (): GitCommitStat => ({
-    insertion: null,
-    deletion: null,
-    fileChanged: null
-});
-
-const empty_git_commit_files = (): GitCommitFiles => ([])
