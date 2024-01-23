@@ -30,8 +30,8 @@ import {
     git_log_short,  // Fast 
     git_log,        // Slow
     git_status,
-    git_reference 
-    git_users,      // Middle
+    git_reference,
+    git_users,      // Fast
 } from 'nodejs-git-json';
 
 (async () => {

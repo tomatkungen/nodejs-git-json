@@ -22,21 +22,14 @@ const git_users = (path = './', stdOut = false) => __awaiter(void 0, void 0, voi
     const commits = yield get_commits(history);
     if (commits.length === 0)
         return [];
+    let gitAuthor = [];
     const gitUsers = commits.reduce((prev, commit, index) => {
         !stdOut && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
-        const userIndex = gitUser(prev, commit);
-        if (userIndex === -1) {
-            prev.push({
-                authorName: commit.author().name(),
-                authorEmail: commit.author().email(),
-                totalCommits: 1,
-                commits: [commit.sha()]
-            });
+        const gitAuthorIndex = gitUser(gitAuthor, commit);
+        if (gitAuthorIndex === -1) {
+            gitAuthor.push(commit.author().name() + commit.author().email());
         }
-        else {
-            prev[userIndex].totalCommits += 1;
-            prev[userIndex].commits.push(commit.sha());
-        }
+        gitUserAdd(gitAuthorIndex, commit, prev);
         return prev;
     }, []);
     stdOut && gitUsers.forEach(pr_lg_1.pr_users);
@@ -51,7 +44,20 @@ const get_commits = (history) => __awaiter(void 0, void 0, void 0, function* () 
         history.start();
     });
 });
-const gitUser = (gitUsers, commit) => {
-    return gitUsers.findIndex((gitUser) => (gitUser.authorEmail === commit.author().email() &&
-        gitUser.authorName === commit.author().name()));
+const gitUser = (gitAuthor, commit) => {
+    return gitAuthor.indexOf(commit.author().name() + commit.author().email());
+};
+const gitUserAdd = (gitAuthorIndex, commit, prev) => {
+    if (gitAuthorIndex === -1) {
+        prev.push({
+            authorName: commit.author().name(),
+            authorEmail: commit.author().email(),
+            totalCommits: 1,
+            commits: [commit.sha()]
+        });
+    }
+    else {
+        prev[gitAuthorIndex].totalCommits += 1;
+        prev[gitAuthorIndex].commits.push(commit.sha());
+    }
 };

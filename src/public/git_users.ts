@@ -27,22 +27,22 @@ export const git_users = async (path: string = './', stdOut: boolean = false): P
     if (commits.length === 0)
         return [];
 
+    // Store git author for faster search
+    let gitAuthor: string[] = []
+
     const gitUsers = commits.reduce<GitUsers>((prev, commit, index) => {
         !stdOut && pr_lg_prg(commits.length, index + 1, 'Commit');
 
-        const userIndex = gitUser(prev, commit);
-
-        if (userIndex === -1) {
-            prev.push({
-                authorName: commit.author().name(),
-                authorEmail: commit.author().email(),
-                totalCommits: 1,
-                commits: [commit.sha()]
-            })
-        } else {
-            prev[userIndex].totalCommits += 1;
-            prev[userIndex].commits.push(commit.sha())
+        // Already exist
+        const gitAuthorIndex = gitUser(gitAuthor, commit);
+        
+        // Store git author for faster search
+        if (gitAuthorIndex === -1) {
+            gitAuthor.push(commit.author().name() + commit.author().email());
         }
+
+        // Add git user
+        gitUserAdd(gitAuthorIndex, commit, prev);
 
         return prev;
     }, []);
@@ -62,10 +62,21 @@ const get_commits = async (history: HistoryEventEmitter): Promise<Commit[]> => {
     });
 }
 
-const gitUser = (gitUsers: GitUsers, commit: Commit): number => {
-    return gitUsers.findIndex((gitUser) => (
-        gitUser.authorEmail === commit.author().email() &&
-        gitUser.authorName === commit.author().name()
-    ));
+const gitUser = (gitAuthor: string[], commit: Commit): number => {
+    return gitAuthor.indexOf(commit.author().name() + commit.author().email());
+}
+
+const gitUserAdd = (gitAuthorIndex: number, commit: Commit, prev: GitUsers) => {
+    if (gitAuthorIndex === -1) {
+        prev.push({
+            authorName: commit.author().name(),
+            authorEmail: commit.author().email(),
+            totalCommits: 1,
+            commits: [commit.sha()]
+        })
+    } else {
+        prev[gitAuthorIndex].totalCommits += 1;
+        prev[gitAuthorIndex].commits.push(commit.sha())
+    }
 }
 
