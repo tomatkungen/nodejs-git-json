@@ -54,9 +54,16 @@ export type GitCommitStat = {
     deletion: number;
     fileChanged: number;
 };
+export type GitUser = {
+    authorName: string;
+    authorEmail: string;
+    totalCommits: number;
+    commits: string[];
+};
 export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
 export type GitStatuses = Gitstatus[];
 export type GitRefs = GitRef[];
 export type GitUserStats = GitUserStat[];
+export type GitUsers = GitUser[];

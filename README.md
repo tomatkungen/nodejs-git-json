@@ -27,10 +27,11 @@ yarn add nodejs-git-json
 // main.ts
 
 import {
-    git_log_short,
-    git_log,
+    git_log_short,  // Fast 
+    git_log,        // Slow
     git_status,
     git_reference 
+    git_users,      // Middle
 } from 'nodejs-git-json';
 
 (async () => {
@@ -38,6 +39,7 @@ import {
     const log       = await git_log('/my-path/git/git-nodejs-git-json/');
     const status    = await git_status('/my-path/git/git-nodejs-git-json/');
     const reference = await git_reference('/my-path/git/git-nodejs-git-json/');
+    const users     = await git_users('/my-path/git/git-nodejs-git-json/');
 
     // log json object equal to "git log"
     console.log(log_short);
@@ -50,6 +52,9 @@ import {
 
     // log json object equal to "git tag" "git branch -r"
     console.log(reference);
+
+    // log json object equal to " git shortlog --summary --numbered --email"
+    console.log(users);
 }()
 ```
 
@@ -61,6 +66,7 @@ import {
     git_log(path: string = './', stdOut: boolean = false): Promise<GitLogs>             // Slow
     git_status(path: string = './', stdOut: boolean = false): Promise<GitStatuses>
     git_reference(path: string = './', stdOut: boolean = false): Promise<GitRefs>
+    git_users(path: string = './', stdOut: boolean = false): Promise<GitUsers>          // Middle
 
     // @path string - Relative or absolute path for folder where git repository exist
     // @stdOut boolean - output print to the terminal or command prompt
@@ -69,7 +75,7 @@ import {
 
 ### Types
 
-#### GitLogs
+#### GitLogsShort
 ```typescript
 GitLogsShort = [
     {
@@ -170,6 +176,23 @@ GitRefs = [
         // refs/heads/main, refs/tags/v1.0.6
         name: string;
     }
+    ...
+]
+```
+
+#### GitUsers
+```typescript
+GitUsers = [
+    {
+        // Commit signature author name
+        authorName: string;
+        // Commit signature author email
+        authorEmail: string;
+        // Commit total number of files changed
+        totalCommits: number;
+        // Commits unique ID sha-1
+        commits: string[];
+    }   
     ...
 ]
 ```

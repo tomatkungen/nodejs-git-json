@@ -1,4 +1,11 @@
-import { GitCommitFile, GitLog, GitLogShort, GitRef, Gitstatus } from "../types/git_types";
+import { 
+    GitCommitFile,
+    GitLog,
+    GitLogShort,
+    GitRef,
+    Gitstatus,
+    GitUser 
+} from "../types/git_types";
 
 export const lg = (...args: any[]) => {
     console.log(...args);
@@ -55,6 +62,10 @@ export const pr_reference = (gitRef: GitRef) => {
     lg();
 
 }
+
+export const pr_users = (gitUser: GitUser) => {
+    lg(`${gitUser.totalCommits.toString().padStart(5)} Author: ${gitUser.authorName} <${cF(gitUser.authorEmail, 'cfGREEN')}>`);
+} 
 
 // fill Space to the right
 const sR = (str: string, len: number = 20, max: number = 5, prDiff: boolean = false) => {

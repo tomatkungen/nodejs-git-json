@@ -1,4 +1,4 @@
-import { GitCommitFile, GitLog, GitLogShort, GitRef, Gitstatus } from "../types/git_types";
+import { GitCommitFile, GitLog, GitLogShort, GitRef, Gitstatus, GitUser } from "../types/git_types";
 export declare const lg: (...args: any[]) => void;
 export declare const lgN: () => void;
 export declare const pr_log_short: (gitLogShort: GitLogShort) => void;
@@ -6,6 +6,7 @@ export declare const pr_log: (gitLog: GitLog) => void;
 export declare const pr_log_files: (gitCommitFile: GitCommitFile) => void;
 export declare const pr_status: (gitStatus: Gitstatus) => void;
 export declare const pr_reference: (gitRef: GitRef) => void;
+export declare const pr_users: (gitUser: GitUser) => void;
 type Colors = 'cfBLACK' | 'cfRED' | 'cfGREEN' | 'cfYELLOW' | 'cfBLUE' | 'cfMAGENTA' | 'cfCYAN' | 'cfWHITE' | 'cbRED' | 'cbGREEN' | 'cbYELLOW' | 'cbBLUE' | 'cbMAGENTA' | 'cbCYAN' | 'cbWHITE';
 declare const Colors: {
     [key in Colors]: string;
