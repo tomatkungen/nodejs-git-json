@@ -1,3 +1,3 @@
-import { Commit, Repository } from "nodegit";
+import { Diff } from "nodegit";
 import { GitCommitStat } from "./../types/git_types";
-export declare const git_commit_stats: (repo: Repository, currentCommit: Commit, prevCommit?: Commit) => Promise<GitCommitStat>;
+export declare const git_commit_stats: (diff: Diff) => Promise<GitCommitStat>;

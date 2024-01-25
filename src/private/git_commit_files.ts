@@ -1,18 +1,10 @@
-import { Commit, Diff, Repository, ConvenientPatch } from "nodegit";
+// import { Commit, Diff, Repository, ConvenientPatch } from "nodegit";
+import { Diff, ConvenientPatch } from "nodegit";
 import { GitCommitFiles } from "../types/git_types";
 
 export const git_commit_files = async (
-    repo: Repository,
-    currentCommit: Commit,
-    prevCommit /* parentCommit */?: Commit
+    diff: Diff
 ): Promise<GitCommitFiles> => {
-    const cT = await currentCommit.getTree();
-    const pT = prevCommit ? await prevCommit.getTree() : prevCommit;
-
-    // const parentcount = currentCommit.parentcount();
-    // lg(`CommitParents ${parentcount}`);
-
-    const diff = await Diff.treeToTree(repo, pT, cT);
 
     const patches = await diff.patches();
 

@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_log = void 0;
+const nodegit_1 = require("nodegit");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
 const git_commit_files_1 = require("./../private/git_commit_files");
@@ -27,8 +28,13 @@ const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 
     const gitLogs = [];
     for (const [index, commit] of commits.entries()) {
         !stdOut && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
-        const gitCommitStats = yield (0, git_commit_stats_1.git_commit_stats)(repo, commit, commits[index + 1]);
-        const gitCommitFiles = yield (0, git_commit_files_1.git_commit_files)(repo, commit, commits[index + 1]);
+        const [cT, pT] = yield Promise.all([
+            commit.getTree(),
+            commits[index + 1] ? commits[index + 1].getTree() : undefined
+        ]);
+        const diff = yield nodegit_1.Diff.treeToTree(repo, pT, cT);
+        const gitCommitStats = yield (0, git_commit_stats_1.git_commit_stats)(diff);
+        const gitCommitFiles = yield (0, git_commit_files_1.git_commit_files)(diff);
         gitLogs.push(create_log(commit, gitCommitStats, gitCommitFiles));
         stdOut && (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
     }

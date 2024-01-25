@@ -1,4 +1,5 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
+import { Diff } from "nodegit";
 import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from "../types/git_types";
 import { pr_log } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
@@ -36,11 +37,19 @@ export const git_log = async (path: string = './', stdOut: boolean = false): Pro
     for (const [index, commit] of commits.entries()) {
         !stdOut && pr_lg_prg(commits.length, index + 1, 'Commit');
 
+        // Get current commit tree and Previous commit tree
+        const [cT, pT] = await Promise.all([
+            commit.getTree(),
+            commits[index + 1] ? commits[index + 1].getTree() : undefined
+        ]);
+
+        const diff = await Diff.treeToTree(repo, pT, cT);
+
         // Get commit stats
-        const gitCommitStats = await git_commit_stats(repo, commit, commits[index + 1]);
+        const gitCommitStats = await git_commit_stats(diff);
 
         // Get commit diff
-        const gitCommitFiles = await git_commit_files(repo, commit, commits[index + 1]);
+        const gitCommitFiles = await git_commit_files(diff);
 
         // Add created log
         gitLogs.push(

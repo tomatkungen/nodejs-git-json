@@ -10,11 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_commit_stats = void 0;
-const nodegit_1 = require("nodegit");
-const git_commit_stats = (repo, currentCommit, prevCommit) => __awaiter(void 0, void 0, void 0, function* () {
-    const cT = yield currentCommit.getTree();
-    const pT = prevCommit ? yield prevCommit.getTree() : prevCommit;
-    const diff = yield nodegit_1.Diff.treeToTree(repo, pT, cT);
+const git_commit_stats = (diff) => __awaiter(void 0, void 0, void 0, function* () {
     const diffStats = yield diff.getStats();
     return {
         insertion: diffStats.insertions().valueOf(),

@@ -7,7 +7,6 @@ import { git_users } from './src/public/git_users';
 
 (async () => {
 
-    // const users = await git_users('/Users/kimkarlsson/source/material-ui');
     const users = await git_users('./', true);
     lg('users', users);
 
