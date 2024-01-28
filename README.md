@@ -33,6 +33,7 @@ import {
     git_reference,
     git_users,      // Fast
     git_configs,
+    git_stash
 } from 'nodejs-git-json';
 
 (async () => {
@@ -42,6 +43,7 @@ import {
     const reference = await git_reference('/my-path/git/git-nodejs-git-json/');
     const users     = await git_users('/my-path/git/git-nodejs-git-json/');
     const configs   = await git_configs('/my-path/git/git-nodejs-git-json/');
+    const gitStashes= await git_stash('/my-path/git/git-nodejs-git-json/');
 
     // log json object equal to "git log"
     console.log(log_short);
@@ -60,6 +62,9 @@ import {
 
     // log json object equal to "git config --list --show-scope --show-origin"
     console.log(configs);
+
+    // log json object equal to "git stash list"
+    console.log(gitStashes);
 }()
 ```
 
@@ -73,6 +78,7 @@ import {
     git_reference(path: string = './', stdOut: boolean = false): Promise<GitRefs>
     git_users(path: string = './', stdOut: boolean = false): Promise<GitUsers>          // Middle
     git_configs(path: string = './', stdOut: boolean = false): Promise<GitConfigs>
+    git_stash(path: string = './', stdOut: boolean = false): Promise<GitStashes>
 
     // @path string - Relative or absolute path for folder where git repository exist
     // @stdOut boolean - output print to the terminal or command prompt
@@ -181,7 +187,7 @@ GitRefs = [
     {
         // Commit unique ID sha-1
         sha: string;
-        // BRANCH, HEAD, NOTE, REMOTE, TAG, SYMBOLIC, NOTVALID
+        // BRANCH, HEAD, NOTE, REMOTE, TAG, SYMBOLIC, NOTVALID, STASH
         status: string[];
         // refs/heads/main, refs/tags/v1.0.6
         name: string;
@@ -219,6 +225,24 @@ GitConfigs = [
         variable: { key: string, value: string };
         // file path, ref, or blob id 
         originType: string;
+    }
+    ...
+]
+```
+
+#### GitStash
+
+```typescript
+GitStash = [
+    {
+        // Stash index, index zero is refs/stash
+        index: number;
+        // Stash index name
+        indexName: string;
+        // Stash unique ID sha-1
+        sha: string;
+        // file path, ref, or blob id 
+        message: string;
     }
     ...
 ]

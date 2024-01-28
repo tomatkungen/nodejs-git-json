@@ -4,6 +4,7 @@ import {
     GitLog,
     GitLogShort,
     GitRef,
+    GitStash,
     Gitstatus,
     GitUser 
 } from "../types/git_types";
@@ -73,6 +74,12 @@ export const pr_config = (gitConfig: GitConfig) => {
     lg(`orginType: ${cF(gitConfig.scope, 'cfMAGENTA')}`);
     lg(`key: ${cF(gitConfig.variable.key,'cfCYAN')}`);
     lg(`value: ${cF(gitConfig.variable.value, 'cfCYAN')}`);
+    lg();
+}
+
+export const pr_stash = (gitStash: GitStash) => {
+    lg(cF(`sha ${gitStash.sha}`, 'cfYELLOW'));
+    lg(`${gitStash.indexName}`, cF(`${gitStash.message}`, 'cfGREEN'));
     lg();
 }
 

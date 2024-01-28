@@ -32,6 +32,7 @@ const create_reference = (reference: Reference): GitRef => {
     reference.isTag() === 1         && statusRef.push('TAG');
     reference.isSymbolic() === true && statusRef.push('SYMBOLIC');
     reference.isValid() === false   && statusRef.push('NOTVALID');
+    reference.name() === 'refs/stash' && statusRef.push('STASH');
 
     return {
         sha: reference.target().tostrS(),
