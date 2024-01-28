@@ -68,6 +68,12 @@ export type GitUser = {
     commits: string[];
 }
 
+export type GitConfig = {
+    scope: string;
+    variable: { key: string, value: string };
+    originType: string;
+}
+
 export type GitLogsShort = GitLogShort[]
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -75,6 +81,7 @@ export type GitStatuses = Gitstatus[];
 export type GitRefs = GitRef[];
 export type GitUserStats = GitUserStat[];
 export type GitUsers = GitUser[];
+export type GitConfigs = GitConfig[];
 
 
 // user

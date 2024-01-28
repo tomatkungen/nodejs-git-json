@@ -1,5 +1,6 @@
 import { 
     GitCommitFile,
+    GitConfig,
     GitLog,
     GitLogShort,
     GitRef,
@@ -66,6 +67,14 @@ export const pr_reference = (gitRef: GitRef) => {
 export const pr_users = (gitUser: GitUser) => {
     lg(`${gitUser.totalCommits.toString().padStart(5)} Author: ${gitUser.authorName} <${cF(gitUser.authorEmail, 'cfGREEN')}>`);
 } 
+
+export const pr_config = (gitConfig: GitConfig) => {
+    lg(cF(`path ${gitConfig.originType}`, "cfYELLOW"));
+    lg(`orginType: ${cF(gitConfig.scope, 'cfMAGENTA')}`);
+    lg(`key: ${cF(gitConfig.variable.key,'cfCYAN')}`);
+    lg(`value: ${cF(gitConfig.variable.value, 'cfCYAN')}`);
+    lg();
+}
 
 // fill Space to the right
 const sR = (str: string, len: number = 20, max: number = 5, prDiff: boolean = false) => {

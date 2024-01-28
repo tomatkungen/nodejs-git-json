@@ -1,6 +1,7 @@
 // import { git_status } from './src/public/git_status';
 import { lg } from './src/util/pr_lg';
 // import { git_log } from './src/public/git_log';
+// import { git_configs } from './src/public/git_configs';
 // import { git_log_short } from './src/public/git_log_short';
 import { git_users } from './src/public/git_users';
 // import { git_reference } from './src/public/git_reference';
@@ -22,4 +23,6 @@ import { git_users } from './src/public/git_users';
     // const refs = await git_reference();
     // lg('refs', refs);
 
+    // const configs = await git_configs();
+    // console.log(configs);
 })()
