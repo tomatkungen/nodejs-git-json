@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -54,6 +54,14 @@ const pr_users = (gitUser) => {
     (0, exports.lg)(`${gitUser.totalCommits.toString().padStart(5)} Author: ${gitUser.authorName} <${(0, exports.cF)(gitUser.authorEmail, 'cfGREEN')}>`);
 };
 exports.pr_users = pr_users;
+const pr_config = (gitConfig) => {
+    (0, exports.lg)((0, exports.cF)(`path ${gitConfig.originType}`, "cfYELLOW"));
+    (0, exports.lg)(`orginType: ${(0, exports.cF)(gitConfig.scope, 'cfMAGENTA')}`);
+    (0, exports.lg)(`key: ${(0, exports.cF)(gitConfig.variable.key, 'cfCYAN')}`);
+    (0, exports.lg)(`value: ${(0, exports.cF)(gitConfig.variable.value, 'cfCYAN')}`);
+    (0, exports.lg)();
+};
+exports.pr_config = pr_config;
 const sR = (str, len = 20, max = 5, prDiff = false) => {
     const diff = Math.max(max, (len - str.length));
     prDiff && (0, exports.lg)('diff', max, len, str.length, (len - str.length));
