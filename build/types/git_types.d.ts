@@ -68,6 +68,12 @@ export type GitConfig = {
     };
     originType: string;
 };
+export type GitStash = {
+    index: number;
+    indexName: string;
+    sha: string;
+    message: string;
+};
 export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -76,3 +82,4 @@ export type GitRefs = GitRef[];
 export type GitUserStats = GitUserStat[];
 export type GitUsers = GitUser[];
 export type GitConfigs = GitConfig[];
+export type GitStashes = GitStash[];

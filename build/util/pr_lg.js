@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -62,6 +62,12 @@ const pr_config = (gitConfig) => {
     (0, exports.lg)();
 };
 exports.pr_config = pr_config;
+const pr_stash = (gitStash) => {
+    (0, exports.lg)((0, exports.cF)(`sha ${gitStash.sha}`, 'cfYELLOW'));
+    (0, exports.lg)(`${gitStash.indexName}`, (0, exports.cF)(`${gitStash.message}`, 'cfGREEN'));
+    (0, exports.lg)();
+};
+exports.pr_stash = pr_stash;
 const sR = (str, len = 20, max = 5, prDiff = false) => {
     const diff = Math.max(max, (len - str.length));
     prDiff && (0, exports.lg)('diff', max, len, str.length, (len - str.length));
