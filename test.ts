@@ -25,7 +25,7 @@ import { git_stash } from './src/public/git_stash';
     // lg('refs', refs);
 
     // const configs = await git_configs();
-    // console.log(configs);
+    // lg(configs);
 
     const stashes = await git_stash('./', true);
     lg('stash', stashes);
