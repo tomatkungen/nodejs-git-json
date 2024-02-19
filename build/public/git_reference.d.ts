@@ -1,2 +1,3 @@
 import { GitRefs } from "../types/git_types";
-export declare const git_reference: (path?: string, stdOut?: boolean) => Promise<GitRefs>;
+import { Config } from "../types/config.types";
+export declare const git_reference: (path?: string, config?: Config) => Promise<GitRefs>;

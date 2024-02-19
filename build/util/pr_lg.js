@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -35,11 +35,28 @@ const pr_log_files = (gitCommitFile) => {
     const contextLines = gitCommitFile.contextLines;
     const addedLines = gitCommitFile.addedLines;
     const deletedLines = gitCommitFile.deletedLines;
+    const insertTokens = gitCommitFile.hunks.reduce((a, b) => (a + b.insertTokens), 0);
+    const deletionTokens = gitCommitFile.hunks.reduce((a, b) => (a + b.deletionTokens), 0);
     const lineStats = `${contextLines}c ${(0, exports.cF)(`+L${addedLines}`, 'cfGREEN')} ${(0, exports.cF)(`-L${deletedLines}`, 'cfRED')}`;
-    const fileStats = `+T${(0, exports.cF)(`${gitCommitFile.insertion}`, 'cfGREEN')} ${(0, exports.cF)(`-T${gitCommitFile.deletion}`, 'cfRED')}`;
+    const fileStats = `+T${(0, exports.cF)(`${insertTokens}`, 'cfGREEN')} ${(0, exports.cF)(`-T${deletionTokens}`, 'cfRED')}`;
     (0, exports.lg)(`${sR(gitCommitFile.status.join(', '), 6, 2)}${(0, exports.cF)(filePath, 'cfGREEN')} <${lineStats} ${fileStats} ${(0, exports.cF)(`${Math.round(fileSize) / 100}K`, 'cfCYAN')}> `);
 };
 exports.pr_log_files = pr_log_files;
+const pr_log_hunks = (gitCommitHunk, gitCommitFile) => {
+    (0, exports.lg)();
+    (0, exports.lg)(`${sR(gitCommitFile.status.join(', '), 6, 2)}${(0, exports.cF)(gitCommitFile.newFilePath, 'cfGREEN')}`);
+    (0, exports.lg)(`${gitCommitHunk.header.replace('\n', '')} ${(0, exports.cF)(`+T${gitCommitHunk.insertTokens}`, 'cfGREEN')} ${(0, exports.cF)(`-T${gitCommitHunk.deletionTokens}`, 'cfRED')}`);
+    gitCommitHunk.lines.forEach((line) => {
+        const diffToken = line.diffType === '' ? ' ' : line.diffType;
+        const diffLine = line.content.replace('\n', '');
+        const diffOldNr = line.oldLineno === -1 ? '  ' : line.oldLineno;
+        const diffNewNr = line.newLineno === -1 ? '  ' : line.newLineno;
+        diffToken === '+' && (0, exports.lg)((0, exports.cF)(`${diffToken} ${diffOldNr} ${diffNewNr} ${diffLine}`, 'cfGREEN'));
+        diffToken === '-' && (0, exports.lg)((0, exports.cF)(`${diffToken} ${diffOldNr} ${diffNewNr} ${diffLine}`, 'cfRED'));
+        diffToken === ' ' && (0, exports.lg)(`${diffToken} ${diffOldNr} ${diffNewNr} ${diffLine}`);
+    });
+};
+exports.pr_log_hunks = pr_log_hunks;
 const pr_status = (gitStatus) => {
     (0, exports.lg)(`${(0, exports.cF)(gitStatus.path, 'cfGREEN')} <${(0, exports.cF)(gitStatus.status.join(', '), 'cfCYAN')}> ${gitStatus.statusFile.join(',')}`);
 };
@@ -68,6 +85,25 @@ const pr_stash = (gitStash) => {
     (0, exports.lg)();
 };
 exports.pr_stash = pr_stash;
+const pr_log_commit = (gitLog) => {
+    (0, exports.lgN)();
+    (0, exports.lg)((0, exports.cF)(`commit ${gitLog.sha}`, 'cfYELLOW'));
+    (0, exports.lg)(`Author: ${gitLog.authorName} <${gitLog.authorEmail}>`);
+    (0, exports.lg)(`Date: ${gitLog.date}`);
+    (0, exports.lg)(`Files: ${gitLog.fileChanged}`);
+    (0, exports.lg)(`Lines: ${(0, exports.cF)(`+L${gitLog.insertion}`, 'cfGREEN')} ${(0, exports.cF)(`-L${gitLog.deletion}`, 'cfRED')}`);
+    (0, exports.lg)("\n    " + gitLog.message);
+    gitLog.files.forEach(exports.pr_log_files);
+    gitLog.files.forEach((file) => file.hunks.forEach((hunks) => (0, exports.pr_log_hunks)(hunks, file)));
+    (0, exports.lg)();
+};
+exports.pr_log_commit = pr_log_commit;
+const pr_repo = (repo) => {
+    (0, exports.lg)((0, exports.cF)(`Workdir: ${repo.workdir()}`, 'cfMAGENTA'));
+    (0, exports.lg)((0, exports.cF)(`RepoPath: ${repo.path()}`, 'cfMAGENTA'));
+    (0, exports.lg)();
+};
+exports.pr_repo = pr_repo;
 const sR = (str, len = 20, max = 5, prDiff = false) => {
     const diff = Math.max(max, (len - str.length));
     prDiff && (0, exports.lg)('diff', max, len, str.length, (len - str.length));

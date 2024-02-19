@@ -1,2 +1,3 @@
 import { GitLogs } from "../types/git_types";
-export declare const git_log: (path?: string, stdOut?: boolean) => Promise<GitLogs>;
+import { Config } from "./../types/config.types";
+export declare const git_log: (path?: string, config?: Config) => Promise<GitLogs>;

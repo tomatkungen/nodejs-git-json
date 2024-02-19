@@ -16,8 +16,10 @@ const pr_lg_prg_1 = require("../util/pr_lg_prg");
 const git_commit_files_1 = require("./../private/git_commit_files");
 const git_commit_stats_1 = require("./../private/git_commit_stats");
 const git_repo_1 = require("./../private/git_repo");
-const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 0, function* () {
-    const repo = yield (0, git_repo_1.git_repo)(path);
+const config_types_1 = require("./../types/config.types");
+const pr_config_1 = require("./../util/pr_config");
+const git_log = (path = './', config = config_types_1.CONFIG) => __awaiter(void 0, void 0, void 0, function* () {
+    const repo = yield (0, git_repo_1.git_repo)(path, config);
     const reference = yield repo.getCurrentBranch();
     const branchName = reference.shorthand();
     const branch = yield repo.getBranchCommit(branchName);
@@ -27,7 +29,7 @@ const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 
         return [];
     const gitLogs = [];
     for (const [index, commit] of commits.entries()) {
-        !stdOut && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
+        (0, pr_config_1.isStdPrgOut)(config) && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
         const [cT, pT] = yield Promise.all([
             commit.getTree(),
             commits[index + 1] ? commits[index + 1].getTree() : undefined
@@ -36,7 +38,7 @@ const git_log = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 
         const gitCommitStats = yield (0, git_commit_stats_1.git_commit_stats)(diff);
         const gitCommitFiles = yield (0, git_commit_files_1.git_commit_files)(diff);
         gitLogs.push(create_log(commit, gitCommitStats, gitCommitFiles));
-        stdOut && (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
+        (0, pr_config_1.isStdOut)(config) && (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
     }
     return gitLogs;
 });

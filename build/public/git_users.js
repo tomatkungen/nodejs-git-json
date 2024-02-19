@@ -10,11 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_users = void 0;
+const config_types_1 = require("../types/config.types");
+const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
 const git_repo_1 = require("./../private/git_repo");
-const git_users = (path = './', stdOut = false) => __awaiter(void 0, void 0, void 0, function* () {
-    const repo = yield (0, git_repo_1.git_repo)(path);
+const git_users = (path = './', config = config_types_1.CONFIG) => __awaiter(void 0, void 0, void 0, function* () {
+    const repo = yield (0, git_repo_1.git_repo)(path, config);
     const reference = yield repo.getCurrentBranch();
     const branchName = reference.shorthand();
     const branch = yield repo.getBranchCommit(branchName);
@@ -24,7 +26,7 @@ const git_users = (path = './', stdOut = false) => __awaiter(void 0, void 0, voi
         return [];
     let gitAuthor = [];
     const gitUsers = commits.reduce((prev, commit, index) => {
-        !stdOut && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
+        (0, pr_config_1.isStdPrgOut)(config) && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
         const gitAuthorIndex = gitUser(gitAuthor, commit);
         if (gitAuthorIndex === -1) {
             gitAuthor.push(commit.author().name() + commit.author().email());
@@ -32,7 +34,7 @@ const git_users = (path = './', stdOut = false) => __awaiter(void 0, void 0, voi
         gitUserAdd(gitAuthorIndex, commit, prev);
         return prev;
     }, []);
-    stdOut && gitUsers.forEach(pr_lg_1.pr_users);
+    (0, pr_config_1.isStdOut)(config) && gitUsers.forEach(pr_lg_1.pr_users);
     return gitUsers;
 });
 exports.git_users = git_users;

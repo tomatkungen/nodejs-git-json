@@ -23,14 +23,28 @@ export type GitCommitFile = {
     contextLines: number;
     addedLines: number;
     deletedLines: number;
-    insertion: number;
-    deletion: number;
     status: string[];
+    hunks: GitCommitHunks;
 };
 export type Gitstatus = {
     path: string;
     status: string[];
     statusFile: string[];
+};
+export type GitCommitHunks = GitCommitHunk[];
+export type GitCommitHunk = {
+    header: string;
+    insertTokens: number;
+    deletionTokens: number;
+    lines: GitCommitLine[];
+};
+export type GitCommitLine = {
+    origin: number;
+    oldLineno: number;
+    newLineno: number;
+    type: 'CONTEXT' | 'ADDITION' | 'DELETION' | 'CONTEXT_EOFNL' | 'ADD_EOFNL' | 'DEL_EOFNL' | 'FILE_HDR' | 'HUNK_HDR' | 'BINARY';
+    diffType: '+' | '-' | '';
+    content: string;
 };
 export type GitRef = {
     sha: string;

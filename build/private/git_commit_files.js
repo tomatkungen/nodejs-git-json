@@ -10,12 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_commit_files = void 0;
+const git_commit_hunks_1 = require("./git_commit_hunks");
 const git_commit_files = (diff) => __awaiter(void 0, void 0, void 0, function* () {
     const patches = yield diff.patches();
-    const gitCommitFile = [];
+    const gitCommitFiles = [];
     for (const patch of patches) {
         const status = [];
-        const { insertion, deletion } = yield get_line_length(patch);
+        const gitCommitHunks = yield (0, git_commit_hunks_1.git_commit_hunks)(patch);
         patch.isUnmodified() && status.push('UNMODIFIED');
         patch.isAdded() && status.push('ADDED');
         patch.isDeleted() && status.push('DELETED');
@@ -24,33 +25,16 @@ const git_commit_files = (diff) => __awaiter(void 0, void 0, void 0, function* (
         patch.isTypeChange() && status.push('TYPECHANGE');
         patch.isUnreadable() && status.push('UNREADABLE');
         patch.isConflicted() && status.push('CONFLICT');
-        gitCommitFile.push({
+        gitCommitFiles.push({
             newFilePath: patch.newFile().path(),
             newFileSize: patch.newFile().size(),
             contextLines: patch.lineStats().total_context,
             addedLines: patch.lineStats().total_additions,
             deletedLines: patch.lineStats().total_deletions,
-            insertion,
-            deletion,
-            status
+            status,
+            hunks: gitCommitHunks,
         });
     }
-    return gitCommitFile;
+    return gitCommitFiles;
 });
 exports.git_commit_files = git_commit_files;
-const get_line_length = (patch) => __awaiter(void 0, void 0, void 0, function* () {
-    let insertion = 0, deletion = 0;
-    const hunks = yield patch.hunks();
-    for (const hunk of hunks) {
-        const lines = yield hunk.lines();
-        lines.forEach((line) => {
-            if (line.origin() === 43) {
-                insertion += line.content().length;
-            }
-            if (line.origin() === 45) {
-                deletion += line.content().length;
-            }
-        });
-    }
-    return { insertion, deletion };
-});
