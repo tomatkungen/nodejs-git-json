@@ -1,12 +1,14 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
 import { git_repo } from "../private/git_repo";
+import { CONFIG, Config } from "../types/config.types";
 import { GitLogShort, GitLogsShort } from "../types/git_types";
+import { isStdOut, isStdPrgOut } from "../util/pr_config";
 import { pr_log_short } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
 
-export const git_log_short = async (path: string = './', stdOut: boolean = false): Promise<GitLogsShort> => {
+export const git_log_short = async (path: string = './', config: Config = CONFIG): Promise<GitLogsShort> => {
     // Get Repo
-    const repo = await git_repo(path);
+    const repo = await git_repo(path, config);
 
     // Get Branch reference
     const reference = await repo.getCurrentBranch();
@@ -25,14 +27,15 @@ export const git_log_short = async (path: string = './', stdOut: boolean = false
 
     // return commit short log
     return commits.map<GitLogShort>((commit, index) => {
-        !stdOut && pr_lg_prg(commits.length, index + 1, 'Commit');
+        isStdPrgOut(config) && pr_lg_prg(commits.length, index + 1, 'Commit');
 
         const gitLogShort = create_log(commit);
 
-        stdOut && pr_log_short(gitLogShort);
+        
+        isStdOut(config) && pr_log_short(gitLogShort);
 
         return gitLogShort;
-    });
+    });    
 }
 
 const create_log = (commit: Commit): GitLogShort => {

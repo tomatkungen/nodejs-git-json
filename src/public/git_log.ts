@@ -1,15 +1,17 @@
-import { Commit, HistoryEventEmitter } from "nodegit/commit";
 import { Diff } from "nodegit";
+import { Commit, HistoryEventEmitter } from "nodegit/commit";
 import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from "../types/git_types";
 import { pr_log } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_commit_stats } from "./../private/git_commit_stats";
 import { git_repo } from "./../private/git_repo";
+import { CONFIG, Config } from "./../types/config.types";
+import { isStdOut, isStdPrgOut } from "./../util/pr_config";
 
-export const git_log = async (path: string = './', stdOut: boolean = false): Promise<GitLogs> => {
+export const git_log = async (path: string = './', config: Config = CONFIG): Promise<GitLogs> => {
     // Get Repo
-    const repo = await git_repo(path);
+    const repo = await git_repo(path, config);
 
     // Get Branch reference
     const reference = await repo.getCurrentBranch();
@@ -35,7 +37,7 @@ export const git_log = async (path: string = './', stdOut: boolean = false): Pro
 
     // Get Commits diff files anre return git log
     for (const [index, commit] of commits.entries()) {
-        !stdOut && pr_lg_prg(commits.length, index + 1, 'Commit');
+        isStdPrgOut(config) && pr_lg_prg(commits.length, index + 1, 'Commit');
 
         // Get current commit tree and Previous commit tree
         const [cT, pT] = await Promise.all([
@@ -56,8 +58,7 @@ export const git_log = async (path: string = './', stdOut: boolean = false): Pro
             create_log(commit, gitCommitStats, gitCommitFiles)
         );
 
-        stdOut && pr_log(gitLogs[gitLogs.length - 1]);
-
+        isStdOut(config) && pr_log(gitLogs[gitLogs.length - 1]);
     }
 
     return gitLogs;

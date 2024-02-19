@@ -1,6 +1,6 @@
-// import { Commit, Diff, Repository, ConvenientPatch } from "nodegit";
-import { Diff, ConvenientPatch } from "nodegit";
+import { Diff } from "nodegit";
 import { GitCommitFiles } from "../types/git_types";
+import { git_commit_hunks } from "./git_commit_hunks";
 
 export const git_commit_files = async (
     diff: Diff
@@ -8,13 +8,13 @@ export const git_commit_files = async (
 
     const patches = await diff.patches();
 
-    const gitCommitFile: GitCommitFiles = [];
+    const gitCommitFiles: GitCommitFiles = [];
 
     for (const patch of patches) {
         const status: string[] = [];
 
         // Line length insertion or deletion
-        const { insertion, deletion } = await get_line_length(patch)
+        const gitCommitHunks = await git_commit_hunks(patch)
 
         patch.isUnmodified() && status.push('UNMODIFIED');
         patch.isAdded() && status.push('ADDED');
@@ -25,39 +25,16 @@ export const git_commit_files = async (
         patch.isUnreadable() && status.push('UNREADABLE');
         patch.isConflicted() && status.push('CONFLICT');
 
-        gitCommitFile.push({
+        gitCommitFiles.push({
             newFilePath: patch.newFile().path(),
             newFileSize: patch.newFile().size(),
             contextLines: patch.lineStats().total_context,
             addedLines: patch.lineStats().total_additions,
             deletedLines: patch.lineStats().total_deletions,
-            insertion,
-            deletion,
-            status
-        })
-    }
-
-    return gitCommitFile;
-}
-
-const get_line_length = async (
-    patch: ConvenientPatch
-): Promise<{ insertion: number, deletion: number }> => {
-
-    let insertion = 0, deletion = 0;
-    const hunks = await patch.hunks();
-    for (const hunk of hunks) {
-        const lines = await hunk.lines();
-
-        lines.forEach((line) => {
-            if (line.origin() === Diff.LINE.ADDITION) {
-                insertion += line.content().length;
-            }
-            if (line.origin() === Diff.LINE.DELETION) {
-                deletion += line.content().length;
-            }
+            status,
+            hunks: gitCommitHunks,
         });
     }
 
-    return { insertion, deletion };
+    return gitCommitFiles;
 }

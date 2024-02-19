@@ -2,10 +2,12 @@ import { Reference } from "nodegit";
 import { GitRef, GitRefs } from "../types/git_types";
 import { git_repo } from "../private/git_repo";
 import { pr_reference } from "../util/pr_lg";
+import { Config, CONFIG } from "../types/config.types";
+import { isStdOut } from "../util/pr_config";
 
-export const git_reference = async (path: string = './', stdOut: boolean = false): Promise<GitRefs> => {
+export const git_reference = async (path: string = './', config: Config = CONFIG): Promise<GitRefs> => {
     // Get Repo
-    const repo = await git_repo(path);
+    const repo = await git_repo(path, config);
 
     // Get Reference list
     const references = await repo.getReferences();
@@ -16,7 +18,7 @@ export const git_reference = async (path: string = './', stdOut: boolean = false
         // Add created reference
         prev.push(create_reference(reference));
 
-        stdOut && pr_reference(prev[prev.length -1]);
+        isStdOut(config) && pr_reference(prev[prev.length -1]);
 
         return prev;
     }, []);

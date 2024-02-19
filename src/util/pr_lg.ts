@@ -1,3 +1,4 @@
+import { Repository } from "nodegit";
 import { 
     GitCommitFile,
     GitConfig,
@@ -6,7 +7,8 @@ import {
     GitRef,
     GitStash,
     Gitstatus,
-    GitUser 
+    GitUser,
+    GitCommitHunk
 } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
@@ -44,11 +46,33 @@ export const pr_log_files = (gitCommitFile: GitCommitFile) => {
     const contextLines = gitCommitFile.contextLines;
     const addedLines = gitCommitFile.addedLines;
     const deletedLines = gitCommitFile.deletedLines;
+    const insertTokens = gitCommitFile.hunks.reduce((a,b) => (a+b.insertTokens), 0);
+    const deletionTokens = gitCommitFile.hunks.reduce((a,b) => (a+b.deletionTokens), 0);
 
     const lineStats = `${contextLines}c ${cF(`+L${addedLines}`, 'cfGREEN')} ${cF(`-L${deletedLines}`, 'cfRED')}`;
-    const fileStats = `+T${cF(`${gitCommitFile.insertion}`, 'cfGREEN')} ${cF(`-T${gitCommitFile.deletion}`,'cfRED')}`;
+    const fileStats = `+T${cF(`${insertTokens}`, 'cfGREEN')} ${cF(`-T${deletionTokens}`,'cfRED')}`;
 
     lg(`${sR(gitCommitFile.status.join(', '), 6, 2)}${cF(filePath, 'cfGREEN')} <${lineStats} ${fileStats} ${cF(`${Math.round(fileSize) / 100}K`, 'cfCYAN')}> `)
+}
+
+export const pr_log_hunks = (gitCommitHunk: GitCommitHunk, gitCommitFile: GitCommitFile) => {
+    lg();
+    lg(`${sR(gitCommitFile.status.join(', '), 6, 2)}${cF(gitCommitFile.newFilePath, 'cfGREEN')}`);
+    lg(`${gitCommitHunk.header.replace('\n', '')} ${cF(`+T${gitCommitHunk.insertTokens}`, 'cfGREEN')} ${cF(`-T${gitCommitHunk.deletionTokens}`, 'cfRED')}`);
+
+
+    gitCommitHunk.lines.forEach((line) => {
+        const diffToken = line.diffType === '' ? ' ' : line.diffType;
+        const diffLine = line.content.replace('\n', '');
+        const diffOldNr = line.oldLineno === -1 ? '  ' : line.oldLineno
+        const diffNewNr = line.newLineno === -1 ? '  ' : line.newLineno
+        
+
+        diffToken === '+' && lg(cF(`${diffToken} ${diffOldNr} ${diffNewNr} ${diffLine}`, 'cfGREEN'));
+        diffToken === '-' && lg(cF(`${diffToken} ${diffOldNr} ${diffNewNr} ${diffLine}`, 'cfRED'));
+        diffToken === ' ' && lg(`${diffToken} ${diffOldNr} ${diffNewNr} ${diffLine}`);
+    })
+    
 }
 
 export const pr_status = (gitStatus: Gitstatus) => {
@@ -80,6 +104,32 @@ export const pr_config = (gitConfig: GitConfig) => {
 export const pr_stash = (gitStash: GitStash) => {
     lg(cF(`sha ${gitStash.sha}`, 'cfYELLOW'));
     lg(`${gitStash.indexName}`, cF(`${gitStash.message}`, 'cfGREEN'));
+    lg();
+}
+
+export const pr_log_commit = (gitLog: GitLog) => {
+    lgN();
+    lg(cF(`commit ${gitLog.sha}`, 'cfYELLOW'));
+    lg(`Author: ${gitLog.authorName} <${gitLog.authorEmail}>`);
+    lg(`Date: ${gitLog.date}`);
+    lg(`Files: ${gitLog.fileChanged}`)
+    lg(`Lines: ${cF(`+L${gitLog.insertion}`, 'cfGREEN')} ${cF(`-L${gitLog.deletion}`, 'cfRED')}`)
+    lg("\n    " + gitLog.message);
+
+    gitLog.files.forEach(pr_log_files);
+
+    gitLog.files.forEach((file) => 
+        file.hunks.forEach((hunks) => 
+            pr_log_hunks(hunks, file) 
+        )
+    );
+    lg();
+}
+
+export const pr_repo = (repo: Repository) => {
+    lg(cF(`Workdir: ${repo.workdir()}`, 'cfMAGENTA'));
+    lg(cF(`RepoPath: ${repo.path()}`, 'cfMAGENTA'));
+    // lg(`Common ${repo.commondir()}`);
     lg();
 }
 

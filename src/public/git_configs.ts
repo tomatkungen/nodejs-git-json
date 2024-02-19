@@ -1,15 +1,17 @@
 import { exec } from "child_process";
 import { promisify } from "util";
 import { git_repo } from "../private/git_repo";
+import { Config, CONFIG } from "../types/config.types";
 import { GitConfig, GitConfigs } from "../types/git_types";
+import { isStdOut, isStdPrgOut } from "../util/pr_config";
 import { pr_config } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
 
-export const git_configs = async (path: string = './', stdOut: boolean = false): Promise<GitConfigs> => {
+export const git_configs = async (path: string = './', config: Config = CONFIG): Promise<GitConfigs> => {
     const gitExec = promisify(exec);
 
     // Get Repo
-    const repo = await git_repo(path);
+    const repo = await git_repo(path, config);
 
     // Run git config in work dir
     const { stdout } = await gitExec('git config --list --show-scope --show-origin', { cwd: repo.workdir() });
@@ -28,26 +30,26 @@ export const git_configs = async (path: string = './', stdOut: boolean = false):
     const gitConfigs: GitConfigs = [];
 
     lines.forEach((line, index) => {
-        !stdOut && pr_lg_prg(lines.length, index + 1, 'Configs');
+        isStdPrgOut(config) && pr_lg_prg(lines.length, index + 1, 'Configs');
 
         // Get config or null
-        const config = getConfig(line);
+        const gitConfig = getGitConfig(line);
 
         // Config not valid
-        if (!config)
+        if (!gitConfig)
             return;
 
         // Add config
-        gitConfigs.push(config);
+        gitConfigs.push(gitConfig);
 
-        stdOut && pr_config(gitConfigs[gitConfigs.length - 1]);
+        isStdOut(config) && pr_config(gitConfigs[gitConfigs.length - 1]);
     });
 
     // Return Configs
     return gitConfigs;
 }
 
-const getConfig = (line: string): GitConfig | null => {
+const getGitConfig = (line: string): GitConfig | null => {
 
     if (line === '')
         return null;

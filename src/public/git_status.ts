@@ -2,10 +2,12 @@ import { StatusFile } from "nodegit";
 import { Gitstatus, GitStatuses } from "../types/git_types";
 import { git_repo } from "../private/git_repo";
 import { pr_status } from "../util/pr_lg";
+import { Config, CONFIG } from "../types/config.types";
+import { isStdOut } from "../util/pr_config";
 
-export const git_status = async (path: string = './', stdOut: boolean = false): Promise<GitStatuses> => {
+export const git_status = async (path: string = './', config: Config = CONFIG): Promise<GitStatuses> => {
     // Get Repo
-    const repo = await git_repo(path);
+    const repo = await git_repo(path, config);
 
     // Get files with status
     const statusFiles = await repo.getStatus();
@@ -16,7 +18,7 @@ export const git_status = async (path: string = './', stdOut: boolean = false): 
         // Add created status
         prev.push(create_status(statusFile));
 
-        stdOut && pr_status(prev[prev.length - 1]);
+        isStdOut(config) && pr_status(prev[prev.length - 1]);
 
         return prev;
     }, [])

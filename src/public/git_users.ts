@@ -1,12 +1,14 @@
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
+import { Config, CONFIG } from "../types/config.types";
 import { GitUsers } from "../types/git_types";
+import { isStdOut, isStdPrgOut } from "../util/pr_config";
 import { pr_users } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
 import { git_repo } from "./../private/git_repo";
 
-export const git_users = async (path: string = './', stdOut: boolean = false): Promise<GitUsers> => {
+export const git_users = async (path: string = './', config: Config = CONFIG): Promise<GitUsers> => {
     // Get Repo
-    const repo = await git_repo(path);
+    const repo = await git_repo(path, config);
 
     // Get Branch reference
     const reference = await repo.getCurrentBranch();
@@ -31,7 +33,7 @@ export const git_users = async (path: string = './', stdOut: boolean = false): P
     let gitAuthor: string[] = []
 
     const gitUsers = commits.reduce<GitUsers>((prev, commit, index) => {
-        !stdOut && pr_lg_prg(commits.length, index + 1, 'Commit');
+        isStdPrgOut(config) && pr_lg_prg(commits.length, index + 1, 'Commit');
 
         // Already exist
         const gitAuthorIndex = gitUser(gitAuthor, commit);
@@ -46,8 +48,8 @@ export const git_users = async (path: string = './', stdOut: boolean = false): P
 
         return prev;
     }, []);
-
-    stdOut && gitUsers.forEach(pr_users);
+    
+    isStdOut(config) && gitUsers.forEach(pr_users);
 
     return gitUsers;
 }
