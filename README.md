@@ -24,6 +24,24 @@ yarn add nodejs-git-json
 
 ```
 
+## Commands
+
+```typescript
+    // Alias
+    git_log_short(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitLogsShort>  // Fast
+    git_log(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitLogs>             // Slow
+    git_status(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitStatuses>
+    git_reference(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitRefs>
+    git_users(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitUsers>          // Middle
+    git_configs(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitConfigs>
+    git_stash(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitStashes>
+    git_log_commit(path: string = './', sha: string, {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitLog>
+
+    // @path string - Relative or absolute path for folder where git repository exist
+    // @stdOut boolean - output print to the terminal or command prompt the data
+    // @stdPrgOut boolean - output print to the terminal or command prompt the progress
+```
+
 ## Usage
 
 ```typescript
@@ -36,7 +54,8 @@ import {
     git_reference,
     git_users,      // Fast
     git_configs,
-    git_stash
+    git_stash,
+    git_log_commit
 } from 'nodejs-git-json';
 
 (async () => {
@@ -47,6 +66,7 @@ import {
     const users     = await git_users('/my-path/git/git-nodejs-git-json/');
     const configs   = await git_configs('/my-path/git/git-nodejs-git-json/');
     const gitStashes= await git_stash('/my-path/git/git-nodejs-git-json/');
+    const logCommit = await git_log_commit('/my-path/git/git-nodejs-git-json/', '4d50c3453db88189b979aec14d041a023b23b360')
 
     // log json object equal to "git log"
     console.log(log_short);
@@ -68,24 +88,10 @@ import {
 
     // log json object equal to "git stash list"
     console.log(gitStashes);
+
+    // log json object equal to "git log -p <sha>"
+    console.log(logCommit);
 }()
-```
-
-## Commands
-
-```typescript
-    // Alias
-    git_log_short(path: string = './', stdOut: boolean = false): Promise<GitLogsShort>  // Fast
-    git_log(path: string = './', stdOut: boolean = false): Promise<GitLogs>             // Slow
-    git_status(path: string = './', stdOut: boolean = false): Promise<GitStatuses>
-    git_reference(path: string = './', stdOut: boolean = false): Promise<GitRefs>
-    git_users(path: string = './', stdOut: boolean = false): Promise<GitUsers>          // Middle
-    git_configs(path: string = './', stdOut: boolean = false): Promise<GitConfigs>
-    git_stash(path: string = './', stdOut: boolean = false): Promise<GitStashes>
-
-    // @path string - Relative or absolute path for folder where git repository exist
-    // @stdOut boolean - output print to the terminal or command prompt
-
 ```
 
 ### Types
@@ -153,12 +159,34 @@ GitLogs = [
                 addedLines: number;
                 // Commit deleted lines
                 deletedLines: number;
-                // Commit total insertion characters for every line
-                insertion: number;
-                // Commit total deletion characters for every line
-                deletion: number;
                 // Commmit - UNMODIFIED, ADDED, DELETED, MODIFIED, IGNORED, TYPECHANGE, UNREADABLE, CONFLICT
                 status: string[];
+                // Commit hunks
+                hunks: [
+                    // Hunk header
+                    header: string
+                    // Hunk total insert tokens
+                    insertTokens: number;
+                    // Hunk totla deleted tokens 
+                    deletionTokens: number;
+                    lines: [
+                        {
+                            // Line orgin
+                            origin: number;
+                            // Line old line number
+                            oldLineno: number;
+                            // Line new line number
+                            newLineno: number;
+                            // Line type - CONTEXT, ADDITION, DELETION. CONTEXT_EOFNL. ADD_EOFNL, DEL_EOFNL. FILE_HDR, HUNK_HDR, BINARY
+                            type: string;
+                            // Line diff - '+', '-', ''
+                            diffType: string;
+                            // Line output
+                            content: string;
+                        }
+                        ...
+                    ]
+                ]
             }
             ...
         ]
@@ -236,7 +264,7 @@ GitConfigs = [
 #### GitStash
 
 ```typescript
-GitStash = [
+GitLog = [
     {
         // Stash index, index zero is refs/stash
         index: number;
@@ -249,4 +277,71 @@ GitStash = [
     }
     ...
 ]
+```
+
+#### GitLog
+
+```typescript
+GitLog = {
+    // Commit unique ID sha-1
+    sha: string;
+    // Commit date as ISO
+    date: string;
+    // Commit message
+    message: string;
+    // Commit signature author name
+    authorName: string;
+    // Commit signature author email
+    authorEmail: string;
+    // Commit committer name
+    commiterName: string;
+    // Commit commiter email
+    commiterEmail: string;
+    // Commit total number of insertions
+    insertion: number;
+    // Commit total number of deletions
+    deletion: number;
+    // Commit total number of files changed
+    fileChanged: number;
+    // Committed files
+    files: [{
+        // Commit file relativ path from git repo
+        newFilePath: string;
+        // Commit file size
+        newFileSize: number;
+        // Commit file context
+        contextLines: number;
+        // Commit file added lines
+        addedLines: number;
+        // Commit deleted lines
+        deletedLines: number;
+        // Commmit - UNMODIFIED, ADDED, DELETED, MODIFIED, IGNORED, TYPECHANGE, UNREADABLE, CONFLICT
+        status: string[];
+        // Commit hunks
+        hunks: [
+            // Hunk header
+            header: string
+            // Hunk total insert tokens
+            insertTokens: number;
+            // Hunk totla deleted tokens 
+            deletionTokens: number;
+            lines: [{
+                // Line orgin
+                origin: number;
+                // Line old line number
+                oldLineno: number;
+                // Line new line number
+                newLineno: number;
+                // Line type - CONTEXT, ADDITION, DELETION. CONTEXT_EOFNL. ADD_EOFNL, DEL_EOFNL. FILE_HDR, HUNK_HDR, BINARY
+                type: string;
+                // Line diff - '+', '-', ''
+                diffType: string;
+                // Line output
+                content: string;
+            }
+            ...
+            ]
+        ]
+    }
+}
 ```
