@@ -9,7 +9,7 @@ import { isStdOut } from "./../util/pr_config";
 
 export const git_log_commit = async (
     path: string = './',
-    sha: string,
+    sha: string = "",
     config: Config = CONFIG
 ): Promise<GitLog> => {
     // Get Repo
