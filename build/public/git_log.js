@@ -11,22 +11,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_log = void 0;
 const nodegit_1 = require("nodegit");
+const git_repo_1 = require("../private/git_repo");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
+const git_commits_1 = require("./../private/git_commits");
 const git_commit_files_1 = require("./../private/git_commit_files");
 const git_commit_stats_1 = require("./../private/git_commit_stats");
-const git_repo_1 = require("./../private/git_repo");
 const config_types_1 = require("./../types/config.types");
 const pr_config_1 = require("./../util/pr_config");
+const git_commit_branch_1 = require("./../private/git_commit_branch");
 const git_log = (path = './', config = config_types_1.CONFIG) => __awaiter(void 0, void 0, void 0, function* () {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
-    const reference = yield repo.getCurrentBranch();
-    const branchName = reference.shorthand();
-    const branch = yield repo.getBranchCommit(branchName);
-    const history = branch.history();
-    const commits = yield get_commits(history);
-    if (commits.length === 0)
-        return [];
+    const branchCommit = yield (0, git_commit_branch_1.git_commit_branch)(repo);
+    const commits = yield (0, git_commits_1.git_commits)(branchCommit);
     const gitLogs = [];
     for (const [index, commit] of commits.entries()) {
         (0, pr_config_1.isStdPrgOut)(config) && (0, pr_lg_prg_1.pr_lg_prg)(commits.length, index + 1, 'Commit');
@@ -58,11 +55,3 @@ const create_log = (commit, gitCommitStat, gitCommitFiles) => {
         files: gitCommitFiles,
     };
 };
-const get_commits = (history) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve) => {
-        history.on('end', (commits) => {
-            resolve(commits);
-        });
-        history.start();
-    });
-});
