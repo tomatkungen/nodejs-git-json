@@ -1,3 +1,17 @@
+export type oneToNine = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type zeroToNine = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+type YYYY = `19${zeroToNine}${zeroToNine}` | `20${zeroToNine}${zeroToNine}`
+type MM = `0${oneToNine}` | `1${0 | 1 | 2}`
+type DD = `${0}${oneToNine}` | `${1 | 2}${zeroToNine}` | `3${0 | 1}`
+
+export type DateFormat = `${YYYY}-${MM}-${DD}`;
+
+export type GitLogPagination = {
+    commitsPerPage: number;
+    currentPage: number;
+}
+
 export type GitLogShort = {
     sha: string;
     date: string;
@@ -37,7 +51,7 @@ export type Gitstatus = {
 
 export type GitCommitHunks = GitCommitHunk[];
 
-export type GitCommitHunk ={
+export type GitCommitHunk = {
     header: string;
     insertTokens: number;
     deletionTokens: number;
@@ -48,15 +62,15 @@ export type GitCommitLine = {
     origin: number;
     oldLineno: number;
     newLineno: number;
-    type: 
-        'CONTEXT'   | 
-        'ADDITION'  |
-        'DELETION'  | 
+    type:
+        'CONTEXT' |
+        'ADDITION' |
+        'DELETION' |
         'CONTEXT_EOFNL' |
         'ADD_EOFNL' |
-        'DEL_EOFNL' | 
-        'FILE_HDR'  |
-        'HUNK_HDR'  |
+        'DEL_EOFNL' |
+        'FILE_HDR' |
+        'HUNK_HDR' |
         'BINARY';
     diffType: '+' | '-' | '';
     content: string;

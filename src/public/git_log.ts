@@ -1,5 +1,6 @@
 import { Diff } from "nodegit";
 import { Commit } from "nodegit/commit";
+import { git_repo } from "../private/git_repo";
 import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from "../types/git_types";
 import { pr_log } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
@@ -8,11 +9,18 @@ import { git_commit_files } from "./../private/git_commit_files";
 import { git_commit_stats } from "./../private/git_commit_stats";
 import { CONFIG, Config } from "./../types/config.types";
 import { isStdOut, isStdPrgOut } from "./../util/pr_config";
+import {git_commit_branch} from "./../private/git_commit_branch";
 
 export const git_log = async (path: string = './', config: Config = CONFIG): Promise<GitLogs> => {
 
+    // Get Repository
+    const repo = await git_repo(path, config);
+
+    // Get latest branch commit
+    const branchCommit = await git_commit_branch(repo)
+
     // Branch commits
-    const { commits, repo } = await git_commits(path, config);
+    const commits = await git_commits(branchCommit);
 
     // Init empty git logs
     const gitLogs: GitLogs = [];

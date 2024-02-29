@@ -28,18 +28,29 @@ yarn add nodejs-git-json
 
 ```typescript
     // Alias
-    git_log_short(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitLogsShort>  // Fast
-    git_log(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitLogs>             // Slow
-    git_status(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitStatuses>
-    git_reference(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitRefs>
-    git_users(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitUsers>          // Middle
-    git_configs(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitConfigs>
-    git_stash(path: string = './', {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitStashes>
-    git_log_commit(path: string = './', sha: string, {stdOut: boolean,  stdPrgOut: boolean}): Promise<GitLog>
+    git_log_short(path: string = './', config: Config = CONFIG): Promise<GitLogsShort>  // Fast
+    git_log(path: string = './', config: Config = CONFIG): Promise<GitLogs>             // Slow
+    git_status(path: string = './', config: Config = CONFIG): Promise<GitStatuses>
+    git_reference(path: string = './', config: Config = CONFIG): Promise<GitRefs>
+    git_users(path: string = './', config: Config = CONFIG): Promise<GitUsers>          // Middle
+    git_configs(path: string = './', config: Config = CONFIG): Promise<GitConfigs>
+    git_stash(path: string = './', config: Config = CONFIG): Promise<GitStashes>
+    
+    // helpers
+    git_log_commit(path: string = './', sha: string, config: Config = CONFIG): Promise<GitLog>
+    git_log_pagination(path: string = './', gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs>
 
     // @path string - Relative or absolute path for folder where git repository exist
-    // @stdOut boolean - output print to the terminal or command prompt the data
-    // @stdPrgOut boolean - output print to the terminal or command prompt the progress
+    
+    // @sha string - commit sha
+
+    // @config Object - Config for std out in console
+        // @stdOut boolean - Output print to the terminal or command prompt the data
+        // @stdPrgOut boolean - Output print to the terminal or command prompt the progress
+    
+    // @gitLogPagination - Pagination commits
+        // @commitsPerPage number - Total Commits
+        // @currentPage number - Start check point
 ```
 
 ## Usage
@@ -66,7 +77,8 @@ import {
     const users     = await git_users('/my-path/git/git-nodejs-git-json/');
     const configs   = await git_configs('/my-path/git/git-nodejs-git-json/');
     const gitStashes= await git_stash('/my-path/git/git-nodejs-git-json/');
-    const logCommit = await git_log_commit('/my-path/git/git-nodejs-git-json/', '4d50c3453db88189b979aec14d041a023b23b360')
+    const logCommit = await git_log_commit('/my-path/git/git-nodejs-git-json/', '4d50c3453db88189b979aec14d041a023b23b360');
+    const log_pagination = await git_log_pagination('/my-path/git/git-nodejs-git-json/', { currentPage: 1, commitsPerPage: 20 })
 
     // log json object equal to "git log"
     console.log(log_short);
@@ -91,6 +103,9 @@ import {
 
     // log json object equal to "git log -p <sha>"
     console.log(logCommit);
+
+    // log json object equal to git log ??
+    console.log(log_pagination);
 }()
 ```
 

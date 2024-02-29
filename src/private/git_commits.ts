@@ -1,29 +1,14 @@
-import { Repository } from "nodegit";
 import { Commit, HistoryEventEmitter } from "nodegit/commit";
-import { git_repo } from "../private/git_repo";
-import { CONFIG, Config } from "../types/config.types";
 
-export const git_commits = async (path: string = './', config: Config = CONFIG): Promise<{commits: Commit[], repo: Repository}> => {
-    // Get Repo
-    const repo = await git_repo(path, config);
-
-    // Get Branch reference
-    const reference = await repo.getCurrentBranch();
-
-    // Get Branch name from HEAD
-    const branchName = reference.shorthand();
-
-    // Main Branch
-    const branch = await repo.getBranchCommit(branchName);
-
+export const git_commits = async (branchCommit: Commit): Promise<Commit[]> => {
     // Branch History
-    const history = branch.history();
+    const history = branchCommit.history();
 
     // Branch commits
     const commits = await get_commits(history);
 
     // Return commits
-    return {commits, repo};
+    return commits;
 }
 
 const get_commits = async (history: HistoryEventEmitter): Promise<Commit[]> => {
