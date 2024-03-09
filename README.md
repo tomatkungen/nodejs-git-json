@@ -39,6 +39,7 @@ yarn add nodejs-git-json
     // helpers
     git_log_commit(path: string = './', sha: string, config: Config = CONFIG): Promise<GitLog>
     git_log_pagination(path: string = './', gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs>
+    git_log_dates(path: string = './', gitLogDates: GitLogDates, config: Config = CONFIG): Promise<GitLogs>
 
     // @path string - Relative or absolute path for folder where git repository exist
     
@@ -51,6 +52,10 @@ yarn add nodejs-git-json
     // @gitLogPagination - Pagination commits
         // @commitsPerPage number - Total Commits
         // @currentPage number - Start check point
+
+    // @gitLogDates - Between Dates
+        // @sinceDate: DateFormat - Start date
+        // @untilDate: DateFormat - End date
 ```
 
 ## Usage
@@ -66,7 +71,9 @@ import {
     git_users,      // Fast
     git_configs,
     git_stash,
-    git_log_commit
+    git_log_commit,
+    log_pagination,
+    git_log_dates
 } from 'nodejs-git-json';
 
 (async () => {
@@ -78,7 +85,8 @@ import {
     const configs   = await git_configs('/my-path/git/git-nodejs-git-json/');
     const gitStashes= await git_stash('/my-path/git/git-nodejs-git-json/');
     const logCommit = await git_log_commit('/my-path/git/git-nodejs-git-json/', '4d50c3453db88189b979aec14d041a023b23b360');
-    const log_pagination = await git_log_pagination('/my-path/git/git-nodejs-git-json/', { currentPage: 1, commitsPerPage: 20 })
+    const log_pagination = await git_log_pagination('/my-path/git/git-nodejs-git-json/', { currentPage: 1, commitsPerPage: 20 });
+    const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { startDate: '2024-02-29', endDate: '2023-02-28'});
 
     // log json object equal to "git log"
     console.log(log_short);
@@ -106,7 +114,10 @@ import {
 
     // log json object equal to git log ??
     console.log(log_pagination);
-}()
+
+    // log json object equal to git --no-pager log --since="2024-01-20 00:00:00" --until="2024-01-24 24:00:00" --format=%H
+    console.log(log_dates);
+})()
 ```
 
 ### Types

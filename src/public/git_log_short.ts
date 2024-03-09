@@ -25,7 +25,6 @@ export const git_log_short = async (path: string = './', config: Config = CONFIG
 
         const gitLogShort = create_log(commit);
 
-        
         isStdOut(config) && pr_log_short(gitLogShort);
 
         return gitLogShort;
