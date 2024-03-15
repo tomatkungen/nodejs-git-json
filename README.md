@@ -6,7 +6,7 @@ Nodejs-git-json is a NPM module library that can output json from git repository
 
 * nodejs-git-json v1.0.14 using Nodegit v0.28.0-alpha.1
 * nodejs-git-json v1.1.0  using Nodegit v0.28.0-alpha.22
-* nodejs-git-json v1.2.0  using Nodegit v0.28.0-alpha.24
+* nodejs-git-json v1.6.0  using Nodegit v0.28.0-alpha.24
 
 # Prerequisites
 
