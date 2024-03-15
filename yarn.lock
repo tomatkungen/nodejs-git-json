@@ -883,10 +883,10 @@ node-gyp@^10.0.1:
     tar "^6.1.2"
     which "^4.0.0"
 
-nodegit@0.28.0-alpha.22:
-  version "0.28.0-alpha.22"
-  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.28.0-alpha.22.tgz#5673a66400711cda337a9af22de5649b8687a721"
-  integrity sha512-nacDC5uqK2yJ/5BUxd0D+keY7Ch1p9Zgekk9xpciEtO8cBa11BnjCoKNBHbq6VwV809SLRfI5WW/X0CRq3R/og==
+nodegit@0.28.0-alpha.24:
+  version "0.28.0-alpha.24"
+  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.28.0-alpha.24.tgz#bfcb14fa6494641a3294af03d3bf6812b8136c74"
+  integrity sha512-8EIKwUE3ioml5m6/p2VPbTjDNsyOrImHbjSSFTVQBZLH4oXKpHhmG8TiaVDEqrOFAG7pAcqpHxAMRlUGlkng+Q==
   dependencies:
     "@axosoft/nan" "^2.18.0-gk.2"
     "@mapbox/node-pre-gyp" "^1.0.8"

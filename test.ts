@@ -1,6 +1,7 @@
 // import { git_status } from './src/public/git_status';
 // import { git_log_pagination } from './src/public/git_log_pagination';
-import { git_log_dates } from './src/public/git_log_dates';
+// import { git_log_dates } from './src/public/git_log_dates';
+import { git_log_file } from './src/public/git_log_file';
 import { lg } from './src/util/pr_lg';
 // import { git_log } from './src/public/git_log';
 // import { git_log_commit } from './src/public/git_log_commit';
@@ -39,8 +40,9 @@ import { lg } from './src/util/pr_lg';
     // const log_pagination = await git_log_pagination('./', { currentPage: 1, commitsPerPage: 20 }, {stdOut: true, stdPrgOut: false});
     // lg('log_pagination', log_pagination.length);
     
-    const log_dates = await git_log_dates('./', { sinceDate: '2024-02-29', untilDate: '2024-02-29'});
-    lg('log_dates', log_dates);
+    // const log_dates = await git_log_dates('./', { sinceDate: '2024-02-29', untilDate: '2024-02-29'});
+    // lg('log_dates', log_dates);
 
-    console.timeEnd('total');
+    const log_file = await git_log_file('./', './src/index.ts');
+    lg('log_files', log_file);
 })()

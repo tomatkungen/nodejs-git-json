@@ -21,7 +21,7 @@
   "author": "mr_a2@hotmail.com",
   "license": "MIT",
   "dependencies": {
-    "nodegit": "0.28.0-alpha.22"
+    "nodegit": "0.28.0-alpha.24"
   },
   "keywords": [
     "git",
