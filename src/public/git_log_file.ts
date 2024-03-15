@@ -5,6 +5,9 @@ import { git_commit_branch } from "../private/git_commit_branch";
 import { git_repo } from "../private/git_repo";
 import { CONFIG, Config } from "../types/config.types";
 import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from '../types/git_types';
+import { isStdOut, isStdPrgOut } from "../util/pr_config";
+import { pr_log } from "../util/pr_lg";
+import { pr_lg_prg } from "../util/pr_lg_prg";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_commit_stats } from "./../private/git_commit_stats";
 
@@ -36,7 +39,9 @@ export const git_log_file = async (path: string = './', filePath: string, config
     // Init empty git logs
     const gitLogs: GitLogs = [];
 
-    for (const Oid of Oids) {
+    for (const [index, Oid] of Oids.entries()) {
+        isStdPrgOut(config) && pr_lg_prg(Oids.length, index + 1, 'Commit');
+
         // Get Commit
         const commit = await repo.getCommit(Oid);
         const parentCommit = commit.parentId(0) && await commit.parent(0);
@@ -59,6 +64,8 @@ export const git_log_file = async (path: string = './', filePath: string, config
         gitLogs.push(
             create_log(commit, gitCommitStats, gitCommitFiles)
         );
+
+        isStdOut(config) && pr_log(gitLogs[gitLogs.length - 1]);
     }
 
     return gitLogs;
