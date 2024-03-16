@@ -91,7 +91,7 @@ import {
     const gitStashes= await git_stash('/my-path/git/git-nodejs-git-json/');
     const logCommit = await git_log_commit('/my-path/git/git-nodejs-git-json/', '4d50c3453db88189b979aec14d041a023b23b360');
     const log_pagination = await git_log_pagination('/my-path/git/git-nodejs-git-json/', { currentPage: 1, commitsPerPage: 20 });
-    const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { startDate: '2024-02-29', endDate: '2023-02-28'});
+    const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { sinceDate: '2024-02-29', untilDate: '2023-02-28'});
     const log_file  = await git_log_file('/my-path/git/git-nodejs-git-json/', './index.ts');
 
     // log json object equal to "git log"
@@ -296,10 +296,10 @@ GitConfigs = [
 ]
 ```
 
-#### GitStash
+#### GitStashes
 
 ```typescript
-GitLog = [
+GitStashes = [
     {
         // Stash index, index zero is refs/stash
         index: number;
