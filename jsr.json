@@ -1,0 +1,8 @@
+{
+  "name": "@tomatkungen/nodejs-git-json",
+  "version": "1.6.0",
+  "exports": "./build/index.js",
+  "publish": {
+    "include": ["LICENSE", "README.md"]
+  }
+}
