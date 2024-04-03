@@ -98,7 +98,7 @@ import {
     const log_pagination = await git_log_pagination('/my-path/git/git-nodejs-git-json/', { currentPage: 1, commitsPerPage: 20 });
     const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { sinceDate: '2024-02-29', untilDate: '2023-02-28'});
     const log_file  = await git_log_file('/my-path/git/git-nodejs-git-json/', './index.ts');
-    const log_folder = git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10})
+    const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10})
 
     // log json object equal to "git log"
     console.log(log_short);
