@@ -17,7 +17,7 @@ const config_types_1 = require("../types/config.types");
 const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
-const git_configs = (path = './', config = config_types_1.CONFIG) => __awaiter(void 0, void 0, void 0, function* () {
+const git_configs = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const gitExec = (0, util_1.promisify)(child_process_1.exec);
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const { stdout } = yield gitExec('git config --list --show-scope --show-origin', { cwd: repo.workdir() });

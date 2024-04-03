@@ -20,7 +20,7 @@ const git_commit_stats_1 = require("./../private/git_commit_stats");
 const config_types_1 = require("./../types/config.types");
 const pr_config_1 = require("./../util/pr_config");
 const git_commit_branch_1 = require("./../private/git_commit_branch");
-const git_log = (path = './', config = config_types_1.CONFIG) => __awaiter(void 0, void 0, void 0, function* () {
+const git_log = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const branchCommit = yield (0, git_commit_branch_1.git_commit_branch)(repo);
     const commits = yield (0, git_commits_1.git_commits)(branchCommit);

@@ -20,7 +20,7 @@ const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
 const git_commit_files_1 = require("./../private/git_commit_files");
 const git_commit_stats_1 = require("./../private/git_commit_stats");
-const git_log_file = (path = './', filePath, config = config_types_1.CONFIG) => __awaiter(void 0, void 0, void 0, function* () {
+const git_log_file = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', filePath, config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const commitBranch = yield (0, git_commit_branch_1.git_commit_branch)(repo);
     const reWalk = repo.createRevWalk();

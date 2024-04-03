@@ -17,7 +17,7 @@ const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_config_1 = require("./../util/pr_config");
-const git_log_commit = (path = './', sha = "", config = config_types_1.CONFIG) => __awaiter(void 0, void 0, void 0, function* () {
+const git_log_commit = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', sha = "", config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const commit = yield repo.getCommit(sha);
     const parentCommit = commit.parentId(0) && (yield commit.parent(0));

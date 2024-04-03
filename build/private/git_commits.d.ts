@@ -1,2 +1,2 @@
-import { Commit } from "nodegit/commit";
+import { Commit } from "nodegit";
 export declare const git_commits: (branchCommit: Commit) => Promise<Commit[]>;

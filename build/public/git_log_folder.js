@@ -9,21 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_log_dates = void 0;
+exports.git_log_folder = void 0;
 const child_process_1 = require("child_process");
 const nodegit_1 = require("nodegit");
 const util_1 = require("util");
-const git_commit_stats_1 = require("../private/git_commit_stats");
 const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
 const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
 const git_commit_files_1 = require("./../private/git_commit_files");
-const git_log_dates = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', gitLogDates, config = config_types_1.CONFIG) {
+const git_commit_stats_1 = require("./../private/git_commit_stats");
+const git_log_folder = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', folderPath, gitLogPagination, config = config_types_1.CONFIG) {
     const gitExec = (0, util_1.promisify)(child_process_1.exec);
     const repo = yield (0, git_repo_1.git_repo)(path, config);
-    const { stdout } = yield gitExec(`git --no-pager log --since="${gitLogDates.sinceDate} 00:00:00" --until="${gitLogDates.untilDate} 24:00:00" --format=%H`, { cwd: repo.workdir() });
+    const { stdout } = yield gitExec(`git --no-pager log --format=%H -- ${folderPath}`, { cwd: repo.workdir() });
     if (stdout === '')
         return [];
     const lines = stdout.trim().split('\n');
@@ -31,8 +31,10 @@ const git_log_dates = (...args_1) => __awaiter(void 0, [...args_1], void 0, func
         return [];
     const gitLogs = [];
     for (const [index, line] of lines.entries()) {
+        if (outsidePagination(index, gitLogPagination))
+            continue;
         (0, pr_config_1.isStdPrgOut)(config) && (0, pr_lg_prg_1.pr_lg_prg)(lines.length, index + 1, 'Commit');
-        const commit = yield repo.getCommit(line);
+        const commit = yield repo.getCommit(line.trim());
         const parentCommit = commit.parentId(0) && (yield commit.parent(0));
         const [cT, pT] = yield Promise.all([
             commit.getTree(),
@@ -44,9 +46,14 @@ const git_log_dates = (...args_1) => __awaiter(void 0, [...args_1], void 0, func
         gitLogs.push(create_log(commit, gitCommitStats, gitCommitFiles));
         (0, pr_config_1.isStdOut)(config) && (0, pr_lg_1.pr_log)(gitLogs[gitLogs.length - 1]);
     }
+    ;
     return gitLogs;
 });
-exports.git_log_dates = git_log_dates;
+exports.git_log_folder = git_log_folder;
+const outsidePagination = (index, gitLogPagination) => {
+    return !(gitLogPagination.commitsPerPage * gitLogPagination.currentPage <= index &&
+        index < (gitLogPagination.commitsPerPage * (gitLogPagination.currentPage + 1)));
+};
 const create_log = (commit, gitCommitStat, gitCommitFiles) => {
     return {
         sha: commit.sha(),
