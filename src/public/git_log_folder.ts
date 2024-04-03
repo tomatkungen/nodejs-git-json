@@ -1,49 +1,45 @@
-import { Diff, Revwalk } from "nodegit";
+import { exec } from "child_process";
+import { Diff } from "nodegit";
 import { Commit } from "nodegit/commit";
-import { relative } from "path";
-import { git_commit_branch } from "../private/git_commit_branch";
+import { promisify } from "util";
 import { git_repo } from "../private/git_repo";
 import { CONFIG, Config } from "../types/config.types";
-import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from '../types/git_types';
+import { GitCommitFiles, GitCommitStat, GitLog, GitLogPagination, GitLogs } from '../types/git_types';
 import { isStdOut, isStdPrgOut } from "../util/pr_config";
 import { pr_log } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
 import { git_commit_files } from "./../private/git_commit_files";
 import { git_commit_stats } from "./../private/git_commit_stats";
 
+export const git_log_folder = async (path: string = './', folderPath: string, gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs> => {
+    const gitExec = promisify(exec);
 
-export const git_log_file = async (path: string = './', filePath: string, config: Config = CONFIG): Promise<GitLogs> => {
-    // Get Repository
+    // Get Repo
     const repo = await git_repo(path, config);
 
-    // Get commit branch latest
-    const commitBranch = await git_commit_branch(repo);
+    const { stdout } = await gitExec(`git --no-pager log --format=%H -- ${folderPath}`, { cwd: repo.workdir() });
 
-    // Rewalk history
-    const reWalk = repo.createRevWalk();
-    reWalk.sorting(Revwalk.SORT.TIME);
-
-    // Rewalk start point
-    reWalk.push(commitBranch.id());
-
-    const historyEntrys = await reWalk.fileHistoryWalk(
-        relative(repo.workdir(), filePath),
-        1000
-    );
-
-    if (historyEntrys.length === 0)
+    // Empty commits
+    if (stdout === '')
         return [];
 
-    const Oids = historyEntrys.map((historyEntry) => (historyEntry.commit.sha()))
+    // Get lines
+    const lines = stdout.trim().split('\n');
 
-    // Init empty git logs
+    // No configs in repo
+    if (lines.length === 0)
+        return [];
+
     const gitLogs: GitLogs = [];
 
-    for (const [index, Oid] of Oids.entries()) {
-        isStdPrgOut(config) && pr_lg_prg(Oids.length, index + 1, 'Commit');
+    for (const [index, line] of lines.entries()) {
+        if (outsidePagination(index, gitLogPagination)) 
+            continue;
+
+        isStdPrgOut(config) && pr_lg_prg(lines.length, index + 1, 'Commit');
 
         // Get Commit
-        const commit = await repo.getCommit(Oid);
+        const commit = await repo.getCommit(line.trim());
         
         // Get Parent Commit
         const parentCommit = commit.parentId(0) && await commit.parent(0);
@@ -68,9 +64,16 @@ export const git_log_file = async (path: string = './', filePath: string, config
         );
 
         isStdOut(config) && pr_log(gitLogs[gitLogs.length - 1]);
-    }
+    };
 
     return gitLogs;
+}
+
+const outsidePagination = (index: number, gitLogPagination: GitLogPagination): boolean => {
+    return !(
+        gitLogPagination.commitsPerPage * gitLogPagination.currentPage <= index && 
+        index < (gitLogPagination.commitsPerPage * (gitLogPagination.currentPage + 1))
+    );
 }
 
 const create_log = (commit: Commit, gitCommitStat: GitCommitStat, gitCommitFiles: GitCommitFiles): GitLog => {
