@@ -1,5 +1,4 @@
-import { Diff } from "nodegit";
-import { Commit } from "nodegit/commit";
+import { Diff, Commit } from "nodegit";
 import { git_repo } from "../private/git_repo";
 import { GitCommitFiles, GitCommitStat, GitLog, GitLogs } from "../types/git_types";
 import { pr_log } from "../util/pr_lg";

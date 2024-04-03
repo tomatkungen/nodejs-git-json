@@ -1,4 +1,5 @@
-import { Commit, HistoryEventEmitter } from "nodegit/commit";
+import { Commit } from "nodegit";
+import { HistoryEventEmitter } from "nodegit/commit";
 
 export const git_commits = async (branchCommit: Commit): Promise<Commit[]> => {
     // Branch History
