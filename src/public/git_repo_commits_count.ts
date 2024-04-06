@@ -1,7 +1,7 @@
 import { git_repo } from "../private/git_repo";
 import { CONFIG, Config } from "../types/config.types";
 
-export const git_log_commits_length = async (path: string = './', config: Config = CONFIG): Promise<number> => {
+export const git_repo_commits_count = async (path: string = './', config: Config = CONFIG): Promise<number> => {
  
     // Get Repository
     const repo = await git_repo(path, config);

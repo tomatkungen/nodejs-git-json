@@ -3,8 +3,9 @@
 // import { git_log_dates } from './src/public/git_log_dates';
 // import { git_log_file } from './src/public/git_log_file';
 // import { git_log_folder } from './src/public/git_log_folder';
-// import { git_log_commits_length } from './src/public/git_log_commits_length';
-import { git_users_commit_length } from './src/public/git_users_commit_length';
+// import { git_repo_commits_count } from './src/public/git_repo_commits_count';
+import { git_repo_files_count } from './src/public/git_repo_files_count';
+// import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
 import { lg } from './src/util/pr_lg';
 // import { git_log } from './src/public/git_log';
 // import { git_log_commit } from './src/public/git_log_commit';
@@ -52,9 +53,12 @@ import { lg } from './src/util/pr_lg';
     // const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10});
     // lg('log_files', log_folder);
 
-    // const log_commits_length = await git_log_commits_length('./');
-    // lg('log_commits_length', log_commits_length);
+    // const repo_log_commits_count = await git_repo_commits_count('./');
+    // lg('repo_log_commits_length', repo_log_commits_count);
 
-    const users_commit_length = await git_users_commit_length('./');
-    lg('users_commit_length', users_commit_length);
+    // const repo_users_commit_count = await git_repo_users_commit_count('./');
+    // lg('repo_users_commit_length', repo_users_commit_count);
+
+    const repo_files_length = await git_repo_files_count('./../material-ui');
+    lg('repo_files_length', repo_files_length);
 })()

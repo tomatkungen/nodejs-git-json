@@ -45,8 +45,9 @@ yarn add nodejs-git-json
     git_log_folder(path: string = './', folderPath: string, gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs>
     
     // Statistics
-    git_log_commits_length(path: string = './', config: Config = CONFIG): Promise<number>
-    git_users_commit_length(path: string = './', config: Config = CONFIG): Promise<GitUsersCommitLength>
+    git_repo_commits_count(path: string = './', config: Config = CONFIG): Promise<number>
+    git_repo_users_commit_count(path: string = './', config: Config = CONFIG): Promise<GitUsersCommitLength>
+    git_repo_files_count(path: string = './', config: Config = CONFIG): Promise<number>
 
     // @path string - Relative or absolute path for folder where git repository exist
     
@@ -87,8 +88,9 @@ import {
     git_log_dates,
     git_log_file,
     git_log_folder,
-    git_log_commits_length,
-    git_users_commit_length
+    git_repo_commits_count,
+    git_repo_users_commit_count,
+    git_repo_files_count
 } from 'nodejs-git-json';
 
 (async () => {
@@ -104,8 +106,9 @@ import {
     const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { sinceDate: '2024-02-29', untilDate: '2023-02-28'});
     const log_file  = await git_log_file('/my-path/git/git-nodejs-git-json/', './index.ts');
     const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10})
-    const log_commits_length = await git_log_commits_length('./')
-    const users_commit_length = await git_users_commit_length('./');
+    const repo_commits_count = await git_repo_commits_count('./')
+    const repo_users_commit_count = await git_repo_users_commit_count('./');
+    const repo_files_count = await git_repo_files_count('./');
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -144,10 +147,13 @@ import {
     console.log(log_folder);
 
     // log number of commits equal to "git rev-list --count HEAD"
-    console.log(log_commits_length);
+    console.log(repo_commits_count);
 
     // log json object equal to "git --no-pager shortlog -s -n"
-    console.log(users_commit_length);
+    console.log(repo_users_commit_count);
+
+    // log json object equal to "git ls-files | wc -l"
+    console.log(repo_files_count);
 })()
 ```
 

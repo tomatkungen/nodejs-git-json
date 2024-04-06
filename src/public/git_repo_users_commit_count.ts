@@ -6,7 +6,7 @@ import { pr_lg_prg } from "../util/pr_lg_prg";
 import { isStdOut, isStdPrgOut } from "../util/pr_config";
 import { pr_users_commit_length } from "../util/pr_lg";
 
-export const git_users_commit_length = async (path: string = './', config: Config = CONFIG): Promise<GitUsersCommitLength> => {
+export const git_repo_users_commit_count = async (path: string = './', config: Config = CONFIG): Promise<GitUsersCommitLength> => {
 
     // Get Repository
     const repo = await git_repo(path, config);
