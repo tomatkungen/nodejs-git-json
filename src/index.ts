@@ -1,6 +1,7 @@
 import { git_configs } from './public/git_configs';
 import { git_log } from './public/git_log';
 import { git_log_commit } from './public/git_log_commit';
+import { git_log_commits_length } from './public/git_log_commits_length';
 import { git_log_dates } from "./public/git_log_dates";
 import { git_log_file } from './public/git_log_file';
 import { git_log_folder } from './public/git_log_folder';
@@ -10,6 +11,7 @@ import { git_reference } from './public/git_reference';
 import { git_stash } from './public/git_stash';
 import { git_status } from './public/git_status';
 import { git_users } from './public/git_users';
+import { git_users_commit_length } from './public/git_users_commit_length';
 import { lg } from './util/pr_lg';
 
 export {
@@ -24,7 +26,9 @@ export {
     git_users,
     git_log_dates,
     git_log_file,
-    git_log_folder
+    git_log_folder,
+    git_log_commits_length,
+    git_users_commit_length
 };
 
 (() => {
