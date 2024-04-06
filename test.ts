@@ -2,7 +2,8 @@
 // import { git_log_pagination } from './src/public/git_log_pagination';
 // import { git_log_dates } from './src/public/git_log_dates';
 // import { git_log_file } from './src/public/git_log_file';
-import { git_log_folder } from './src/public/git_log_folder';
+// import { git_log_folder } from './src/public/git_log_folder';
+import { git_log_length } from './src/public/git_log_length';
 import { lg } from './src/util/pr_lg';
 // import { git_log } from './src/public/git_log';
 // import { git_log_commit } from './src/public/git_log_commit';
@@ -18,7 +19,7 @@ import { lg } from './src/util/pr_lg';
     // lg('users', users);
 
     // const log = await git_log('./', { stdOut: true, stdPrgOut: false });
-    // lg('\nlog', log);
+    // lg('\nlog', log.length);
 
     // const log_short = await git_log_short('./', { stdOut: true, stdPrgOut: false });
     // lg('\nlog_short', log_short);
@@ -47,6 +48,9 @@ import { lg } from './src/util/pr_lg';
     // const log_file = await git_log_file('./', './src/index.ts');
     // lg('log_files', log_file);
 
-    const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10});
-    lg('log_files', log_folder);
+    // const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10});
+    // lg('log_files', log_folder);
+
+    const log_length = await git_log_length('./');
+    lg('log_commit_length', log_length);
 })()
