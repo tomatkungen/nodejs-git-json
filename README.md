@@ -80,7 +80,7 @@ import {
     git_configs,
     git_stash,
     git_log_commit,
-    log_pagination,
+    git_log_pagination,
     git_log_dates,
     git_log_file,
     git_log_folder
@@ -93,17 +93,17 @@ import {
     const reference = await git_reference('/my-path/git/git-nodejs-git-json/');
     const users     = await git_users('/my-path/git/git-nodejs-git-json/');
     const configs   = await git_configs('/my-path/git/git-nodejs-git-json/');
-    const gitStashes= await git_stash('/my-path/git/git-nodejs-git-json/');
-    const logCommit = await git_log_commit('/my-path/git/git-nodejs-git-json/', '4d50c3453db88189b979aec14d041a023b23b360');
+    const stashes   = await git_stash('/my-path/git/git-nodejs-git-json/');
+    const log_commit = await git_log_commit('/my-path/git/git-nodejs-git-json/', '4d50c3453db88189b979aec14d041a023b23b360');
     const log_pagination = await git_log_pagination('/my-path/git/git-nodejs-git-json/', { currentPage: 1, commitsPerPage: 20 });
     const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { sinceDate: '2024-02-29', untilDate: '2023-02-28'});
     const log_file  = await git_log_file('/my-path/git/git-nodejs-git-json/', './index.ts');
     const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10})
 
-    // log json object equal to "git log"
+    // log json object equal to "git log --shortstat"
     console.log(log_short);
 
-    // log json object equal to "git log --shortstat"
+    // log json object equal to "git log"
     console.log(log);
 
     // log json object equal to "git status"
@@ -119,10 +119,10 @@ import {
     console.log(configs);
 
     // log json object equal to "git stash list"
-    console.log(gitStashes);
+    console.log(stashes);
 
     // log json object equal to "git log -p <sha>"
-    console.log(logCommit);
+    console.log(log_commit);
 
     // log json object equal to git log ??
     console.log(log_pagination);
