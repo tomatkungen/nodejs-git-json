@@ -8,7 +8,8 @@ import {
     GitStash,
     Gitstatus,
     GitUser,
-    GitCommitHunk
+    GitCommitHunk,
+    GitUserCommitLength
 } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
@@ -131,6 +132,10 @@ export const pr_repo = (repo: Repository) => {
     lg(cF(`RepoPath: ${repo.path()}`, 'cfMAGENTA'));
     // lg(`Common ${repo.commondir()}`);
     lg();
+}
+
+export const pr_users_commit_length = (gitUsersCommitLength: GitUserCommitLength) => {
+    lg(cF(`${gitUsersCommitLength.commits}`.padStart(6,' '), 'cfMAGENTA'), ':', cF(`${gitUsersCommitLength.authorName}`, 'cfGREEN'));
 }
 
 // fill Space to the right

@@ -126,6 +126,11 @@ export type GitStash = {
     message: string;
 }
 
+export type GitUserCommitLength = {
+    authorName: string;
+    commits: number;
+}
+
 export type GitLogsShort = GitLogShort[]
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -135,6 +140,7 @@ export type GitUserStats = GitUserStat[];
 export type GitUsers = GitUser[];
 export type GitConfigs = GitConfig[];
 export type GitStashes = GitStash[];
+export type GitUsersCommitLength = GitUserCommitLength[];
 
 
 // user
@@ -145,4 +151,4 @@ export type GitStashes = GitStash[];
 // repo stats
 // Total number of files: 2,053
 // Total number of lines: 63,132
-// Total number of commits: 4,330
+// Total number of commits: 4,330 done
