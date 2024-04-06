@@ -43,7 +43,7 @@ yarn add nodejs-git-json
     git_log_dates(path: string = './', gitLogDates: GitLogDates, config: Config = CONFIG): Promise<GitLogs>
     git_log_file(path: string = './', filePath: string, config: Config = CONFIG): Promise<GitLogs>
     git_log_folder(path: string = './', folderPath: string, gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs>
-    git_log_length(path: string = './', config: Config = CONFIG): Promise<number>
+    git_commits_length(path: string = './', config: Config = CONFIG): Promise<number>
 
     // @path string - Relative or absolute path for folder where git repository exist
     
@@ -84,7 +84,7 @@ import {
     git_log_dates,
     git_log_file,
     git_log_folder,
-    git_log_length
+    git_commits_length
 } from 'nodejs-git-json';
 
 (async () => {
@@ -100,7 +100,7 @@ import {
     const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { sinceDate: '2024-02-29', untilDate: '2023-02-28'});
     const log_file  = await git_log_file('/my-path/git/git-nodejs-git-json/', './index.ts');
     const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10})
-    const log_length = await git_log_length('./')
+    const commits_length = await git_commits_length('./')
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -139,7 +139,7 @@ import {
     console.log(log_folder);
 
     // log number of commits equal to "git rev-list --count HEAD"
-    console.log(log_length);
+    console.log(commits_length);
 })()
 ```
 

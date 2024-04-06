@@ -3,7 +3,7 @@
 // import { git_log_dates } from './src/public/git_log_dates';
 // import { git_log_file } from './src/public/git_log_file';
 // import { git_log_folder } from './src/public/git_log_folder';
-import { git_log_length } from './src/public/git_log_length';
+import { git_commits_length } from './src/public/git_commits_length';
 import { lg } from './src/util/pr_lg';
 // import { git_log } from './src/public/git_log';
 // import { git_log_commit } from './src/public/git_log_commit';
@@ -51,6 +51,6 @@ import { lg } from './src/util/pr_lg';
     // const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10});
     // lg('log_files', log_folder);
 
-    const log_length = await git_log_length('./');
-    lg('log_commit_length', log_length);
+    const commits_length = await git_commits_length('./');
+    lg('log_commit_length', commits_length);
 })()
