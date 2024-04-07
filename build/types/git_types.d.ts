@@ -102,10 +102,11 @@ export type GitStash = {
     sha: string;
     message: string;
 };
-export type GitUserCommitLength = {
+export type GitRepoUserCommitCount = {
     authorName: string;
     commits: number;
 };
+export type GitRepoFilePath = string;
 export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -115,5 +116,6 @@ export type GitUserStats = GitUserStat[];
 export type GitUsers = GitUser[];
 export type GitConfigs = GitConfig[];
 export type GitStashes = GitStash[];
-export type GitUsersCommitLength = GitUserCommitLength[];
+export type GitRepoUsersCommitCount = GitRepoUserCommitCount[];
+export type GitRepoFilePaths = GitRepoFilePath[];
 export {};

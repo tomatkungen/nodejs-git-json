@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_log_commits_length = void 0;
+exports.git_repo_commits_count = void 0;
 const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
-const git_log_commits_length = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
+const git_repo_commits_count = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const revwalk = repo.createRevWalk();
     revwalk.pushHead();
@@ -28,4 +28,4 @@ const git_log_commits_length = (...args_1) => __awaiter(void 0, [...args_1], voi
     }
     return count;
 });
-exports.git_log_commits_length = git_log_commits_length;
+exports.git_repo_commits_count = git_repo_commits_count;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_users_commit_length = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -104,10 +104,14 @@ const pr_repo = (repo) => {
     (0, exports.lg)();
 };
 exports.pr_repo = pr_repo;
-const pr_users_commit_length = (gitUsersCommitLength) => {
+const pr_repo_users_commit_count = (gitUsersCommitLength) => {
     (0, exports.lg)((0, exports.cF)(`${gitUsersCommitLength.commits}`.padStart(6, ' '), 'cfMAGENTA'), ':', (0, exports.cF)(`${gitUsersCommitLength.authorName}`, 'cfGREEN'));
 };
-exports.pr_users_commit_length = pr_users_commit_length;
+exports.pr_repo_users_commit_count = pr_repo_users_commit_count;
+const pr_repo_files = (gitRepoFilePath) => {
+    (0, exports.lg)(gitRepoFilePath);
+};
+exports.pr_repo_files = pr_repo_files;
 const sR = (str, len = 20, max = 5, prDiff = false) => {
     const diff = Math.max(max, (len - str.length));
     prDiff && (0, exports.lg)('diff', max, len, str.length, (len - str.length));

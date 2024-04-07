@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_users_commit_length = void 0;
+exports.git_repo_users_commit_count = void 0;
 const child_process_1 = require("child_process");
 const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
 const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
-const git_users_commit_length = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
+const git_repo_users_commit_count = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const stdout = yield exec(repo.workdir(), 'git', '--no-pager', 'shortlog', '-n', '-s');
     if (stdout === '')
@@ -24,18 +24,18 @@ const git_users_commit_length = (...args_1) => __awaiter(void 0, [...args_1], vo
     const lines = stdout.trim().split('\n');
     if (lines.length === 0)
         return [];
-    const gitUsersCommitLength = [];
+    const gitRepoUsersCommitCount = [];
     lines.forEach((line, index) => {
         (0, pr_config_1.isStdPrgOut)(config) && (0, pr_lg_prg_1.pr_lg_prg)(lines.length, index + 1, 'Users Commit Length');
-        const gitUserCommitLength = getGitUsersCommitLength(line);
-        if (!gitUserCommitLength)
+        const gitUserCommitCount = getGitUsersCommitLength(line);
+        if (!gitUserCommitCount)
             return;
-        gitUsersCommitLength.push(gitUserCommitLength);
-        (0, pr_config_1.isStdOut)(config) && (0, pr_lg_1.pr_users_commit_length)(gitUsersCommitLength[gitUsersCommitLength.length - 1]);
+        gitRepoUsersCommitCount.push(gitUserCommitCount);
+        (0, pr_config_1.isStdOut)(config) && (0, pr_lg_1.pr_repo_users_commit_count)(gitRepoUsersCommitCount[gitRepoUsersCommitCount.length - 1]);
     });
-    return gitUsersCommitLength;
+    return gitRepoUsersCommitCount;
 });
-exports.git_users_commit_length = git_users_commit_length;
+exports.git_repo_users_commit_count = git_repo_users_commit_count;
 const getGitUsersCommitLength = (line) => {
     if (line === '')
         return null;

@@ -8,6 +8,7 @@ import { git_log_pagination } from './public/git_log_pagination';
 import { git_log_short } from './public/git_log_short';
 import { git_reference } from './public/git_reference';
 import { git_repo_commits_count } from './public/git_repo_commits_count';
+import { git_repo_files } from './public/git_repo_files';
 import { git_repo_files_count } from './public/git_repo_files_count';
 import { git_repo_users_commit_count } from './public/git_repo_users_commit_count';
 import { git_stash } from './public/git_stash';
@@ -31,6 +32,7 @@ export {
     git_repo_commits_count,
     git_repo_users_commit_count,
     git_repo_files_count,
+    git_repo_files
 };
 
 (() => {
