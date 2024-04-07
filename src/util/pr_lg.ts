@@ -9,7 +9,8 @@ import {
     Gitstatus,
     GitUser,
     GitCommitHunk,
-    GitUserCommitLength
+    GitRepoUserCommitCount,
+    GitRepoFilePath
 } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
@@ -134,8 +135,12 @@ export const pr_repo = (repo: Repository) => {
     lg();
 }
 
-export const pr_users_commit_length = (gitUsersCommitLength: GitUserCommitLength) => {
+export const pr_repo_users_commit_count = (gitUsersCommitLength: GitRepoUserCommitCount) => {
     lg(cF(`${gitUsersCommitLength.commits}`.padStart(6,' '), 'cfMAGENTA'), ':', cF(`${gitUsersCommitLength.authorName}`, 'cfGREEN'));
+}
+
+export const pr_repo_files = (gitRepoFilePath: GitRepoFilePath) => {
+    lg(gitRepoFilePath);
 }
 
 // fill Space to the right

@@ -4,7 +4,8 @@
 // import { git_log_file } from './src/public/git_log_file';
 // import { git_log_folder } from './src/public/git_log_folder';
 // import { git_repo_commits_count } from './src/public/git_repo_commits_count';
-import { git_repo_files_count } from './src/public/git_repo_files_count';
+import { git_repo_files } from './src/public/git_repo_files';
+// import { git_repo_files_count } from './src/public/git_repo_files_count';
 // import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
 import { lg } from './src/util/pr_lg';
 // import { git_log } from './src/public/git_log';
@@ -59,6 +60,9 @@ import { lg } from './src/util/pr_lg';
     // const repo_users_commit_count = await git_repo_users_commit_count('./');
     // lg('repo_users_commit_length', repo_users_commit_count);
 
-    const repo_files_length = await git_repo_files_count('./../material-ui');
-    lg('repo_files_length', repo_files_length);
+    // const repo_files_length = await git_repo_files_count('./');
+    // lg('repo_files_length', repo_files_length);
+
+    const repo_files = await git_repo_files('./')
+    lg('repo_files', repo_files);
 })()

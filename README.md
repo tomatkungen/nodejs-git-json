@@ -44,10 +44,11 @@ yarn add nodejs-git-json
     git_log_file(path: string = './', filePath: string, config: Config = CONFIG): Promise<GitLogs>
     git_log_folder(path: string = './', folderPath: string, gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs>
     
-    // Statistics
+    // Repo
     git_repo_commits_count(path: string = './', config: Config = CONFIG): Promise<number>
-    git_repo_users_commit_count(path: string = './', config: Config = CONFIG): Promise<GitUsersCommitLength>
+    git_repo_users_commit_count(path: string = './', config: Config = CONFIG): Promise<GitRepoUsersCommitCount>
     git_repo_files_count(path: string = './', config: Config = CONFIG): Promise<number>
+    git_repo_files(path: string = './', config: Config = CONFIG): Promise<GitRepoFilePaths>
 
     // @path string - Relative or absolute path for folder where git repository exist
     
@@ -90,7 +91,8 @@ import {
     git_log_folder,
     git_repo_commits_count,
     git_repo_users_commit_count,
-    git_repo_files_count
+    git_repo_files_count,
+    git_repo_files
 } from 'nodejs-git-json';
 
 (async () => {
@@ -105,10 +107,11 @@ import {
     const log_pagination = await git_log_pagination('/my-path/git/git-nodejs-git-json/', { currentPage: 1, commitsPerPage: 20 });
     const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { sinceDate: '2024-02-29', untilDate: '2023-02-28'});
     const log_file  = await git_log_file('/my-path/git/git-nodejs-git-json/', './index.ts');
-    const log_folder = await git_log_folder('./', './build', { currentPage: 1, commitsPerPage: 10})
-    const repo_commits_count = await git_repo_commits_count('./')
-    const repo_users_commit_count = await git_repo_users_commit_count('./');
-    const repo_files_count = await git_repo_files_count('./');
+    const log_folder = await git_log_folder('./my-path/git/git-nodejs-git-json/', './build', { currentPage: 1, commitsPerPage: 10})
+    const repo_commits_count = await git_repo_commits_count('./my-path/git/git-nodejs-git-json/')
+    const repo_users_commit_count = await git_repo_users_commit_count('./my-path/git/git-nodejs-git-json/');
+    const repo_files_count = await git_repo_files_count('./my-path/git/git-nodejs-git-json/');
+    const repo_files = await git_repo_files('./my-path/git/git-nodejs-git-json/')
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -154,6 +157,9 @@ import {
 
     // log json object equal to "git ls-files | wc -l"
     console.log(repo_files_count);
+
+    // log json object equal to "git ls-files"
+    console.log(repo_files);
 })()
 ```
 
@@ -409,14 +415,23 @@ GitLog = {
 }
 ```
 
-#### GitUsersCommitLength
+#### GitRepoUsersCommitCount
 
 ```typescript
-GitUsersCommitLength = [
+GitRepoUsersCommitCount = [
     {
+        // User signature author name
         authorName: string;
+        // User commits 
         commits: number;
     }
     ...
 ]
+```
+
+#### GitRepoFilePaths
+
+```typescript
+// Repo file paths
+GitRepoFilePaths = string[]
 ```

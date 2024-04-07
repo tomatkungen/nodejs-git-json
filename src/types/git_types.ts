@@ -126,10 +126,12 @@ export type GitStash = {
     message: string;
 }
 
-export type GitUserCommitLength = {
+export type GitRepoUserCommitCount = {
     authorName: string;
     commits: number;
 }
+
+export type GitRepoFilePath = string;
 
 export type GitLogsShort = GitLogShort[]
 export type GitLogs = GitLog[];
@@ -140,7 +142,8 @@ export type GitUserStats = GitUserStat[];
 export type GitUsers = GitUser[];
 export type GitConfigs = GitConfig[];
 export type GitStashes = GitStash[];
-export type GitUsersCommitLength = GitUserCommitLength[];
+export type GitRepoUsersCommitCount = GitRepoUserCommitCount[];
+export type GitRepoFilePaths = GitRepoFilePath[]
 
 
 // user
@@ -149,6 +152,6 @@ export type GitUsersCommitLength = GitUserCommitLength[];
 // git log --author="Tomatkungen" --oneline --shortstat
 
 // repo stats
-// Total number of files: 2,053
+// Total number of files: 2,053 done
 // Total number of lines: 63,132
 // Total number of commits: 4,330 done
