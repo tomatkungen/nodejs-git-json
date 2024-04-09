@@ -49,6 +49,7 @@ yarn add nodejs-git-json
     git_repo_users_commit_count(path: string = './', config: Config = CONFIG): Promise<GitRepoUsersCommitCount>
     git_repo_files_count(path: string = './', config: Config = CONFIG): Promise<number>
     git_repo_files(path: string = './', config: Config = CONFIG): Promise<GitRepoFilePaths>
+    git_repo_statistics(path: string = './', config: Config = CONFIG): Promise<GitRepoStatistics>
 
     // @path string - Relative or absolute path for folder where git repository exist
     
@@ -92,7 +93,8 @@ import {
     git_repo_commits_count,
     git_repo_users_commit_count,
     git_repo_files_count,
-    git_repo_files
+    git_repo_files,
+    git_repo_statistics
 } from 'nodejs-git-json';
 
 (async () => {
@@ -111,7 +113,8 @@ import {
     const repo_commits_count = await git_repo_commits_count('./my-path/git/git-nodejs-git-json/')
     const repo_users_commit_count = await git_repo_users_commit_count('./my-path/git/git-nodejs-git-json/');
     const repo_files_count = await git_repo_files_count('./my-path/git/git-nodejs-git-json/');
-    const repo_files = await git_repo_files('./my-path/git/git-nodejs-git-json/')
+    const repo_files = await git_repo_files('./my-path/git/git-nodejs-git-json/');
+    const repo_statistics = await git_repo_statistics('./my-path/git/git-nodejs-git-json/');
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -160,6 +163,9 @@ import {
 
     // log json object equal to "git ls-files"
     console.log(repo_files);
+
+    // log json object equal to "git-sizer -j"
+    console.log(repo_statistics);
 })()
 ```
 
@@ -434,4 +440,38 @@ GitRepoUsersCommitCount = [
 ```typescript
 // Repo file paths
 GitRepoFilePaths = string[]
+```
+
+#### GitRepoStatistics
+
+```typescript
+// Repo Statistics same as https://github.com/github/git-sizer
+GitRepoStatistics = {
+    // Count repositorys unqiue objects
+    repositorySize: {
+        commits: { count: number; size: number; },
+        trees: { count: number; size: number; entries: number; },
+        blobs: { count: number; size: number; },
+        annotatedTags: { count: number; },
+        references: { count: number; }
+    };
+    // Count max Objects
+    biggestObjects: {
+        commits: { maxSize: number; maxParents: number; };
+        trees: { maxEntries: number; },
+        blobs: { maxSize: number; }
+    };
+    // Max depth graph
+    historyStructure: { maxDepth: number; maxTagDepth: number; };
+    // Biggest commit   
+    biggestCheckouts: {
+        numDirectories: number;
+        maxPathDepth: number;
+        maxPathLength: number;
+        numFiles: number;
+        totalFileSize: number;
+        numSymlinks: number;
+        numSubmodules: number;
+    }
+}
 ```

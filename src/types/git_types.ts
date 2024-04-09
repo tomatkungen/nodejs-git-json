@@ -68,15 +68,15 @@ export type GitCommitLine = {
     oldLineno: number;
     newLineno: number;
     type:
-        'CONTEXT' |
-        'ADDITION' |
-        'DELETION' |
-        'CONTEXT_EOFNL' |
-        'ADD_EOFNL' |
-        'DEL_EOFNL' |
-        'FILE_HDR' |
-        'HUNK_HDR' |
-        'BINARY';
+    'CONTEXT' |
+    'ADDITION' |
+    'DELETION' |
+    'CONTEXT_EOFNL' |
+    'ADD_EOFNL' |
+    'DEL_EOFNL' |
+    'FILE_HDR' |
+    'HUNK_HDR' |
+    'BINARY';
     diffType: '+' | '-' | '';
     content: string;
 }
@@ -133,6 +133,31 @@ export type GitRepoUserCommitCount = {
 
 export type GitRepoFilePath = string;
 
+export type GitRepoStatistic = {
+    repositorySize: {
+        commits: { count: number; size: number; },
+        trees: { count: number; size: number; entries: number; },
+        blobs: { count: number; size: number; },
+        annotatedTags: { count: number; },
+        references: { count: number; }
+    };
+    biggestObjects: {
+        commits: { maxSize: number; maxParents: number; };
+        trees: { maxEntries: number; },
+        blobs: { maxSize: number; }
+    };
+    historyStructure: { maxDepth: number; maxTagDepth: number; };
+    biggestCheckouts: {
+        numDirectories: number;
+        maxPathDepth: number;
+        maxPathLength: number;
+        numFiles: number;
+        totalFileSize: number;
+        numSymlinks: number;
+        numSubmodules: number;
+    }
+}
+
 export type GitLogsShort = GitLogShort[]
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -143,15 +168,7 @@ export type GitUsers = GitUser[];
 export type GitConfigs = GitConfig[];
 export type GitStashes = GitStash[];
 export type GitRepoUsersCommitCount = GitRepoUserCommitCount[];
-export type GitRepoFilePaths = GitRepoFilePath[]
+export type GitRepoFilePaths = GitRepoFilePath[];
+export type GitRepoStatistics = GitRepoStatistic;
 
 
-// user
-// git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
-
-// git log --author="Tomatkungen" --oneline --shortstat
-
-// repo stats
-// Total number of files: 2,053 done
-// Total number of lines: 63,132
-// Total number of commits: 4,330 done
