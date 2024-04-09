@@ -107,6 +107,54 @@ export type GitRepoUserCommitCount = {
     commits: number;
 };
 export type GitRepoFilePath = string;
+export type GitRepoStatistic = {
+    repositorySize: {
+        commits: {
+            count: number;
+            size: number;
+        };
+        trees: {
+            count: number;
+            size: number;
+            entries: number;
+        };
+        blobs: {
+            count: number;
+            size: number;
+        };
+        annotatedTags: {
+            count: number;
+        };
+        references: {
+            count: number;
+        };
+    };
+    biggestObjects: {
+        commits: {
+            maxSize: number;
+            maxParents: number;
+        };
+        trees: {
+            maxEntries: number;
+        };
+        blobs: {
+            maxSize: number;
+        };
+    };
+    historyStructure: {
+        maxDepth: number;
+        maxTagDepth: number;
+    };
+    biggestCheckouts: {
+        numDirectories: number;
+        maxPathDepth: number;
+        maxPathLength: number;
+        numFiles: number;
+        totalFileSize: number;
+        numSymlinks: number;
+        numSubmodules: number;
+    };
+};
 export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -118,4 +166,5 @@ export type GitConfigs = GitConfig[];
 export type GitStashes = GitStash[];
 export type GitRepoUsersCommitCount = GitRepoUserCommitCount[];
 export type GitRepoFilePaths = GitRepoFilePath[];
+export type GitRepoStatistics = GitRepoStatistic;
 export {};

@@ -14,4 +14,5 @@ import { git_repo_users_commit_count } from './public/git_repo_users_commit_coun
 import { git_stash } from './public/git_stash';
 import { git_status } from './public/git_status';
 import { git_users } from './public/git_users';
-export { git_configs, git_log_commit, git_log_pagination, git_log_short, git_log, git_reference, git_stash, git_status, git_users, git_log_dates, git_log_file, git_log_folder, git_repo_commits_count, git_repo_users_commit_count, git_repo_files_count, git_repo_files };
+import { git_repo_statistics } from './public/git_repo_statistics';
+export { git_configs, git_log_commit, git_log_pagination, git_log_short, git_log, git_reference, git_stash, git_status, git_users, git_log_dates, git_log_file, git_log_folder, git_repo_commits_count, git_repo_users_commit_count, git_repo_files_count, git_repo_files, git_repo_statistics };

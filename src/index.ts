@@ -14,6 +14,7 @@ import { git_repo_users_commit_count } from './public/git_repo_users_commit_coun
 import { git_stash } from './public/git_stash';
 import { git_status } from './public/git_status';
 import { git_users } from './public/git_users';
+import { git_repo_statistics } from './public/git_repo_statistics';
 import { lg } from './util/pr_lg';
 
 export {
@@ -32,7 +33,8 @@ export {
     git_repo_commits_count,
     git_repo_users_commit_count,
     git_repo_files_count,
-    git_repo_files
+    git_repo_files,
+    git_repo_statistics
 };
 
 (() => {
