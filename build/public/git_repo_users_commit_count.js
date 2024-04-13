@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_repo_users_commit_count = void 0;
-const child_process_1 = require("child_process");
 const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
-const pr_lg_prg_1 = require("../util/pr_lg_prg");
 const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
+const pr_lg_prg_1 = require("../util/pr_lg_prg");
+const git_exec_1 = require("./../private/git_exec");
 const git_repo_users_commit_count = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
-    const stdout = yield exec(repo.workdir(), 'git', '--no-pager', 'shortlog', '-n', '-s');
+    const stdout = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', '--no-pager', 'shortlog', '-n', '-s');
     if (stdout === '')
         return [];
     const lines = stdout.trim().split('\n');
@@ -52,21 +52,4 @@ const getGitUsersCommitLength = (line) => {
         authorName,
         commits: parseInt(commits, 10)
     };
-};
-const exec = (workdir, ...command) => {
-    let p = (0, child_process_1.spawn)(command[0], command.slice(1), { cwd: workdir, stdio: ['inherit', 'pipe', 'pipe'] });
-    return new Promise((resolve, reject) => {
-        const stdOut = [];
-        p.stdout.on("data", (res) => {
-            stdOut.push(res.toString());
-        });
-        p.stderr.on("data", () => {
-            reject('');
-        });
-        p.on('close', () => {
-            if (stdOut.length > 0)
-                resolve(stdOut.join(''));
-            resolve('');
-        });
-    });
 };

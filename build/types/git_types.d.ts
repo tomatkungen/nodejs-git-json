@@ -155,6 +155,11 @@ export type GitRepoStatistic = {
         numSubmodules: number;
     };
 };
+export type GitRepoGrep = {
+    filePath: string;
+    lineno: string;
+    line: string;
+};
 export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -167,4 +172,5 @@ export type GitStashes = GitStash[];
 export type GitRepoUsersCommitCount = GitRepoUserCommitCount[];
 export type GitRepoFilePaths = GitRepoFilePath[];
 export type GitRepoStatistics = GitRepoStatistic;
+export type GitRepoGreps = GitRepoGrep[];
 export {};

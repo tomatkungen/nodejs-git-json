@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_repo_grep = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -112,6 +112,10 @@ const pr_repo_files = (gitRepoFilePath) => {
     (0, exports.lg)(gitRepoFilePath);
 };
 exports.pr_repo_files = pr_repo_files;
+const pr_repo_grep = (gitRepoGrep, pattern) => {
+    (0, exports.lg)((0, exports.cF)(`${gitRepoGrep.filePath}`, 'cfCYAN'), (0, exports.cF)(`${gitRepoGrep.lineno.padStart(5, ' ')}:`, 'cfGREEN'), gitRepoGrep.line.replace(pattern, (0, exports.cF)(`${pattern}`, 'cfYELLOW')));
+};
+exports.pr_repo_grep = pr_repo_grep;
 const sR = (str, len = 20, max = 5, prDiff = false) => {
     const diff = Math.max(max, (len - str.length));
     prDiff && (0, exports.lg)('diff', max, len, str.length, (len - str.length));
