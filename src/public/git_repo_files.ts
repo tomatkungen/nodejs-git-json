@@ -15,6 +15,15 @@ export const git_repo_files = async (path: string = './', config: Config = CONFI
     // Branch latest commit
     const commit = await git_commit_branch(repo);
 
+    /*
+    // use this when type definition is supported
+    // const treess: any = await commit.getTree();
+    // const paths = await treess.getAllFilepaths();
+    // console.log('getAllFilepaths', paths, paths.length);
+
+    // return paths;
+    */
+
     // Get Trees
     const trees = await git_trees(commit);
 

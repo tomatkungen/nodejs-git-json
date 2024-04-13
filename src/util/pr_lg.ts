@@ -10,7 +10,8 @@ import {
     GitUser,
     GitCommitHunk,
     GitRepoUserCommitCount,
-    GitRepoFilePath
+    GitRepoFilePath,
+    GitRepoGrep
 } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
@@ -141,6 +142,14 @@ export const pr_repo_users_commit_count = (gitUsersCommitLength: GitRepoUserComm
 
 export const pr_repo_files = (gitRepoFilePath: GitRepoFilePath) => {
     lg(gitRepoFilePath);
+}
+
+export const pr_repo_grep = (gitRepoGrep: GitRepoGrep, pattern: string) => {
+    lg(
+        cF(`${gitRepoGrep.filePath}`, 'cfCYAN'),
+        cF(`${gitRepoGrep.lineno.padStart(5, ' ')}:`, 'cfGREEN'),
+        gitRepoGrep.line.replace(pattern, cF(`${pattern}`, 'cfYELLOW')),
+    );
 }
 
 // fill Space to the right

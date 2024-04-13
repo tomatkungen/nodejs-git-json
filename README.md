@@ -50,7 +50,8 @@ yarn add nodejs-git-json
     git_repo_files_count(path: string = './', config: Config = CONFIG): Promise<number>
     git_repo_files(path: string = './', config: Config = CONFIG): Promise<GitRepoFilePaths>
     git_repo_statistics(path: string = './', config: Config = CONFIG): Promise<GitRepoStatistics>
-
+    git_repo_grep(path: string = './', pattern: string, pathspec?: string, config: Config = CONFIG): Promise<GitRepoGreps>
+    
     // @path string - Relative or absolute path for folder where git repository exist
     
     // @sha string - commit sha
@@ -70,6 +71,10 @@ yarn add nodejs-git-json
     // @filePath - relative file path
 
     // @folderPath - relative folder path
+
+    // @pattern - search word
+
+    // @pathspec - file example "*.ts"
 ```
 
 ## Usage
@@ -115,6 +120,7 @@ import {
     const repo_files_count = await git_repo_files_count('./my-path/git/git-nodejs-git-json/');
     const repo_files = await git_repo_files('./my-path/git/git-nodejs-git-json/');
     const repo_statistics = await git_repo_statistics('./my-path/git/git-nodejs-git-json/');
+    const repo_grep = await git_repo_grep('./my-path/git/git-nodejs-git-json/', 'Statistics', '*.js', {stdOut: true});
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -166,6 +172,9 @@ import {
 
     // log json object equal to "git-sizer -j"
     console.log(repo_statistics);
+
+    // log json object equal to 'git grep --line-number -I "Statistics" -- "*.js"'
+    console.log(repo_grep);
 })()
 ```
 
@@ -474,4 +483,20 @@ GitRepoStatistics = {
         numSubmodules: number;
     }
 }
+```
+
+#### GitRepoGreps
+
+```typescript
+GitRepoGreps = [
+    {
+        // Repo file path
+        filePath: string;
+        // Repo file line number
+        lineno: string;
+        // Repo file line
+        line: string;
+    }
+    ...
+]
 ```

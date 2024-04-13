@@ -1,10 +1,10 @@
-import { spawn } from "child_process";
 import { git_repo } from "../private/git_repo";
 import { CONFIG, Config } from "../types/config.types";
 import { GitRepoUserCommitCount, GitRepoUsersCommitCount } from "../types/git_types";
-import { pr_lg_prg } from "../util/pr_lg_prg";
 import { isStdOut, isStdPrgOut } from "../util/pr_config";
 import { pr_repo_users_commit_count } from "../util/pr_lg";
+import { pr_lg_prg } from "../util/pr_lg_prg";
+import { git_exec } from "./../private/git_exec";
 
 export const git_repo_users_commit_count = async (path: string = './', config: Config = CONFIG): Promise<GitRepoUsersCommitCount> => {
 
@@ -12,7 +12,7 @@ export const git_repo_users_commit_count = async (path: string = './', config: C
     const repo = await git_repo(path, config);
 
     // Run git shortlog in work dir
-    const stdout = await exec(repo.workdir(), 'git', '--no-pager', 'shortlog', '-n', '-s');
+    const stdout = await git_exec(repo.workdir(), 'git', '--no-pager', 'shortlog', '-n', '-s');
 
     // Empty shortlog
     if (stdout === '')
@@ -65,25 +65,4 @@ const getGitUsersCommitLength = (line: string): GitRepoUserCommitCount | null =>
         authorName,
         commits: parseInt(commits, 10)
     }
-}
-
-const exec = (workdir: string, ...command: string[]): Promise<string> => {
-    let p = spawn(command[0], command.slice(1), { cwd: workdir, stdio: ['inherit', 'pipe', 'pipe'] });
-    return new Promise((resolve, reject) => {
-        const stdOut: string[] = [];
-
-        p.stdout.on("data", (res) => {
-            stdOut.push(res.toString());
-        });
-        p.stderr.on("data", () => {
-            reject('');
-        });
-        p.on('close', () => {
-            if (stdOut.length > 0)
-                resolve(stdOut.join(''));
-
-            resolve('');
-        });
-
-    });
 }
