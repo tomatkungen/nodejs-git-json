@@ -30,12 +30,12 @@ export const git_repo_grep = async (path: string = './', pattern: string, pathsp
     const gitRepoGreps: GitRepoGreps = [];
 
     for (const [index, line] of lines.entries()) {
-        isStdPrgOut(config) && pr_lg_prg(lines.length, index + 1, 'Commit');
+        isStdPrgOut(config) && pr_lg_prg(lines.length, index + 1, 'Repo grep');
 
         // Get git repo grep or null
         const gitRepoGrep = getGitRepoGreps(line);
 
-        // git repo grep not valid
+        // Git repo grep not valid
         if (!gitRepoGrep)
             continue;
 

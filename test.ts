@@ -5,7 +5,8 @@
 // import { git_log_folder } from './src/public/git_log_folder';
 // import { git_repo_commits_count } from './src/public/git_repo_commits_count';
 // import { git_repo_files } from './src/public/git_repo_files';
-import { git_repo_grep } from './src/public/git_repo_grep';
+import { git_repo_files_size } from './src/public/git_repo_files_size';
+// import { git_repo_grep } from './src/public/git_repo_grep';
 // import { git_repo_files_count } from './src/public/git_repo_files_count';
 // import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
 // import { git_repo_statistics } from './src/public/git_repo_statistics';
@@ -71,6 +72,9 @@ import { lg } from './src/util/pr_lg';
     // const repo_statistics = await git_repo_statistics('./')
     // lg('repo_statistics', repo_statistics);
 
-    const repo_grep = await git_repo_grep('./', 'true', '*.js', {stdOut: true});
-    lg('repo_grep', repo_grep.length);
+    // const repo_grep = await git_repo_grep('./', 'true', '*.js', {stdOut: true});
+    // lg('repo_grep', repo_grep.length);
+
+    const repo_files_size = await git_repo_files_size('./', {stdOut: true});
+    lg('repo_files_size', repo_files_size);
 })()

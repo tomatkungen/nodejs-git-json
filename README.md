@@ -51,6 +51,7 @@ yarn add nodejs-git-json
     git_repo_files(path: string = './', config: Config = CONFIG): Promise<GitRepoFilePaths>
     git_repo_statistics(path: string = './', config: Config = CONFIG): Promise<GitRepoStatistics>
     git_repo_grep(path: string = './', pattern: string, pathspec?: string, config: Config = CONFIG): Promise<GitRepoGreps>
+    git_repo_files_size(path: string = './', config: Config = CONFIG): Promise<GitRepoFilesSize>
     
     // @path string - Relative or absolute path for folder where git repository exist
     
@@ -121,6 +122,7 @@ import {
     const repo_files = await git_repo_files('./my-path/git/git-nodejs-git-json/');
     const repo_statistics = await git_repo_statistics('./my-path/git/git-nodejs-git-json/');
     const repo_grep = await git_repo_grep('./my-path/git/git-nodejs-git-json/', 'Statistics', '*.js', {stdOut: true});
+    const repo_files_size = await git_repo_files_size('./');
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -175,6 +177,9 @@ import {
 
     // log json object equal to 'git grep --line-number -I "Statistics" -- "*.js"'
     console.log(repo_grep);
+
+    // log json object equal to 'git ls-tree -r --long HEAD'
+    console.log(repo_files_size);
 })()
 ```
 
@@ -496,6 +501,20 @@ GitRepoGreps = [
         lineno: string;
         // Repo file line
         line: string;
+    }
+    ...
+]
+```
+
+#### GitRepoFilesSize
+
+```typescript
+GitRepoFilesSize = [
+    {
+        // Repo file path
+        filePath: string;
+        // Repo file size in bytes
+        size: string;
     }
     ...
 ]

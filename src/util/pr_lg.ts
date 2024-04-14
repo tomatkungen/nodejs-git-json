@@ -1,17 +1,18 @@
 import { Repository } from "nodegit";
-import { 
+import {
     GitCommitFile,
+    GitCommitHunk,
     GitConfig,
     GitLog,
     GitLogShort,
     GitRef,
+    GitRepoFilePath,
+    GitRepoFileSize,
+    GitRepoGrep,
+    GitRepoUserCommitCount,
     GitStash,
     Gitstatus,
-    GitUser,
-    GitCommitHunk,
-    GitRepoUserCommitCount,
-    GitRepoFilePath,
-    GitRepoGrep
+    GitUser
 } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
@@ -149,6 +150,13 @@ export const pr_repo_grep = (gitRepoGrep: GitRepoGrep, pattern: string) => {
         cF(`${gitRepoGrep.filePath}`, 'cfCYAN'),
         cF(`${gitRepoGrep.lineno.padStart(5, ' ')}:`, 'cfGREEN'),
         gitRepoGrep.line.replace(pattern, cF(`${pattern}`, 'cfYELLOW')),
+    );
+}
+
+export const pr_repo_file_size = (gitRepoFileSize: GitRepoFileSize) => {
+    lg(
+        cF(`${gitRepoFileSize.size.padStart(8, ' ')}`, 'cfCYAN'),
+        cF(`${gitRepoFileSize.filePath}`, 'cfGREEN'),
     );
 }
 
