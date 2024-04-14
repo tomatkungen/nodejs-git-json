@@ -160,6 +160,10 @@ export type GitRepoGrep = {
     lineno: string;
     line: string;
 };
+export type GitRepoFileSize = {
+    filePath: string;
+    size: string;
+};
 export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -173,4 +177,5 @@ export type GitRepoUsersCommitCount = GitRepoUserCommitCount[];
 export type GitRepoFilePaths = GitRepoFilePath[];
 export type GitRepoStatistics = GitRepoStatistic;
 export type GitRepoGreps = GitRepoGrep[];
+export type GitRepoFilesSize = GitRepoFileSize[];
 export {};

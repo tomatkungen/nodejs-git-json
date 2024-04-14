@@ -9,53 +9,45 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_repo_grep = void 0;
+exports.git_repo_files_size = void 0;
 const git_exec_1 = require("../private/git_exec");
 const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
 const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
-const git_repo_grep = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', pattern, pathspec, config = config_types_1.CONFIG) {
+const git_repo_files_size = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
-    const stdout = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', ...['grep', '--line-number', '-I', `${pattern}`, ...(pathspec ? ['--', pathspec] : [])]);
+    const stdout = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'ls-tree', '-r', '--long', 'HEAD');
     if (stdout === '')
         return [];
     const lines = stdout.trim().split('\n');
     if (lines.length === 0)
         return [];
-    const gitRepoGreps = [];
+    const gitRepoFilesSize = [];
     for (const [index, line] of lines.entries()) {
         (0, pr_config_1.isStdPrgOut)(config) && (0, pr_lg_prg_1.pr_lg_prg)(lines.length, index + 1, 'Repo grep');
-        const gitRepoGrep = getGitRepoGreps(line);
-        if (!gitRepoGrep)
+        const gitRepoFileSize = getGitRepoFileSize(line);
+        if (!gitRepoFileSize)
             continue;
-        gitRepoGreps.push(gitRepoGrep);
-        (0, pr_config_1.isStdOut)(config) && (0, pr_lg_1.pr_repo_grep)(gitRepoGreps[gitRepoGreps.length - 1], pattern);
+        gitRepoFilesSize.push(gitRepoFileSize);
+        (0, pr_config_1.isStdOut)(config) && (0, pr_lg_1.pr_repo_file_size)(gitRepoFilesSize[gitRepoFilesSize.length - 1]);
     }
-    return gitRepoGreps;
+    return gitRepoFilesSize;
 });
-exports.git_repo_grep = git_repo_grep;
-const getGitRepoGreps = (grepLine) => {
-    if (grepLine === '')
+exports.git_repo_files_size = git_repo_files_size;
+const getGitRepoFileSize = (line) => {
+    if (line === '')
         return null;
-    try {
-        const filePath = grepLine.replace(/\s+/g, ' ').split(':')[0].trim();
-        if (filePath === '')
-            return null;
-        const lineno = grepLine.replace(/\s+/g, ' ').split(':')[1].trim();
-        if (lineno === '')
-            return null;
-        const line = grepLine.replace(`${filePath}:`, '').replace(`${lineno}:`, '');
-        if (line === '')
-            return null;
-        return {
-            filePath,
-            lineno,
-            line
-        };
-    }
-    catch (e) {
+    const gitRepoFileSize = line.replace(/\s+/g, ' ').split(' ');
+    const size = gitRepoFileSize[3].trim();
+    if (size === '')
         return null;
-    }
+    const filePath = gitRepoFileSize[4].trim();
+    if (filePath === '')
+        return null;
+    return {
+        filePath,
+        size
+    };
 };

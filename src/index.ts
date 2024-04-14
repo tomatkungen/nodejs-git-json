@@ -10,12 +10,13 @@ import { git_reference } from './public/git_reference';
 import { git_repo_commits_count } from './public/git_repo_commits_count';
 import { git_repo_files } from './public/git_repo_files';
 import { git_repo_files_count } from './public/git_repo_files_count';
+import { git_repo_files_size } from './public/git_repo_files_size';
+import { git_repo_grep } from './public/git_repo_grep';
+import { git_repo_statistics } from './public/git_repo_statistics';
 import { git_repo_users_commit_count } from './public/git_repo_users_commit_count';
 import { git_stash } from './public/git_stash';
 import { git_status } from './public/git_status';
 import { git_users } from './public/git_users';
-import { git_repo_statistics } from './public/git_repo_statistics';
-import { git_repo_grep } from './public/git_repo_grep';
 import { lg } from './util/pr_lg';
 
 export {
@@ -36,7 +37,8 @@ export {
     git_repo_files_count,
     git_repo_files,
     git_repo_statistics,
-    git_repo_grep
+    git_repo_grep,
+    git_repo_files_size
 };
 
 (() => {
