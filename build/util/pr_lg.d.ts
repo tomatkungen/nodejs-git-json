@@ -1,5 +1,5 @@
 import { Repository } from "nodegit";
-import { GitCommitFile, GitCommitHunk, GitConfig, GitLog, GitLogShort, GitRef, GitRepoFilePath, GitRepoFileSize, GitRepoGrep, GitRepoUserCommitCount, GitStash, Gitstatus, GitUser } from "../types/git_types";
+import { GitCommitFile, GitCommitHunk, GitConfig, GitLog, GitLogShort, GitRef, GitRepoFilePath, GitRepoFileSize, GitRepoGrep, GitRepoUnpack, GitRepoUserCommitCount, GitStash, Gitstatus, GitUser } from "../types/git_types";
 export declare const lg: (...args: any[]) => void;
 export declare const lgN: () => void;
 export declare const pr_log_short: (gitLogShort: GitLogShort) => void;
@@ -17,6 +17,7 @@ export declare const pr_repo_users_commit_count: (gitUsersCommitLength: GitRepoU
 export declare const pr_repo_files: (gitRepoFilePath: GitRepoFilePath) => void;
 export declare const pr_repo_grep: (gitRepoGrep: GitRepoGrep, pattern: string) => void;
 export declare const pr_repo_file_size: (gitRepoFileSize: GitRepoFileSize) => void;
+export declare const pr_repo_unpack: (gitRepoUnpack: GitRepoUnpack) => void;
 type Colors = 'cfBLACK' | 'cfRED' | 'cfGREEN' | 'cfYELLOW' | 'cfBLUE' | 'cfMAGENTA' | 'cfCYAN' | 'cfWHITE' | 'cbRED' | 'cbGREEN' | 'cbYELLOW' | 'cbBLUE' | 'cbMAGENTA' | 'cbCYAN' | 'cbWHITE';
 declare const Colors: {
     [key in Colors]: string;

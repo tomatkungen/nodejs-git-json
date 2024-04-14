@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_repo_files_size = exports.git_repo_grep = exports.git_repo_statistics = exports.git_repo_files = exports.git_repo_files_count = exports.git_repo_users_commit_count = exports.git_repo_commits_count = exports.git_log_folder = exports.git_log_file = exports.git_log_dates = exports.git_users = exports.git_status = exports.git_stash = exports.git_reference = exports.git_log = exports.git_log_short = exports.git_log_pagination = exports.git_log_commit = exports.git_configs = void 0;
+exports.git_repo_unpack = exports.git_repo_files_size = exports.git_repo_grep = exports.git_repo_statistics = exports.git_repo_files = exports.git_repo_files_count = exports.git_repo_users_commit_count = exports.git_repo_commits_count = exports.git_log_folder = exports.git_log_file = exports.git_log_dates = exports.git_users = exports.git_status = exports.git_stash = exports.git_reference = exports.git_log = exports.git_log_short = exports.git_log_pagination = exports.git_log_commit = exports.git_configs = void 0;
 const git_configs_1 = require("./public/git_configs");
 Object.defineProperty(exports, "git_configs", { enumerable: true, get: function () { return git_configs_1.git_configs; } });
 const git_log_1 = require("./public/git_log");
@@ -31,6 +31,8 @@ const git_repo_grep_1 = require("./public/git_repo_grep");
 Object.defineProperty(exports, "git_repo_grep", { enumerable: true, get: function () { return git_repo_grep_1.git_repo_grep; } });
 const git_repo_statistics_1 = require("./public/git_repo_statistics");
 Object.defineProperty(exports, "git_repo_statistics", { enumerable: true, get: function () { return git_repo_statistics_1.git_repo_statistics; } });
+const git_repo_unpack_1 = require("./public/git_repo_unpack");
+Object.defineProperty(exports, "git_repo_unpack", { enumerable: true, get: function () { return git_repo_unpack_1.git_repo_unpack; } });
 const git_repo_users_commit_count_1 = require("./public/git_repo_users_commit_count");
 Object.defineProperty(exports, "git_repo_users_commit_count", { enumerable: true, get: function () { return git_repo_users_commit_count_1.git_repo_users_commit_count; } });
 const git_stash_1 = require("./public/git_stash");

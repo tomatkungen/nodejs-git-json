@@ -52,7 +52,7 @@ yarn add nodejs-git-json
     git_repo_statistics(path: string = './', config: Config = CONFIG): Promise<GitRepoStatistics>
     git_repo_grep(path: string = './', pattern: string, pathspec?: string, config: Config = CONFIG): Promise<GitRepoGreps>
     git_repo_files_size(path: string = './', config: Config = CONFIG): Promise<GitRepoFilesSize>
-    git_rep_unpack(path: string = './', config: Config = CONFIG): Promise<GitRepoUnpack>
+    git_repo_unpack(path: string = './', config: Config = CONFIG): Promise<GitRepoUnpack>
     
     // @path string - Relative or absolute path for folder where git repository exist
     
@@ -104,7 +104,7 @@ import {
     git_repo_statistics,
     repo_grep,
     repo_files_size
-    git_rep_unpack,
+    git_repo_unpack,
 } from 'nodejs-git-json';
 
 (async () => {
@@ -127,7 +127,7 @@ import {
     const repo_statistics = await git_repo_statistics('./my-path/git/git-nodejs-git-json/');
     const repo_grep = await git_repo_grep('./my-path/git/git-nodejs-git-json/', 'Statistics', '*.js', {stdOut: true});
     const repo_files_size = await git_repo_files_size('./');
-    const rep_unpack = await git_rep_unpack('./', {stdOut: true});
+    const repo_unpack = await git_repo_unpack('./', {stdOut: true});
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -187,7 +187,7 @@ import {
     console.log(repo_files_size);
 
     // log json object equal to 'git count-objects --verbose'
-    console.log(rep_unpack);
+    console.log(repo_unpack);
 })()
 ```
 

@@ -13,6 +13,7 @@ import { git_repo_files_count } from './public/git_repo_files_count';
 import { git_repo_files_size } from './public/git_repo_files_size';
 import { git_repo_grep } from './public/git_repo_grep';
 import { git_repo_statistics } from './public/git_repo_statistics';
+import { git_repo_unpack } from './public/git_repo_unpack';
 import { git_repo_users_commit_count } from './public/git_repo_users_commit_count';
 import { git_stash } from './public/git_stash';
 import { git_status } from './public/git_status';
@@ -38,7 +39,8 @@ export {
     git_repo_files,
     git_repo_statistics,
     git_repo_grep,
-    git_repo_files_size
+    git_repo_files_size,
+    git_repo_unpack
 };
 
 (() => {

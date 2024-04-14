@@ -5,7 +5,7 @@ import { GitRepoUnpack } from "../types/git_types";
 import { isStdOut } from "../util/pr_config";
 import { pr_repo_unpack } from "../util/pr_lg";
 
-export const git_rep_unpack = async (path: string = './', config: Config = CONFIG): Promise<GitRepoUnpack> => {
+export const git_repo_unpack = async (path: string = './', config: Config = CONFIG): Promise<GitRepoUnpack> => {
 
     // Get Repo
     const repo = await git_repo(path, config);
