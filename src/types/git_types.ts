@@ -169,6 +169,17 @@ export type GitRepoFileSize = {
     size: string;
 }
 
+export type GitRepoUnpack = {
+    count: number;
+    size: number;
+    'in-pack': number;
+    packs: number;
+    'size-pack': number;
+    'prune-packable': number;
+    garbage: number;
+    'size-garbage': number;
+}
+
 export type GitLogsShort = GitLogShort[]
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
