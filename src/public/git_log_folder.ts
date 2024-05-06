@@ -17,7 +17,7 @@ export const git_log_folder = async (path: string = './', folderPath: string, gi
     // Get Repo
     const repo = await git_repo(path, config);
 
-    const { stdout } = await gitExec(`git --no-pager log --format=%H -- ${folderPath}`, { cwd: repo.workdir() });
+    const { stdout } = await gitExec(`git --no-pager log --format=%H -- ${folderPath}`, { cwd: repo.workdir });
 
     // Empty commits
     if (stdout === '')

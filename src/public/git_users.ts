@@ -1,4 +1,5 @@
-import { Commit, HistoryEventEmitter } from "nodegit/commit";
+import { git_error } from "../private/git_error";
+import { git_exec } from "../private/git_exec";
 import { Config, CONFIG } from "../types/config.types";
 import { GitUsers } from "../types/git_types";
 import { isStdOut, isStdPrgOut } from "../util/pr_config";
@@ -10,75 +11,59 @@ export const git_users = async (path: string = './', config: Config = CONFIG): P
     // Get Repo
     const repo = await git_repo(path, config);
 
-    // Get Branch reference
-    const reference = await repo.getCurrentBranch();
+    //  git log --pretty="%an,%ae,%H"
+    const stdout = await git_exec(repo.workdir, ...['git', 'log', '--pretty=%an,%ae,%H']);
 
-    // Get Branch name from HEAD
-    const branchName = reference.shorthand();
+    if (stdout.includes('fatal:'))
+        throw git_error(`GIT_REPO: ${stdout}`);
 
-    // Main Branch
-    const branch = await repo.getBranchCommit(branchName);
-
-    // Branch History
-    const history = branch.history();
-
-    // Branch commits
-    const commits = await get_commits(history);
+    const lines = stdout.trim().split('\n');
 
     // No commits in repo
-    if (commits.length === 0)
+    if (lines.length === 0)
         return [];
 
     // Store git author for faster search
     let gitAuthor: string[] = []
 
-    const gitUsers = commits.reduce<GitUsers>((prev, commit, index) => {
-        isStdPrgOut(config) && pr_lg_prg(commits.length, index + 1, 'Commit');
+    const gitUsers = lines.reduce<GitUsers>((prev, line, index) => {
+        isStdPrgOut(config) && pr_lg_prg(lines.length, index + 1, 'User Commit');
+
+        const [gitAuthorName, gitAuthorEmail, sha] = line.split(',');
 
         // Already exist
-        const gitAuthorIndex = gitUser(gitAuthor, commit);
-        
+        const gitAuthorIndex = gitUser(gitAuthor, gitAuthorName, gitAuthorEmail);
+
         // Store git author for faster search
-        if (gitAuthorIndex === -1) {
-            gitAuthor.push(commit.author().name() + commit.author().email());
-        }
+        if (gitAuthorIndex === -1)
+            gitAuthor.push(gitAuthorName + gitAuthorEmail);
 
         // Add git user
-        gitUserAdd(gitAuthorIndex, commit, prev);
+        gitUserAdd(gitAuthorIndex, gitAuthorName, gitAuthorEmail, sha, prev);
 
         return prev;
     }, []);
-    
+
     isStdOut(config) && gitUsers.forEach(pr_users);
 
     return gitUsers;
 }
 
-const get_commits = async (history: HistoryEventEmitter): Promise<Commit[]> => {
-    return new Promise((resolve) => {
-        history.on('end', (commits: Commit[]) => {
-            resolve(commits);
-        });
-
-        history.start();
-    });
+const gitUser = (gitAuthor: string[], authorName: string, authorEmail: string): number => {
+    return gitAuthor.indexOf(authorName + authorEmail);
 }
 
-const gitUser = (gitAuthor: string[], commit: Commit): number => {
-    return gitAuthor.indexOf(commit.author().name() + commit.author().email());
-}
-
-const gitUserAdd = (gitAuthorIndex: number, commit: Commit, prev: GitUsers) => {
+const gitUserAdd = (gitAuthorIndex: number, authorName: string, authorEmail: string, sha: string, prev: GitUsers) => {
     if (gitAuthorIndex === -1) {
         prev.push({
-            authorName: commit.author().name(),
-            authorEmail: commit.author().email(),
+            authorName,
+            authorEmail,
             totalCommits: 1,
-            commits: [commit.sha()]
+            commits: [sha]
         })
     } else {
         prev[gitAuthorIndex].totalCommits += 1;
-        prev[gitAuthorIndex].commits.push(commit.sha())
+        prev[gitAuthorIndex].commits.push(sha);
     }
 }
 

@@ -27,7 +27,7 @@ export const git_log_file = async (path: string = './', filePath: string, config
     reWalk.push(commitBranch.id());
 
     const historyEntrys = await reWalk.fileHistoryWalk(
-        relative(repo.workdir(), filePath),
+        relative(repo.workdir, filePath),
         1000
     );
 

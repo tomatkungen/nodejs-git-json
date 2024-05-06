@@ -11,7 +11,7 @@ export const git_repo_files_size = async (path: string = './', config: Config = 
     // Get Repo
     const repo = await git_repo(path, config);
 
-    const stdout = await git_exec(repo.workdir(), 'git', 'ls-tree', '-r', '--long', 'HEAD');
+    const stdout = await git_exec(repo.workdir, 'git', 'ls-tree', '-r', '--long', 'HEAD');
 
     // Empty patterns
     if (stdout === '')

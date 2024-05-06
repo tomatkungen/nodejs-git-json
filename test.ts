@@ -6,7 +6,7 @@
 // import { git_repo_commits_count } from './src/public/git_repo_commits_count';
 // import { git_repo_files } from './src/public/git_repo_files';
 // import { git_repo_files_size } from './src/public/git_repo_files_size';
-import { git_repo_unpack } from './src/public/git_repo_unpack';
+// import { git_repo_unpack } from './src/public/git_repo_unpack';
 // import { git_repo_grep } from './src/public/git_repo_grep';
 // import { git_repo_files_count } from './src/public/git_repo_files_count';
 // import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
@@ -16,14 +16,15 @@ import { lg } from './src/util/pr_lg';
 // import { git_log_commit } from './src/public/git_log_commit';
 // import { git_configs } from './src/public/git_configs';
 // import { git_log_short } from './src/public/git_log_short';
-// import { git_users } from './src/public/git_users';
+import { git_users } from './src/public/git_users';
 // import { git_reference } from './src/public/git_reference';
 // import { git_stash } from './src/public/git_stash';
+// import { git_repo } from './src/private/git_repo';
 
 (async () => {
 
-    // const users = await git_users('./', { stdOut: true, stdPrgOut: true});
-    // lg('users', users);
+    const users = await git_users('./../material-ui', { stdOut: true, stdPrgOut: true});
+    lg('users', users);
 
     // const log = await git_log('./', { stdOut: true, stdPrgOut: false });
     // lg('\nlog', log.length);
@@ -79,6 +80,9 @@ import { lg } from './src/util/pr_lg';
     // const repo_files_size = await git_repo_files_size('./', {stdOut: true});
     // lg('repo_files_size', repo_files_size);
 
-    const repo_unpack = await git_repo_unpack('./', {stdOut: true});
-    lg('rep_unpacks', repo_unpack);
+    // const repo_unpack = await git_repo_unpack('./', {stdOut: true});
+    // lg('rep_unpacks', repo_unpack);
+
+    // const repo = await git_repo('./../material-ui/', { stdOut: true });
+    // lg('repo', repo);
 })()
