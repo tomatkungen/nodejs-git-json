@@ -99,8 +99,8 @@ const pr_log_commit = (gitLog) => {
 };
 exports.pr_log_commit = pr_log_commit;
 const pr_repo = (repo) => {
-    (0, exports.lg)((0, exports.cF)(`Workdir: ${repo.workdir()}`, 'cfMAGENTA'));
-    (0, exports.lg)((0, exports.cF)(`RepoPath: ${repo.path()}`, 'cfMAGENTA'));
+    (0, exports.lg)((0, exports.cF)(`Workdir: ${repo.workdir}`, 'cfMAGENTA'));
+    (0, exports.lg)((0, exports.cF)(`RepoPath: ${repo.path}`, 'cfMAGENTA'));
     (0, exports.lg)();
 };
 exports.pr_repo = pr_repo;
