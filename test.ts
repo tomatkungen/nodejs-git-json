@@ -23,7 +23,7 @@ import { git_users } from './src/public/git_users';
 
 (async () => {
 
-    const users = await git_users('./../material-ui', { stdOut: true, stdPrgOut: true});
+    const users = await git_users('./', { stdOut: true, stdPrgOut: true});
     lg('users', users);
 
     // const log = await git_log('./', { stdOut: true, stdPrgOut: false });
@@ -68,14 +68,14 @@ import { git_users } from './src/public/git_users';
     // const repo_files_length = await git_repo_files_count('./');
     // lg('repo_files_length', repo_files_length);
 
-    // const repo_files = await git_repo_files('./../material-ui')
+    // const repo_files = await git_repo_files('./')
     // lg('repo_files', repo_files.length);
 
     // const repo_statistics = await git_repo_statistics('./')
     // lg('repo_statistics', repo_statistics);
 
     // const repo_grep = await git_repo_grep('./', 'true', '*.js', {stdOut: true});
-    // lg('repo_grep', repo_grep.length);
+    // lg('repo_grep', repo_grep.length, repo_grep);
 
     // const repo_files_size = await git_repo_files_size('./', {stdOut: true});
     // lg('repo_files_size', repo_files_size);
@@ -83,6 +83,6 @@ import { git_users } from './src/public/git_users';
     // const repo_unpack = await git_repo_unpack('./', {stdOut: true});
     // lg('rep_unpacks', repo_unpack);
 
-    // const repo = await git_repo('./../material-ui/', { stdOut: true });
+    // const repo = await git_repo('./', { stdOut: true });
     // lg('repo', repo);
 })()

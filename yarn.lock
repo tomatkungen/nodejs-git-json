@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@axosoft/nan@^2.18.0-gk.2":
-  version "2.18.0-gk.2"
-  resolved "https://registry.yarnpkg.com/@axosoft/nan/-/nan-2.18.0-gk.2.tgz#c43fb54ce6e934e48fae90cc8c52aa539cc7885e"
-  integrity sha512-R85blIk4tODD/tIQ1nezCs4O6RhWzPqB1Ls79fBEfUtZ9Zgq5s2c5mPGmWiS2+wAXaw2YgRhsBfqLFURH9mcPw==
+"@axosoft/nan@^2.20.0-gk.1":
+  version "2.20.0-gk.1"
+  resolved "https://registry.yarnpkg.com/@axosoft/nan/-/nan-2.20.0-gk.1.tgz#79f9de5b012ca7939b9ceebf52da66fe21f08b88"
+  integrity sha512-IHQhM1EddFkgPuLMWvMU/qpNyNaNTlCMTXp79Pb36HJRgV/vai3gxPh0csluVqDyXS4zdqXRiuw1lVs+N12R0g==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -891,12 +891,12 @@ node-gyp@^10.0.1:
     tar "^6.1.2"
     which "^4.0.0"
 
-nodegit@0.28.0-alpha.24:
-  version "0.28.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.28.0-alpha.24.tgz#bfcb14fa6494641a3294af03d3bf6812b8136c74"
-  integrity sha512-8EIKwUE3ioml5m6/p2VPbTjDNsyOrImHbjSSFTVQBZLH4oXKpHhmG8TiaVDEqrOFAG7pAcqpHxAMRlUGlkng+Q==
+nodegit@0.28.0-alpha.28:
+  version "0.28.0-alpha.28"
+  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.28.0-alpha.28.tgz#ce48b343468dcee9cefbbd56c7221815a4d94601"
+  integrity sha512-WoIcs4KnjtI1bd0i3h9ETCbhWIVzQrwiVNppt2ZfHktC2XR3+rO68xBTXWXwzAdILyki92O0NZxCfhlQbx56Dg==
   dependencies:
-    "@axosoft/nan" "^2.18.0-gk.2"
+    "@axosoft/nan" "^2.20.0-gk.1"
     "@mapbox/node-pre-gyp" "^1.0.8"
     fs-extra "^7.0.0"
     got "^11.8.6"
@@ -1131,7 +1131,16 @@ ssri@^10.0.0:
   dependencies:
     minipass "^7.0.3"
 
-"string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+"string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -1156,7 +1165,14 @@ string_decoder@^1.1.1:
   dependencies:
     safe-buffer "~5.2.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==

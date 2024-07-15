@@ -12,7 +12,7 @@ export const git_users = async (path: string = './', config: Config = CONFIG): P
     const repo = await git_repo(path, config);
 
     //  git log --pretty="%an,%ae,%H"
-    const stdout = await git_exec(repo.workdir, ...['git', 'log', '--pretty=%an,%ae,%H']);
+    const stdout = await git_exec(repo.workdir(), ...['git', 'log', '--pretty=%an,%ae,%H']);
 
     if (stdout.includes('fatal:'))
         throw git_error(`GIT_REPO: ${stdout}`);

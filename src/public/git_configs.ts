@@ -14,7 +14,7 @@ export const git_configs = async (path: string = './', config: Config = CONFIG):
     const repo = await git_repo(path, config);
 
     // Run git config in work dir
-    const { stdout } = await gitExec('git config --list --show-scope --show-origin', { cwd: repo.workdir });
+    const { stdout } = await gitExec('git config --list --show-scope --show-origin', { cwd: repo.workdir() });
 
     // Empty config
     if (stdout === '')

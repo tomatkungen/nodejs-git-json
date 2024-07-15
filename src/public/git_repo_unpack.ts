@@ -11,7 +11,7 @@ export const git_repo_unpack = async (path: string = './', config: Config = CONF
     const repo = await git_repo(path, config);
 
     // Exec count - objects
-    const stdout = await git_exec(repo.workdir, 'git', 'count-objects', '--verbose');
+    const stdout = await git_exec(repo.workdir(), 'git', 'count-objects', '--verbose');
 
     const gitRepoUnpack: GitRepoUnpack = {
         count: 0,

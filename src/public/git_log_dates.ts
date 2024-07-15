@@ -18,7 +18,7 @@ export const git_log_dates = async (path: string = './', gitLogDates: GitLogDate
 
     const { stdout } = await gitExec(
         `git --no-pager log --since="${gitLogDates.sinceDate} 00:00:00" --until="${gitLogDates.untilDate} 24:00:00" --format=%H`,
-        { cwd: repo.workdir }
+        { cwd: repo.workdir() }
     );
 
     // Empty sha

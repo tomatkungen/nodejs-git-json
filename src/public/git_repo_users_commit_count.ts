@@ -12,7 +12,7 @@ export const git_repo_users_commit_count = async (path: string = './', config: C
     const repo = await git_repo(path, config);
 
     // Run git shortlog in work dir
-    const stdout = await git_exec(repo.workdir, 'git', '--no-pager', 'shortlog', '-n', '-s');
+    const stdout = await git_exec(repo.workdir(), 'git', '--no-pager', 'shortlog', '-n', '-s');
 
     // Empty shortlog
     if (stdout === '')

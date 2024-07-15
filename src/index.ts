@@ -1,6 +1,6 @@
 import { git_configs } from './public/git_configs';
-import { git_log } from './public/git_log';
 import { git_log_commit } from './public/git_log_commit';
+import { git_log } from './public/git_log';
 import { git_log_dates } from "./public/git_log_dates";
 import { git_log_file } from './public/git_log_file';
 import { git_log_folder } from './public/git_log_folder';

@@ -11,7 +11,7 @@ export const git_repo_grep = async (path: string = './', pattern: string, pathsp
     const repo = await git_repo(path, config);
 
     const stdout = await git_exec(
-        repo.workdir,
+        repo.workdir(),
         'git',
         ...['grep', '--line-number', '-I', `${pattern}`, ...(pathspec ? ['--', pathspec] : [])]
     );

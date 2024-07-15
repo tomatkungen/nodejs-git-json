@@ -1,3 +1,4 @@
+import { Repository } from "nodegit";
 import {
     GitCommitFile,
     GitCommitHunk,
@@ -5,7 +6,6 @@ import {
     GitLog,
     GitLogShort,
     GitRef,
-    GitRepo,
     GitRepoFilePath,
     GitRepoFileSize,
     GitRepoGrep,
@@ -131,7 +131,7 @@ export const pr_log_commit = (gitLog: GitLog) => {
     lg();
 }
 
-export const pr_repo = (repo: GitRepo) => {
+export const pr_repo = (repo: Repository) => {
     lg(cF(`Workdir: ${repo.workdir}`, 'cfMAGENTA'));
     lg(cF(`RepoPath: ${repo.path}`, 'cfMAGENTA'));
     // lg(`Common ${repo.commondir()}`);
