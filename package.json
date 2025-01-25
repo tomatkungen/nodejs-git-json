@@ -1,6 +1,6 @@
 {
   "name": "nodejs-git-json",
-  "version": "1.14.3",
+  "version": "1.14.4",
   "description": "nodejs-git-json",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -30,9 +30,9 @@
     "json"
   ],
   "devDependencies": {
+    "@types/nodegit": "^0.28.7",
     "graphql": "^16.9.0",
     "nodegit": "0.28.0-alpha.28",
-    "@types/nodegit": "^0.28.7",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
