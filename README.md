@@ -29,6 +29,13 @@ yarn add nodejs-git-json
 ## Commands
 
 ```typescript
+    // Servers (experimental dont use!)
+    git_http_server(path: string = './', config: Config = CONFIG)
+
+    // @config Object - Config for std out in console
+        // @host - default localhost
+        // @port - default port 8080
+
     // Alias
     git_log_short(path: string = './', config: Config = CONFIG): Promise<GitLogsShort>  // Fast
     git_log(path: string = './', config: Config = CONFIG): Promise<GitLogs>             // Slow

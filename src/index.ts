@@ -18,6 +18,7 @@ import { git_repo_users_commit_count } from './public/git_repo_users_commit_coun
 import { git_stash } from './public/git_stash';
 import { git_status } from './public/git_status';
 import { git_users } from './public/git_users';
+import {git_http_server} from './public/git_graphql_server';
 import { lg } from './util/pr_lg';
 
 export {
@@ -40,7 +41,8 @@ export {
     git_repo_statistics,
     git_repo_grep,
     git_repo_files_size,
-    git_repo_unpack
+    git_repo_unpack,
+    git_http_server
 };
 
 (() => {

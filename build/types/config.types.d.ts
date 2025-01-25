@@ -7,3 +7,7 @@ export type Config = {
     stdOut: boolean;
     stdPrgOut: boolean;
 };
+export type ConfigServer = {
+    host: string;
+    port: number;
+};

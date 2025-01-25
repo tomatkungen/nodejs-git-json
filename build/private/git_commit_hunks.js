@@ -59,6 +59,6 @@ const getType = (diffLine) => {
         [70]: 'FILE_HDR',
         [72]: 'HUNK_HDR',
         [66]: 'BINARY',
-    } || 'CONTEXT';
+    };
     return types[diffLine.origin()] || 'CONTEXT';
 };

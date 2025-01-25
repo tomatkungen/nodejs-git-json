@@ -69,7 +69,7 @@ const getType = (diffLine: DiffLine): GitCommitLine['type'] => {
         [Diff.LINE.FILE_HDR]: 'FILE_HDR',
         [Diff.LINE.HUNK_HDR]: 'HUNK_HDR',
         [Diff.LINE.BINARY]: 'BINARY',
-    } || 'CONTEXT';
+    };
 
     return types[diffLine.origin()] || 'CONTEXT';
 };

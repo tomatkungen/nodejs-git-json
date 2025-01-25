@@ -11,7 +11,9 @@
 // import { git_repo_files_count } from './src/public/git_repo_files_count';
 // import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
 // import { git_repo_statistics } from './src/public/git_repo_statistics';
+// import { git_http_server } from './src/public/git_graphql_server';
 import { lg } from './src/util/pr_lg';
+// import {git_http_server} from "./src/index";
 // import { git_log } from './src/public/git_log';
 // import { git_log_commit } from './src/public/git_log_commit';
 // import { git_configs } from './src/public/git_configs';
@@ -23,7 +25,11 @@ import { git_users } from './src/public/git_users';
 
 (async () => {
 
-    const users = await git_users('./', { stdOut: true, stdPrgOut: true});
+    // curl --header "Content-Type: application/json" --request POST --data '{"username":"xyz","password":"xyz"}' http://localhost:8080/git-log-short
+    // git_http_server();
+    // lg('start server');
+
+    const users = await git_users('.', { stdOut: true, stdPrgOut: true});
     lg('users', users);
 
     // const log = await git_log('./', { stdOut: true, stdPrgOut: false });
