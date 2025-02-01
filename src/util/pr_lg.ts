@@ -183,6 +183,11 @@ export const pr_repo_unpack = (gitRepoUnpack: GitRepoUnpack) => {
     };
 }
 
+export const pr_repo_parent_branches = (gitFeatureRepo: string, gitRepoParentBranches: string[]) => {
+    lg(cF(`Feature Repo:`, 'cfYELLOW'),  gitFeatureRepo);
+    lg(cF(`Parent Branches:`, 'cfYELLOW'), gitRepoParentBranches.join(', '));
+}
+
 
 // fill Space to the right
 const sR = (str: string, len: number = 20, max: number = 5, prDiff: boolean = false) => {

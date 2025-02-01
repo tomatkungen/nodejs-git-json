@@ -69,7 +69,6 @@ export const git_users_refs = async (path: string = './', config: Config = CONFI
 
     isStdOut(config) && gitUserRefs.forEach(pr_users_refs);
 
-
     return gitUserRefs;
 };
 

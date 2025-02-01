@@ -12,7 +12,8 @@
 // import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
 // import { git_repo_statistics } from './src/public/git_repo_statistics';
 // import { git_http_server } from './src/public/git_graphql_server';
-import { lg } from './src/util/pr_lg';
+import { git_repo_parent_branches } from './src/public/git_repo_parent_branches';
+// import { lg } from './src/util/pr_lg';
 // import {git_http_server} from "./src/index";
 // import { git_log } from './src/public/git_log';
 // import { git_log_commit } from './src/public/git_log_commit';
@@ -22,12 +23,15 @@ import { lg } from './src/util/pr_lg';
 // import { git_reference } from './src/public/git_reference';
 // import { git_stash } from './src/public/git_stash';
 // import { git_repo } from './src/private/git_repo';
-import { git_users_refs } from "./src/public/git_users_refs";
+// import { git_users_refs } from "./src/public/git_users_refs";
 
 (async () => {
 
-    const user_refs = await git_users_refs('.', { stdOut: true, stdPrgOut: false });
-    lg(user_refs);
+    const repo_parent_branches = await git_repo_parent_branches('./../git-lodash', { stdOut: true, stdPrgOut: false });
+    console.log(repo_parent_branches);
+
+    // const user_refs = await git_users_refs('.', { stdOut: true, stdPrgOut: false });
+    // lg(user_refs);
 
     // curl --header "Content-Type: application/json" --request POST --data '{"username":"xyz","password":"xyz"}' http://localhost:8080/git-log-short
     // git_http_server();

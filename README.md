@@ -2,7 +2,7 @@
 
 It is based on [nodegit](https://github.com/nodegit/nodegit) v0.28.0-alpha.22
 
-Nodejs-git-json is a NPM module library that can output json from git repository.
+Nodejs-git-json is a NPM module library that can output json from local git repository. (not remote git repository)
 
 * nodejs-git-json v1.0.14 using Nodegit v0.28.0-alpha.1
 * nodejs-git-json v1.1.0  using Nodegit v0.28.0-alpha.22
@@ -58,6 +58,7 @@ yarn add nodegit@0.28.0-alpha.28
     git_repo_grep(path: string = './', pattern: string, pathspec?: string, config: Config = CONFIG): Promise<GitRepoGreps>
     git_repo_files_size(path: string = './', config: Config = CONFIG): Promise<GitRepoFilesSize>
     git_repo_unpack(path: string = './', config: Config = CONFIG): Promise<GitRepoUnpack>
+    git_repo_parent_branches(path: string = './', config: Config = CONFIG): Promise<string[]>
     
     // Info
     git_users_refs(path: string = './', config: Config = CONFIG): Promise<GitUsersRefs>
@@ -113,7 +114,8 @@ import {
     git_repo_grep,
     git_repo_files_size
     git_repo_unpack,
-    git_users_refs
+    git_users_refs,
+    git_repo_parent_branches
 } from 'nodejs-git-json';
 
 (async () => {
@@ -137,6 +139,7 @@ import {
     const repo_grep = await git_repo_grep('./my-path/git/git-nodejs-git-json/', 'Statistics', '*.js', {stdOut: true});
     const repo_files_size = await git_repo_files_size('./');
     const repo_unpack = await git_repo_unpack('./', {stdOut: true});
+    const repo_parent_branches = await git_repo_parent_branches('./',{ stdOut: true});
     const user_refs = await git_users_refs('./', { stdOut: true });
 
     // log json object equal to "git log --shortstat"
@@ -201,6 +204,10 @@ import {
 
     // log json object equal to 'git for-each-ref --format='%(authorname),%(authoremail),%(committername),%(committeremail),%(refname:short),%(objecttype),%(objectname:short),%(subject),%(taggername),%(taggeremail)'
     console.log(user_refs);
+
+    // git branch --contains $(git merge-base --all HEAD main)
+    // git branch --contains $(git merge-base --all HEAD <parent branch refs>)
+    console.log(repo_parent_branches);
 })()
 ```
 
@@ -593,6 +600,19 @@ GitUsersRefs = [
             subject: string;
         }[]
     }
+    ...
+]
+```
+
+#### GitRepoParentBranches
+
+```typescript
+// List all parent branches from feature branch
+GitRepoParentBranches = [
+    // Parent refs short name
+    <ParentBranch>,
+    // Parent refs short name
+    <ParentBranch>
     ...
 ]
 ```

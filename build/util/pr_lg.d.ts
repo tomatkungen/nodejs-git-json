@@ -19,6 +19,7 @@ export declare const pr_repo_files: (gitRepoFilePath: GitRepoFilePath) => void;
 export declare const pr_repo_grep: (gitRepoGrep: GitRepoGrep, pattern: string) => void;
 export declare const pr_repo_file_size: (gitRepoFileSize: GitRepoFileSize) => void;
 export declare const pr_repo_unpack: (gitRepoUnpack: GitRepoUnpack) => void;
+export declare const pr_repo_parent_branches: (gitFeatureRepo: string, gitRepoParentBranches: string[]) => void;
 type Colors = 'cfBLACK' | 'cfRED' | 'cfGREEN' | 'cfYELLOW' | 'cfBLUE' | 'cfMAGENTA' | 'cfCYAN' | 'cfWHITE' | 'cbRED' | 'cbGREEN' | 'cbYELLOW' | 'cbBLUE' | 'cbMAGENTA' | 'cbCYAN' | 'cbWHITE';
 declare const Colors: {
     [key in Colors]: string;

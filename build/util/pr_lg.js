@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_repo_unpack = exports.pr_repo_file_size = exports.pr_repo_grep = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users_refs = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_repo_parent_branches = exports.pr_repo_unpack = exports.pr_repo_file_size = exports.pr_repo_grep = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users_refs = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -142,6 +142,11 @@ const pr_repo_unpack = (gitRepoUnpack) => {
     ;
 };
 exports.pr_repo_unpack = pr_repo_unpack;
+const pr_repo_parent_branches = (gitFeatureRepo, gitRepoParentBranches) => {
+    (0, exports.lg)((0, exports.cF)(`Feature Repo:`, 'cfYELLOW'), gitFeatureRepo);
+    (0, exports.lg)((0, exports.cF)(`Parent Branches:`, 'cfYELLOW'), gitRepoParentBranches.join(', '));
+};
+exports.pr_repo_parent_branches = pr_repo_parent_branches;
 const sR = (str, len = 20, max = 5, prDiff = false) => {
     const diff = Math.max(max, (len - str.length));
     prDiff && (0, exports.lg)('diff', max, len, str.length, (len - str.length));
