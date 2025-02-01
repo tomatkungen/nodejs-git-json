@@ -33,11 +33,6 @@ yarn add nodegit@0.28.0-alpha.28
 ## Commands
 
 ```typescript
-
-    // @config Object - Config for std out in console
-        // @host - default localhost
-        // @port - default port 8080
-
     // Alias
     git_log_short(path: string = './', config: Config = CONFIG): Promise<GitLogsShort>  // Fast
     git_log(path: string = './', config: Config = CONFIG): Promise<GitLogs>             // Slow
