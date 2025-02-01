@@ -1,6 +1,6 @@
 {
   "name": "nodejs-git-json",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "description": "nodejs-git-json",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
