@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_repo_unpack = exports.pr_repo_file_size = exports.pr_repo_grep = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_repo_unpack = exports.pr_repo_file_size = exports.pr_repo_grep = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users_refs = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -71,6 +71,21 @@ const pr_users = (gitUser) => {
     (0, exports.lg)(`${gitUser.totalCommits.toString().padStart(5)} Author: ${gitUser.authorName} <${(0, exports.cF)(gitUser.authorEmail, 'cfGREEN')}>`);
 };
 exports.pr_users = pr_users;
+const pr_users_refs = (gitUsersRefs) => {
+    (0, exports.lg)(`${(0, exports.cF)(`Author:`, 'cfYELLOW')} ${gitUsersRefs.authorName} ${gitUsersRefs.authorEmail}`);
+    (0, exports.lg)(`${(0, exports.cF)(`Committer:`, 'cfYELLOW')} ${gitUsersRefs.committerName} ${gitUsersRefs.committerEmail}`);
+    (0, exports.lg)(`${(0, exports.cF)(`Tagger:`, 'cfYELLOW')} ${gitUsersRefs.taggerName} ${gitUsersRefs.taggerEmail}`);
+    (0, exports.lg)();
+    (0, exports.lg)(`Commits: ${(0, exports.cF)(`${gitUsersRefs.totalCommits}`, 'cfGREEN')} Tags: ${(0, exports.cF)(`${gitUsersRefs.totalTags}`, 'cfGREEN')} Trees: ${(0, exports.cF)(`${gitUsersRefs.totalTrees}`, 'cfGREEN')} Blobs: ${(0, exports.cF)(`${gitUsersRefs.totalBlobs}`, 'cfGREEN')}`);
+    (0, exports.lg)();
+    gitUsersRefs.refs.forEach((ref) => {
+        (0, exports.lg)(`  ${(0, exports.cF)(ref.objectType, 'cfYELLOW')} ${(0, exports.cF)(ref.objectName, 'cfYELLOW')} ${(0, exports.cF)(`(${ref.refName})`, 'cfGREEN')} `);
+        (0, exports.lg)(`  ${ref.subject}`);
+        (0, exports.lg)();
+    });
+    (0, exports.lg)();
+};
+exports.pr_users_refs = pr_users_refs;
 const pr_config = (gitConfig) => {
     (0, exports.lg)((0, exports.cF)(`path ${gitConfig.originType}`, "cfYELLOW"));
     (0, exports.lg)(`orginType: ${(0, exports.cF)(gitConfig.scope, 'cfMAGENTA')}`);
@@ -99,8 +114,8 @@ const pr_log_commit = (gitLog) => {
 };
 exports.pr_log_commit = pr_log_commit;
 const pr_repo = (repo) => {
-    (0, exports.lg)((0, exports.cF)(`Workdir: ${repo.workdir}`, 'cfMAGENTA'));
-    (0, exports.lg)((0, exports.cF)(`RepoPath: ${repo.path}`, 'cfMAGENTA'));
+    (0, exports.lg)((0, exports.cF)(`Workdir: ${repo.workdir()}`, 'cfMAGENTA'));
+    (0, exports.lg)((0, exports.cF)(`RepoPath: ${repo.path()}`, 'cfMAGENTA'));
     (0, exports.lg)();
 };
 exports.pr_repo = pr_repo;

@@ -1,4 +1,4 @@
-import * as http from 'http';
+/*import * as http from 'http';
 import { graphql, buildSchema } from "graphql";
 import { git_error } from '../private/git_error';
 import { git_configs } from './git_configs';
@@ -238,3 +238,4 @@ const isInValidRequest = (req: http.IncomingMessage): boolean => (
     !req.url ||
     req.method !== 'POST'
 )
+*/

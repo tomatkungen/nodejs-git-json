@@ -13,7 +13,8 @@ import {
     GitRepoUserCommitCount,
     GitStash,
     Gitstatus,
-    GitUser
+    GitUser,
+    GitUserRef
 } from "../types/git_types";
 
 export const lg = (...args: any[]) => {
@@ -98,6 +99,21 @@ export const pr_users = (gitUser: GitUser) => {
     lg(`${gitUser.totalCommits.toString().padStart(5)} Author: ${gitUser.authorName} <${cF(gitUser.authorEmail, 'cfGREEN')}>`);
 }
 
+export const pr_users_refs = (gitUsersRefs: GitUserRef) => {
+    lg(`${cF(`Author:`, 'cfYELLOW')} ${gitUsersRefs.authorName} ${gitUsersRefs.authorEmail}`);
+    lg(`${cF(`Committer:`, 'cfYELLOW')} ${gitUsersRefs.committerName} ${gitUsersRefs.committerEmail}`);
+    lg(`${cF(`Tagger:`, 'cfYELLOW')} ${gitUsersRefs.taggerName} ${gitUsersRefs.taggerEmail}`);
+    lg();
+    lg(`Commits: ${cF(`${gitUsersRefs.totalCommits}`, 'cfGREEN')} Tags: ${cF(`${gitUsersRefs.totalTags}`, 'cfGREEN')} Trees: ${cF(`${gitUsersRefs.totalTrees}`, 'cfGREEN')} Blobs: ${cF(`${gitUsersRefs.totalBlobs}`, 'cfGREEN')}`);
+    lg();
+    gitUsersRefs.refs.forEach((ref) => {
+        lg(`  ${cF(ref.objectType, 'cfYELLOW')} ${cF(ref.objectName, 'cfYELLOW')} ${cF(`(${ref.refName})`, 'cfGREEN')} `)
+        lg(`  ${ref.subject}`);
+        lg();
+    })
+    lg();
+}
+
 export const pr_config = (gitConfig: GitConfig) => {
     lg(cF(`path ${gitConfig.originType}`, "cfYELLOW"));
     lg(`orginType: ${cF(gitConfig.scope, 'cfMAGENTA')}`);
@@ -132,8 +148,8 @@ export const pr_log_commit = (gitLog: GitLog) => {
 }
 
 export const pr_repo = (repo: Repository) => {
-    lg(cF(`Workdir: ${repo.workdir}`, 'cfMAGENTA'));
-    lg(cF(`RepoPath: ${repo.path}`, 'cfMAGENTA'));
+    lg(cF(`Workdir: ${repo.workdir()}`, 'cfMAGENTA'));
+    lg(cF(`RepoPath: ${repo.path()}`, 'cfMAGENTA'));
     // lg(`Common ${repo.commondir()}`);
     lg();
 }
@@ -162,7 +178,7 @@ export const pr_repo_file_size = (gitRepoFileSize: GitRepoFileSize) => {
 }
 
 export const pr_repo_unpack = (gitRepoUnpack: GitRepoUnpack) => {
-    for(const [key, value] of Object.entries(gitRepoUnpack)) {
+    for (const [key, value] of Object.entries(gitRepoUnpack)) {
         lg(cF(`${value.toString().padStart(6, ' ')}`, 'cfCYAN'), `: ${key}`);
     };
 }

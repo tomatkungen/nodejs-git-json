@@ -24,13 +24,15 @@ npm i nodejs-git-json
 #Yarn
 yarn add nodejs-git-json
 
+# Install also peerDependencies if missing
+
+yarn add nodegit@0.28.0-alpha.28
+
 ```
 
 ## Commands
 
 ```typescript
-    // Servers (experimental dont use!)
-    git_http_server(path: string = './', config: Config = CONFIG)
 
     // @config Object - Config for std out in console
         // @host - default localhost
@@ -62,6 +64,9 @@ yarn add nodejs-git-json
     git_repo_files_size(path: string = './', config: Config = CONFIG): Promise<GitRepoFilesSize>
     git_repo_unpack(path: string = './', config: Config = CONFIG): Promise<GitRepoUnpack>
     
+    // Info
+    git_users_refs(path: string = './', config: Config = CONFIG): Promise<GitUsersRefs>
+
     // @path string - Relative or absolute path for folder where git repository exist
     
     // @sha string - commit sha
@@ -110,9 +115,10 @@ import {
     git_repo_files_count,
     git_repo_files,
     git_repo_statistics,
-    repo_grep,
-    repo_files_size
+    git_repo_grep,
+    git_repo_files_size
     git_repo_unpack,
+    git_users_refs
 } from 'nodejs-git-json';
 
 (async () => {
@@ -136,6 +142,7 @@ import {
     const repo_grep = await git_repo_grep('./my-path/git/git-nodejs-git-json/', 'Statistics', '*.js', {stdOut: true});
     const repo_files_size = await git_repo_files_size('./');
     const repo_unpack = await git_repo_unpack('./', {stdOut: true});
+    const user_refs = await git_users_refs('./', { stdOut: true });
 
     // log json object equal to "git log --shortstat"
     console.log(log_short);
@@ -196,6 +203,9 @@ import {
 
     // log json object equal to 'git count-objects --verbose'
     console.log(repo_unpack);
+
+    // log json object equal to 'git for-each-ref --format='%(authorname),%(authoremail),%(committername),%(committeremail),%(refname:short),%(objecttype),%(objectname:short),%(subject),%(taggername),%(taggeremail)'
+    console.log(user_refs);
 })()
 ```
 
@@ -549,4 +559,45 @@ GitRepoUnpack = {
     garbage: number;
     'size-garbage': number;
 }
+```
+
+#### GitUsersRefs
+
+```typescript
+GitUsersRefs = [
+    {
+        // Commit signature author name
+        authorName: string;
+        // Commit signature author email
+        authorEmail: string;
+        // Commit committer name
+        committerName: string;
+        // Commit commiter email
+        committerEmail: string;
+        // Tagger name
+        taggerName: string;
+        // Tagger Email
+        taggerEmail: string;
+        // Refs Object Type commmits
+        totalCommits: number;
+        // Refs Object Type Tags
+        totalTags: number;
+        // Refs Object Type Tress
+        totalTrees: number;
+        // Refs Object Type Blobs
+        totalBlobs: number;
+        // Refs
+        refs: {
+            // Refs
+            refName: string;
+            // Refs Object Type
+            objectType: string;
+            // Refs sha
+            objectName: string;
+            // Commit message
+            subject: string;
+        }[]
+    }
+    ...
+]
 ```

@@ -88,6 +88,24 @@ export type GitUser = {
     totalCommits: number;
     commits: string[];
 };
+export type GitUserRef = {
+    authorName: string;
+    authorEmail: string;
+    committerName: string;
+    committerEmail: string;
+    taggerName: string;
+    taggerEmail: string;
+    totalCommits: number;
+    totalTags: number;
+    totalTrees: number;
+    totalBlobs: number;
+    refs: {
+        refName: string;
+        objectType: string;
+        objectName: string;
+        subject: string;
+    }[];
+};
 export type GitConfig = {
     scope: string;
     variable: {
@@ -181,6 +199,7 @@ export type GitStatuses = Gitstatus[];
 export type GitRefs = GitRef[];
 export type GitUserStats = GitUserStat[];
 export type GitUsers = GitUser[];
+export type GitUsersRefs = GitUserRef[];
 export type GitConfigs = GitConfig[];
 export type GitStashes = GitStash[];
 export type GitRepoUsersCommitCount = GitRepoUserCommitCount[];

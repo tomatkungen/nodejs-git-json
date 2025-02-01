@@ -18,19 +18,23 @@ import { lg } from './src/util/pr_lg';
 // import { git_log_commit } from './src/public/git_log_commit';
 // import { git_configs } from './src/public/git_configs';
 // import { git_log_short } from './src/public/git_log_short';
-import { git_users } from './src/public/git_users';
+// import { git_users } from './src/public/git_users';
 // import { git_reference } from './src/public/git_reference';
 // import { git_stash } from './src/public/git_stash';
 // import { git_repo } from './src/private/git_repo';
+import { git_users_refs } from "./src/public/git_users_refs";
 
 (async () => {
+
+    const user_refs = await git_users_refs('.', { stdOut: true, stdPrgOut: false });
+    lg(user_refs);
 
     // curl --header "Content-Type: application/json" --request POST --data '{"username":"xyz","password":"xyz"}' http://localhost:8080/git-log-short
     // git_http_server();
     // lg('start server');
 
-    const users = await git_users('.', { stdOut: true, stdPrgOut: true});
-    lg('users', users);
+    // const users = await git_users('.', { stdOut: true, stdPrgOut: true});
+    // lg('users', users);
 
     // const log = await git_log('./', { stdOut: true, stdPrgOut: false });
     // lg('\nlog', log.length);
