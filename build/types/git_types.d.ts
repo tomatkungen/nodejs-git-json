@@ -192,7 +192,14 @@ export type GitRepoUnpack = {
     garbage: number;
     'size-garbage': number;
 };
-export type GitRepoParentBranch = string;
+export type GitRepoAncestor = {
+    ref: string;
+    sha: string;
+    ancestors: {
+        ref: string;
+        sha: string;
+    }[];
+};
 export type GitLogsShort = GitLogShort[];
 export type GitLogs = GitLog[];
 export type GitCommitFiles = GitCommitFile[];
@@ -208,5 +215,5 @@ export type GitRepoFilePaths = GitRepoFilePath[];
 export type GitRepoStatistics = GitRepoStatistic;
 export type GitRepoGreps = GitRepoGrep[];
 export type GitRepoFilesSize = GitRepoFileSize[];
-export type GitRepoParentBranches = GitRepoParentBranch[];
+export type GitRepoAncestors = GitRepoAncestor;
 export {};

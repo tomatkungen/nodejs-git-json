@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_repo_parent_branches = exports.git_users_refs = exports.git_repo_unpack = exports.git_repo_files_size = exports.git_repo_grep = exports.git_repo_statistics = exports.git_repo_files = exports.git_repo_files_count = exports.git_repo_users_commit_count = exports.git_repo_commits_count = exports.git_log_folder = exports.git_log_file = exports.git_log_dates = exports.git_users = exports.git_status = exports.git_stash = exports.git_reference = exports.git_log = exports.git_log_short = exports.git_log_pagination = exports.git_log_commit = exports.git_configs = void 0;
+exports.git_repo_ancestors = exports.git_users_refs = exports.git_repo_unpack = exports.git_repo_files_size = exports.git_repo_grep = exports.git_repo_statistics = exports.git_repo_files = exports.git_repo_files_count = exports.git_repo_users_commit_count = exports.git_repo_commits_count = exports.git_log_folder = exports.git_log_file = exports.git_log_dates = exports.git_users = exports.git_status = exports.git_stash = exports.git_reference = exports.git_log = exports.git_log_short = exports.git_log_pagination = exports.git_log_commit = exports.git_configs = void 0;
 const git_configs_1 = require("./public/git_configs");
 Object.defineProperty(exports, "git_configs", { enumerable: true, get: function () { return git_configs_1.git_configs; } });
 const git_log_commit_1 = require("./public/git_log_commit");
@@ -43,8 +43,8 @@ const git_users_1 = require("./public/git_users");
 Object.defineProperty(exports, "git_users", { enumerable: true, get: function () { return git_users_1.git_users; } });
 const git_users_refs_1 = require("./public/git_users_refs");
 Object.defineProperty(exports, "git_users_refs", { enumerable: true, get: function () { return git_users_refs_1.git_users_refs; } });
-const git_repo_parent_branches_1 = require("./public/git_repo_parent_branches");
-Object.defineProperty(exports, "git_repo_parent_branches", { enumerable: true, get: function () { return git_repo_parent_branches_1.git_repo_parent_branches; } });
+const git_repo_ancestors_1 = require("./public/git_repo_ancestors");
+Object.defineProperty(exports, "git_repo_ancestors", { enumerable: true, get: function () { return git_repo_ancestors_1.git_repo_ancestors; } });
 const pr_lg_1 = require("./util/pr_lg");
 (() => {
     (0, pr_lg_1.lg)('nodejs-git-json');

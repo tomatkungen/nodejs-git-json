@@ -1,13 +1,14 @@
+import { Merge, Oid, Repository } from 'nodegit';
 import { Config, CONFIG } from "../types/config.types";
-import { GitRepoParentBranches } from "../types/git_types";
+import { GitRepoAncestors } from "../types/git_types";
 import { isStdOut } from "../util/pr_config";
 import { pr_repo_parent_branches } from "../util/pr_lg";
-import { git_repo } from "./../private/git_repo";
-import { Merge, Oid, Repository } from 'nodegit';
+import { git_repo } from "../private/git_repo";
 
 // cd ./my-feature-branch
 // git branch --contains $(git merge-base --all HEAD main)
-export const git_repo_parent_branches = async (path: string = './', config: Config = CONFIG): Promise<GitRepoParentBranches> => {
+// git merge-base HEAD main
+export const git_repo_ancestors = async (path: string = './', config: Config = CONFIG): Promise<GitRepoAncestors> => {
 
     // Get Repository
     const repo = await git_repo(path, config);
@@ -23,12 +24,16 @@ export const git_repo_parent_branches = async (path: string = './', config: Conf
         .map(ref => ref.shorthand())
         .filter(ref => ref !== featureBranch.shorthand());
 
+    // Parent branches
+    let ancestorBranches: GitRepoAncestors = {
+        ref: featureBranch.shorthand(),
+        sha: featureCommit.id().tostrS(),
+        ancestors: []
+    };
+
     // No local branches
     if (localBranches.length === 0)
-        return [];
-
-    // Parent branches
-    let parentBranches: GitRepoParentBranches = [];
+        return ancestorBranches;
 
     for (const localbranch of localBranches) {
 
@@ -40,16 +45,16 @@ export const git_repo_parent_branches = async (path: string = './', config: Conf
         const mergeBase = await getMergeBase(repo, featureCommit.id(), branchCommit.id());
 
         if (mergeBase)
-            parentBranches.push(localbranch);
+            ancestorBranches.ancestors.push({
+                ref: localbranch,
+                sha: mergeBase.tostrS()
+            })
 
     }
 
-    isStdOut(config) && pr_repo_parent_branches(
-        featureBranch.shorthand(),
-        parentBranches
-    );
-    
-    return parentBranches;
+    isStdOut(config) && pr_repo_parent_branches(ancestorBranches);
+
+    return ancestorBranches;
 }
 
 const getMergeBase = async (repo: Repository, featureCommitOid: Oid, localCommitOid: Oid): Promise<Oid | null> => {

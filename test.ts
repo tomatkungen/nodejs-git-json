@@ -12,8 +12,8 @@
 // import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
 // import { git_repo_statistics } from './src/public/git_repo_statistics';
 // import { git_http_server } from './src/public/git_graphql_server';
-import { git_repo_parent_branches } from './src/public/git_repo_parent_branches';
-// import { lg } from './src/util/pr_lg';
+import { git_repo_ancestors } from './src/public/git_repo_ancestors';
+import { lg } from './src/util/pr_lg';
 // import {git_http_server} from "./src/index";
 // import { git_log } from './src/public/git_log';
 // import { git_log_commit } from './src/public/git_log_commit';
@@ -27,8 +27,8 @@ import { git_repo_parent_branches } from './src/public/git_repo_parent_branches'
 
 (async () => {
 
-    const repo_parent_branches = await git_repo_parent_branches('./../git-lodash', { stdOut: true, stdPrgOut: false });
-    console.log(repo_parent_branches);
+    const repo_ancestors = await git_repo_ancestors('.', { stdOut: true, stdPrgOut: false });
+    lg(repo_ancestors);
 
     // const user_refs = await git_users_refs('.', { stdOut: true, stdPrgOut: false });
     // lg(user_refs);

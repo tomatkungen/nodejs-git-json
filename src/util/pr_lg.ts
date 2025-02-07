@@ -6,6 +6,7 @@ import {
     GitLog,
     GitLogShort,
     GitRef,
+    GitRepoAncestors,
     GitRepoFilePath,
     GitRepoFileSize,
     GitRepoGrep,
@@ -183,9 +184,12 @@ export const pr_repo_unpack = (gitRepoUnpack: GitRepoUnpack) => {
     };
 }
 
-export const pr_repo_parent_branches = (gitFeatureRepo: string, gitRepoParentBranches: string[]) => {
-    lg(cF(`Feature Repo:`, 'cfYELLOW'),  gitFeatureRepo);
-    lg(cF(`Parent Branches:`, 'cfYELLOW'), gitRepoParentBranches.join(', '));
+export const pr_repo_parent_branches = (gitRepoAncestorBranches: GitRepoAncestors) => {
+    lg(cF(`${gitRepoAncestorBranches.ref} ${gitRepoAncestorBranches.sha}`, 'cfYELLOW'));
+    gitRepoAncestorBranches.ancestors.forEach((ancestor) => {
+        lg(`  ${ancestor.ref} ${ancestor.sha}`)
+    })
+    lg(); 
 }
 
 

@@ -142,9 +142,12 @@ const pr_repo_unpack = (gitRepoUnpack) => {
     ;
 };
 exports.pr_repo_unpack = pr_repo_unpack;
-const pr_repo_parent_branches = (gitFeatureRepo, gitRepoParentBranches) => {
-    (0, exports.lg)((0, exports.cF)(`Feature Repo:`, 'cfYELLOW'), gitFeatureRepo);
-    (0, exports.lg)((0, exports.cF)(`Parent Branches:`, 'cfYELLOW'), gitRepoParentBranches.join(', '));
+const pr_repo_parent_branches = (gitRepoAncestorBranches) => {
+    (0, exports.lg)((0, exports.cF)(`${gitRepoAncestorBranches.ref} ${gitRepoAncestorBranches.sha}`, 'cfYELLOW'));
+    gitRepoAncestorBranches.ancestors.forEach((ancestor) => {
+        (0, exports.lg)(`  ${ancestor.ref} ${ancestor.sha}`);
+    });
+    (0, exports.lg)();
 };
 exports.pr_repo_parent_branches = pr_repo_parent_branches;
 const sR = (str, len = 20, max = 5, prDiff = false) => {
