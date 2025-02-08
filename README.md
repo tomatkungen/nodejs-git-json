@@ -1,6 +1,6 @@
 # nodejs git json
 
-It is based on [nodegit](https://github.com/nodegit/nodegit) v0.28.0-alpha.22
+It is based on [nodegit](https://github.com/nodegit/nodegit) v0.28.0-alpha.22 :)
 
 Nodejs-git-json is a NPM module library that can output json from git repository.
 
