@@ -29,9 +29,10 @@ export const lgN = () => {
 export const pr_log_short = (gitLogShort: GitLogShort) => {
     lg(cF(`commit ${gitLogShort.sha}`, 'cfYELLOW'));
     lg(`Author: ${gitLogShort.authorName} <${gitLogShort.authorEmail}>`);
-    lg(`Commiter: ${gitLogShort.commiterName} <${gitLogShort.commiterEmail}>`);
+    lg(`Commiter: ${gitLogShort.committerName} <${gitLogShort.committerEmail}>`);
     lg(`Date: ${gitLogShort.date}`);
     lg("\n    " + gitLogShort.message);
+    lg();
 }
 
 export const pr_log = (gitLog: GitLog) => {

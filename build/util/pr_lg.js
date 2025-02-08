@@ -12,9 +12,10 @@ exports.lgN = lgN;
 const pr_log_short = (gitLogShort) => {
     (0, exports.lg)((0, exports.cF)(`commit ${gitLogShort.sha}`, 'cfYELLOW'));
     (0, exports.lg)(`Author: ${gitLogShort.authorName} <${gitLogShort.authorEmail}>`);
-    (0, exports.lg)(`Commiter: ${gitLogShort.commiterName} <${gitLogShort.commiterEmail}>`);
+    (0, exports.lg)(`Commiter: ${gitLogShort.committerName} <${gitLogShort.committerEmail}>`);
     (0, exports.lg)(`Date: ${gitLogShort.date}`);
     (0, exports.lg)("\n    " + gitLogShort.message);
+    (0, exports.lg)();
 };
 exports.pr_log_short = pr_log_short;
 const pr_log = (gitLog) => {

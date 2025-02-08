@@ -48,6 +48,7 @@ yarn add nodegit@0.28.0-alpha.28
     git_log_dates(path: string = './', gitLogDates: GitLogDates, config: Config = CONFIG): Promise<GitLogs>
     git_log_file(path: string = './', filePath: string, config: Config = CONFIG): Promise<GitLogs>
     git_log_folder(path: string = './', folderPath: string, gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs>
+    git_log_branch_commits(path: string = './', config: Config = CONFIG): Promise<GitLogsShort>
     
     // Repo
     git_repo_commits_count(path: string = './', config: Config = CONFIG): Promise<number>
@@ -106,6 +107,7 @@ import {
     git_log_dates,
     git_log_file,
     git_log_folder,
+    git_log_branch_commits,
     git_repo_commits_count,
     git_repo_users_commit_count,
     git_repo_files_count,
@@ -114,8 +116,8 @@ import {
     git_repo_grep,
     git_repo_files_size
     git_repo_unpack,
+    git_repo_ancestors,
     git_users_refs,
-    git_repo_ancestors
 } from 'nodejs-git-json';
 
 (async () => {
@@ -131,6 +133,7 @@ import {
     const log_dates = await git_log_dates('/my-path/git/git-nodejs-git-json/', { sinceDate: '2024-02-29', untilDate: '2023-02-28'});
     const log_file  = await git_log_file('/my-path/git/git-nodejs-git-json/', './index.ts');
     const log_folder = await git_log_folder('./my-path/git/git-nodejs-git-json/', './build', { currentPage: 1, commitsPerPage: 10})
+    const log_branch_commits = await git_log_branch_commits('./', { stdOut: true });
     const repo_commits_count = await git_repo_commits_count('./my-path/git/git-nodejs-git-json/')
     const repo_users_commit_count = await git_repo_users_commit_count('./my-path/git/git-nodejs-git-json/');
     const repo_files_count = await git_repo_files_count('./my-path/git/git-nodejs-git-json/');
@@ -207,6 +210,9 @@ import {
 
     // log json object equal git merge-base --all HEAD <branch ref>)
     console.log(repo_ancestors);
+
+    // log json object equal git log --pretty="%H,%ci,%s,%an,%ae,%cn,%ce" --no-merges $(git merge-base --all HEAD feature/firstbranch main feature/secondbranch)..feature/firstbranch
+    console.log(log_branch_commits)
 })()
 ```
 

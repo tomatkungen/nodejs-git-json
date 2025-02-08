@@ -1,9 +1,12 @@
-import { Merge, Oid, Repository } from 'nodegit';
+import { git_branch_merge_base } from '../private/git_branch_merge_base';
+import { git_branch_name } from "../private/git_branch_name";
+import { git_branch_names } from '../private/git_branch_names';
+import { git_commit_branch } from '../private/git_commit_branch';
+import { git_repo } from "../private/git_repo";
 import { Config, CONFIG } from "../types/config.types";
 import { GitRepoAncestors } from "../types/git_types";
 import { isStdOut } from "../util/pr_config";
 import { pr_repo_parent_branches } from "../util/pr_lg";
-import { git_repo } from "../private/git_repo";
 
 // cd ./my-feature-branch
 // git branch --contains $(git merge-base --all HEAD main)
@@ -13,36 +16,34 @@ export const git_repo_ancestors = async (path: string = './', config: Config = C
     // Get Repository
     const repo = await git_repo(path, config);
 
-    const featureBranch = await repo.getCurrentBranch();
-    const featureCommit = await repo.getBranchCommit(featureBranch);
-
-    const references = await repo.getReferences();
+    // Get Branch name from HEAD
+    const branchName = await git_branch_name(repo);
+    
+    // Get Branch commit
+    const branchCommit = await git_commit_branch(repo);
 
     // Local branches
-    const localBranches = references
-        .filter(ref => ref.isBranch() && !ref.isRemote())
-        .map(ref => ref.shorthand())
-        .filter(ref => ref !== featureBranch.shorthand());
+    const localBranchNames = await git_branch_names(repo, branchName);
 
     // Parent branches
     let ancestorBranches: GitRepoAncestors = {
-        ref: featureBranch.shorthand(),
-        sha: featureCommit.id().tostrS(),
+        ref: branchName,
+        sha: branchCommit.id().tostrS(),
         ancestors: []
     };
 
     // No local branches
-    if (localBranches.length === 0)
+    if (localBranchNames.length === 0)
         return ancestorBranches;
 
-    for (const localbranch of localBranches) {
+    for (const localbranch of localBranchNames) {
 
         // Get local branch commit
         const localbranchRef = await repo.getReference(localbranch);
-        const branchCommit = await repo.getBranchCommit(localbranchRef);
+        const localCommit = await repo.getBranchCommit(localbranchRef);
 
         // Get merge base between feature and local branch
-        const mergeBase = await getMergeBase(repo, featureCommit.id(), branchCommit.id());
+        const mergeBase = await git_branch_merge_base(repo, branchCommit.id(), localCommit.id());
 
         if (mergeBase)
             ancestorBranches.ancestors.push({
@@ -55,12 +56,4 @@ export const git_repo_ancestors = async (path: string = './', config: Config = C
     isStdOut(config) && pr_repo_parent_branches(ancestorBranches);
 
     return ancestorBranches;
-}
-
-const getMergeBase = async (repo: Repository, featureCommitOid: Oid, localCommitOid: Oid): Promise<Oid | null> => {
-    try {
-        return await Merge.base(repo, featureCommitOid, localCommitOid);
-    } catch (error) {
-        return null;
-    }
 }

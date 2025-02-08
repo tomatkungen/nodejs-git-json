@@ -12,7 +12,7 @@
 // import { git_repo_users_commit_count } from './src/public/git_repo_users_commit_count';
 // import { git_repo_statistics } from './src/public/git_repo_statistics';
 // import { git_http_server } from './src/public/git_graphql_server';
-import { git_repo_ancestors } from './src/public/git_repo_ancestors';
+// import { git_repo_ancestors } from './src/public/git_repo_ancestors';
 import { lg } from './src/util/pr_lg';
 // import {git_http_server} from "./src/index";
 // import { git_log } from './src/public/git_log';
@@ -24,11 +24,15 @@ import { lg } from './src/util/pr_lg';
 // import { git_stash } from './src/public/git_stash';
 // import { git_repo } from './src/private/git_repo';
 // import { git_users_refs } from "./src/public/git_users_refs";
+import { git_log_branch_commits } from './src/public/git_log_branch_commits';
 
 (async () => {
+    // const log_branch_commits =
+    const log_branch_commits = await git_log_branch_commits('./../nodegit/nodegit/', { stdOut: true });
+    lg(log_branch_commits);
 
-    const repo_ancestors = await git_repo_ancestors('.', { stdOut: true, stdPrgOut: false });
-    lg(repo_ancestors);
+    // const ancestors = await git_repo_ancestors('.', { stdOut: true, stdPrgOut: false });
+    // lg(ancestors);
 
     // const user_refs = await git_users_refs('.', { stdOut: true, stdPrgOut: false });
     // lg(user_refs);

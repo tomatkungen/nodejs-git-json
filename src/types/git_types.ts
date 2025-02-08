@@ -23,8 +23,8 @@ export type GitLogShort = {
     message: string;
     authorName: string;
     authorEmail: string;
-    commiterName: string;
-    commiterEmail: string;
+    committerName: string;
+    committerEmail: string;
 }
 
 export type GitLog = {
@@ -33,8 +33,8 @@ export type GitLog = {
     message: string;
     authorName: string;
     authorEmail: string;
-    commiterName: string;
-    commiterEmail: string;
+    committerName: string;
+    committerEmail: string;
     files: GitCommitFiles;
 } & GitCommitStat;
 

@@ -10,31 +10,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.git_repo_ancestors = void 0;
-const nodegit_1 = require("nodegit");
+const git_branch_merge_base_1 = require("../private/git_branch_merge_base");
+const git_branch_name_1 = require("../private/git_branch_name");
+const git_branch_names_1 = require("../private/git_branch_names");
+const git_commit_branch_1 = require("../private/git_commit_branch");
+const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
 const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
-const git_repo_1 = require("../private/git_repo");
 const git_repo_ancestors = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
-    const featureBranch = yield repo.getCurrentBranch();
-    const featureCommit = yield repo.getBranchCommit(featureBranch);
-    const references = yield repo.getReferences();
-    const localBranches = references
-        .filter(ref => ref.isBranch() && !ref.isRemote())
-        .map(ref => ref.shorthand())
-        .filter(ref => ref !== featureBranch.shorthand());
+    const branchName = yield (0, git_branch_name_1.git_branch_name)(repo);
+    const branchCommit = yield (0, git_commit_branch_1.git_commit_branch)(repo);
+    const localBranchNames = yield (0, git_branch_names_1.git_branch_names)(repo, branchName);
     let ancestorBranches = {
-        ref: featureBranch.shorthand(),
-        sha: featureCommit.id().tostrS(),
+        ref: branchName,
+        sha: branchCommit.id().tostrS(),
         ancestors: []
     };
-    if (localBranches.length === 0)
+    if (localBranchNames.length === 0)
         return ancestorBranches;
-    for (const localbranch of localBranches) {
+    for (const localbranch of localBranchNames) {
         const localbranchRef = yield repo.getReference(localbranch);
-        const branchCommit = yield repo.getBranchCommit(localbranchRef);
-        const mergeBase = yield getMergeBase(repo, featureCommit.id(), branchCommit.id());
+        const localCommit = yield repo.getBranchCommit(localbranchRef);
+        const mergeBase = yield (0, git_branch_merge_base_1.git_branch_merge_base)(repo, branchCommit.id(), localCommit.id());
         if (mergeBase)
             ancestorBranches.ancestors.push({
                 ref: localbranch,
@@ -45,11 +44,3 @@ const git_repo_ancestors = (...args_1) => __awaiter(void 0, [...args_1], void 0,
     return ancestorBranches;
 });
 exports.git_repo_ancestors = git_repo_ancestors;
-const getMergeBase = (repo, featureCommitOid, localCommitOid) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        return yield nodegit_1.Merge.base(repo, featureCommitOid, localCommitOid);
-    }
-    catch (error) {
-        return null;
-    }
-});

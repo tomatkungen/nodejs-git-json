@@ -38,7 +38,7 @@ const create_log = (commit: Commit): GitLogShort => {
         message: commit.message(),
         authorName: commit.author().name(),
         authorEmail: commit.author().email(),
-        commiterName: commit.committer().name(),
-        commiterEmail: commit.committer().email(),
+        committerName: commit.committer().name(),
+        committerEmail: commit.committer().email(),
     }
 }
