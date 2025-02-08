@@ -21,6 +21,7 @@ import { git_users } from './public/git_users';
 import { git_users_refs } from './public/git_users_refs';
 import { git_repo_ancestors } from './public/git_repo_ancestors';
 import { git_log_branch_commits } from './public/git_log_branch_commits';
+import { git_log_branch_users_commits } from './public/git_log_branch_users_commits';
 // import {git_http_server} from './public/git_graphql_server';
 import { lg } from './util/pr_lg';
 
@@ -47,7 +48,8 @@ export {
     git_repo_unpack,
     git_users_refs,
     git_repo_ancestors,
-    git_log_branch_commits
+    git_log_branch_commits,
+    git_log_branch_users_commits
     // git_http_server
 };
 

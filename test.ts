@@ -24,12 +24,15 @@ import { lg } from './src/util/pr_lg';
 // import { git_stash } from './src/public/git_stash';
 // import { git_repo } from './src/private/git_repo';
 // import { git_users_refs } from "./src/public/git_users_refs";
-import { git_log_branch_commits } from './src/public/git_log_branch_commits';
+// import { git_log_branch_commits } from './src/public/git_log_branch_commits';
+import { git_log_branch_users_commits } from './src/public/git_log_branch_users_commits';
 
 (async () => {
-    // const log_branch_commits =
-    const log_branch_commits = await git_log_branch_commits('./../nodegit/nodegit/', { stdOut: true });
-    lg(log_branch_commits);
+    const log_branch_users_commits = await git_log_branch_users_commits('.', { stdOut: true });
+    lg(log_branch_users_commits);
+
+    // const log_branch_commits = await git_log_branch_commits('./../nodegit/nodegit/', { stdOut: true });
+    // lg(log_branch_commits);
 
     // const ancestors = await git_repo_ancestors('.', { stdOut: true, stdPrgOut: false });
     // lg(ancestors);

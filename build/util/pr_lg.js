@@ -69,7 +69,9 @@ const pr_reference = (gitRef) => {
 };
 exports.pr_reference = pr_reference;
 const pr_users = (gitUser) => {
-    (0, exports.lg)(`${gitUser.totalCommits.toString().padStart(5)} Author: ${gitUser.authorName} <${(0, exports.cF)(gitUser.authorEmail, 'cfGREEN')}>`);
+    (0, exports.lg)(`Author:  ${gitUser.authorName} <${(0, exports.cF)(gitUser.authorEmail, 'cfGREEN')}>`);
+    (0, exports.lg)(`Commits: ${(0, exports.cF)(`${gitUser.totalCommits}`, 'cfGREEN')}`);
+    (0, exports.lg)();
 };
 exports.pr_users = pr_users;
 const pr_users_refs = (gitUsersRefs) => {

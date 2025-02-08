@@ -98,7 +98,9 @@ export const pr_reference = (gitRef: GitRef) => {
 }
 
 export const pr_users = (gitUser: GitUser) => {
-    lg(`${gitUser.totalCommits.toString().padStart(5)} Author: ${gitUser.authorName} <${cF(gitUser.authorEmail, 'cfGREEN')}>`);
+    lg(`Author:  ${gitUser.authorName} <${cF(gitUser.authorEmail, 'cfGREEN')}>`);
+    lg(`Commits: ${cF(`${gitUser.totalCommits}`, 'cfGREEN')}`);
+    lg();
 }
 
 export const pr_users_refs = (gitUsersRefs: GitUserRef) => {
