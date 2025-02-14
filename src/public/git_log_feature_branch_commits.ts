@@ -1,5 +1,5 @@
 import { git_branch_name } from "../private/git_branch_name";
-import { git_branch_names } from '../private/git_branch_names';
+import { git_branch_root } from "../private/git_branch_root";
 import { git_exec } from "../private/git_exec";
 import { git_repo } from "../private/git_repo";
 import { Config, CONFIG } from "../types/config.types";
@@ -10,25 +10,27 @@ import { pr_lg_prg } from "../util/pr_lg_prg";
 
 // git log main..feature/git-coomit
 // git log --pretty="format:%H,%an" --no-merges $(git merge-base  feature/git-coomit HEAD)..feature/git-coomit
-export const git_log_branch_commits = async (path: string = './', config: Config = CONFIG): Promise<GitLogsShort> => {
+export const git_log_feature_branch_commits = async (path: string = './', config: Config = CONFIG): Promise<GitLogsShort> => {
 
     // Get Repository
     const repo = await git_repo(path, config);
 
     // Get Branch name from HEAD
-    const branchName = await git_branch_name(repo);
+    const featureBranch = await git_branch_name(repo);
 
-    // Local branches
-    const localBranchNames = await git_branch_names(repo, branchName);
+    // Get root branch
+    const rootBranch = await git_branch_root(repo, featureBranch);
 
     // Get merge base sha
-    // git merge-base --all feature/git-coomit HEAD
+    // git merge-base --all HED feature/git-coomit
     const sha = await git_exec(
         repo.workdir(),
         'git',
         'merge-base',
         '--all',
-        'HEAD', ...localBranchNames);
+        'HEAD',
+        rootBranch
+    );
 
     // Empty sha
     if (sha === '')
@@ -43,7 +45,7 @@ export const git_log_branch_commits = async (path: string = './', config: Config
         'log',
         `--pretty=format:${['%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"].join('%x00')}`,
         '--no-merges',
-        `${sha.replace(/\n/g, '')}..${branchName}`
+        `${sha.trim().replace(/\n/g, '')}..${featureBranch}`
     );
 
     // Empty patterns

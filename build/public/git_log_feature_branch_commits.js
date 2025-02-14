@@ -9,23 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_log_branch_commits = void 0;
+exports.git_log_feature_branch_commits = void 0;
 const git_branch_name_1 = require("../private/git_branch_name");
-const git_branch_names_1 = require("../private/git_branch_names");
+const git_branch_root_1 = require("../private/git_branch_root");
 const git_exec_1 = require("../private/git_exec");
 const git_repo_1 = require("../private/git_repo");
 const config_types_1 = require("../types/config.types");
 const pr_config_1 = require("../util/pr_config");
 const pr_lg_1 = require("../util/pr_lg");
 const pr_lg_prg_1 = require("../util/pr_lg_prg");
-const git_log_branch_commits = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
+const git_log_feature_branch_commits = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (path = './', config = config_types_1.CONFIG) {
     const repo = yield (0, git_repo_1.git_repo)(path, config);
-    const branchName = yield (0, git_branch_name_1.git_branch_name)(repo);
-    const localBranchNames = yield (0, git_branch_names_1.git_branch_names)(repo, branchName);
-    const sha = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'merge-base', '--all', 'HEAD', ...localBranchNames);
+    const featureBranch = yield (0, git_branch_name_1.git_branch_name)(repo);
+    const rootBranch = yield (0, git_branch_root_1.git_branch_root)(repo, featureBranch);
+    const sha = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'merge-base', '--all', 'HEAD', rootBranch);
     if (sha === '')
         return [];
-    const stdOut = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'log', `--pretty=format:${['%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"].join('%x00')}`, '--no-merges', `${sha.replace(/\n/g, '')}..${branchName}`);
+    const stdOut = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'log', `--pretty=format:${['%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"].join('%x00')}`, '--no-merges', `${sha.trim().replace(/\n/g, '')}..${featureBranch}`);
     if (stdOut === '')
         return [];
     const lines = stdOut.trim().split('\n');
@@ -47,4 +47,4 @@ const git_log_branch_commits = (...args_1) => __awaiter(void 0, [...args_1], voi
         return gitLogShort;
     });
 });
-exports.git_log_branch_commits = git_log_branch_commits;
+exports.git_log_feature_branch_commits = git_log_feature_branch_commits;
