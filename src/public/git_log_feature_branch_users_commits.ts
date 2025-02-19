@@ -17,33 +17,19 @@ export const git_log_feature_branch_users_commits = async (path: string = './', 
     // Get Branch name from HEAD
     const featureBranch = await git_branch_name(repo);
 
-// Get root branch
+    // Get root branch
     const rootBranch = await git_branch_root(repo, featureBranch);
 
-    // Get merge base sha
-    // git merge-base --fork-point feature/git-coomit
-    const sha = await git_exec(
-        repo.workdir(),
-        'git',
-        'merge-base',
-        'HEAD',
-        rootBranch
-    );
-console.log(sha);
-    // Empty sha
-    if (sha === '')
-        return [];
-
-    // Get merge commits from merge base commit and HEAD
-    // git log --pretty="format:%H,%an" --no-merges $(git merge-base --all HEAD feature/git-coomit)..HEAD
-    // git log --pretty="format:%H,%an" --no-merges sha..feature/git-coomit
+    // git log myFeaturebranch ---not masater --pretty="format:%H,%an" --no-merges
     const stdOut = await git_exec(
         repo.workdir(),
         'git',
         'log',
+        featureBranch,
+        '--not',
+        rootBranch,
         `--pretty=format:${['%H', '%an', '%ae'].join('%x00')}`,
         '--no-merges',
-        `${sha.trim().replace(/\n/g, '')}..${featureBranch}`
     );
 
     // Error in git exec

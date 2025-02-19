@@ -31,7 +31,7 @@ import { git_log_feature_branch_users_commits } from './src/public/git_log_featu
     const log_feature_branch_users_commits = await git_log_feature_branch_users_commits('./', { stdOut: true });
     lg(log_feature_branch_users_commits);
 
-    // const log_feature_branch_commits = await git_log_feature_branch_commits('./', { stdOut: true });
+    // const log_feature_branch_commits = await git_log_feature_branch_commits('.', { stdOut: true });
     // lg(log_feature_branch_commits);
 
     // const ancestors = await git_repo_ancestors('.', { stdOut: true, stdPrgOut: false });

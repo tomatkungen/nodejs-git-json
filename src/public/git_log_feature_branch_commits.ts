@@ -9,7 +9,7 @@ import { pr_log_short } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
 
 // git log main..feature/git-coomit
-// git log --pretty="format:%H,%an" --no-merges $(git merge-base  feature/git-coomit HEAD)..feature/git-coomit
+// git log --pretty="format:%H,%an" --no-merges $(git merge-base  feature/git-coomit HEAD)..feature/git-coomit (old)
 export const git_log_feature_branch_commits = async (path: string = './', config: Config = CONFIG): Promise<GitLogsShort> => {
 
     // Get Repository
@@ -21,31 +21,16 @@ export const git_log_feature_branch_commits = async (path: string = './', config
     // Get root branch
     const rootBranch = await git_branch_root(repo, featureBranch);
 
-    // Get merge base sha
-    // git merge-base --all HED feature/git-coomit
-    const sha = await git_exec(
-        repo.workdir(),
-        'git',
-        'merge-base',
-        '--all',
-        'HEAD',
-        rootBranch
-    );
-
-    // Empty sha
-    if (sha === '')
-        return [];
-
-    // Get merge commits from merge base commit and HEAD
-    // git log --pretty="format:%H,%an" --no-merges $(git merge-base --all HEAD feature/git-coomit)..HEAD
-    // git log --pretty="format:%H,%an" --no-merges sha..feature/git-coomit
+    // git log myFeaturebranch ---not masater --pretty="format:'%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"" --no-merges
     const stdOut = await git_exec(
         repo.workdir(),
         'git',
         'log',
+        featureBranch,
+        '--not',
+        rootBranch,
         `--pretty=format:${['%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"].join('%x00')}`,
         '--no-merges',
-        `${sha.trim().replace(/\n/g, '')}..${featureBranch}`
     );
 
     // Empty patterns

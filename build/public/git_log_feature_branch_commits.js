@@ -22,10 +22,7 @@ const git_log_feature_branch_commits = (...args_1) => __awaiter(void 0, [...args
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const featureBranch = yield (0, git_branch_name_1.git_branch_name)(repo);
     const rootBranch = yield (0, git_branch_root_1.git_branch_root)(repo, featureBranch);
-    const sha = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'merge-base', '--all', 'HEAD', rootBranch);
-    if (sha === '')
-        return [];
-    const stdOut = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'log', `--pretty=format:${['%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"].join('%x00')}`, '--no-merges', `${sha.trim().replace(/\n/g, '')}..${featureBranch}`);
+    const stdOut = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'log', featureBranch, '--not', rootBranch, `--pretty=format:${['%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"].join('%x00')}`, '--no-merges');
     if (stdOut === '')
         return [];
     const lines = stdOut.trim().split('\n');

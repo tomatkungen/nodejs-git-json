@@ -23,11 +23,7 @@ const git_log_feature_branch_users_commits = (...args_1) => __awaiter(void 0, [.
     const repo = yield (0, git_repo_1.git_repo)(path, config);
     const featureBranch = yield (0, git_branch_name_1.git_branch_name)(repo);
     const rootBranch = yield (0, git_branch_root_1.git_branch_root)(repo, featureBranch);
-    const sha = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'merge-base', 'HEAD', rootBranch);
-    console.log(sha);
-    if (sha === '')
-        return [];
-    const stdOut = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'log', `--pretty=format:${['%H', '%an', '%ae'].join('%x00')}`, '--no-merges', `${sha.trim().replace(/\n/g, '')}..${featureBranch}`);
+    const stdOut = yield (0, git_exec_1.git_exec)(repo.workdir(), 'git', 'log', featureBranch, '--not', rootBranch, `--pretty=format:${['%H', '%an', '%ae'].join('%x00')}`, '--no-merges');
     if (stdOut.includes('fatal:'))
         throw (0, git_error_1.git_error)(`GIT_REPO: ${stdOut}`);
     if (stdOut === '')

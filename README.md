@@ -214,10 +214,10 @@ import {
     // log json object equal git merge-base --all HEAD <branch ref>)
     console.log(repo_ancestors);
 
-    // log json object equal git log --pretty="%H,%ci,%s,%an,%ae,%cn,%ce" --no-merges $(git merge-base --all HEAD $(git symbolic-ref -q refs/remotes/origin/HEAD | cut -d'/' -f2))..HEAD
+    // log json object equal git log myFeaturebranch ---not masater --pretty="format:'%H', "%ci", "%s", "%an", "%ae", "%cn", "%ce"" --no-merges
     console.log(log_feature_branch_commits)
 
-    // log json object equal git log --pretty="%H,%an,%ae" --no-merges $(git merge-base --all HEAD $(git symbolic-ref -q refs/remotes/origin/HEAD | cut -d'/' -f2))..HEAD
+    // log json object equal git log myFeaturebranch ---not masater --pretty="format:%H,%an" --no-merges
     console.log(log_feature_branch_users_commits)
 })()
 ```
