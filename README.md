@@ -50,6 +50,7 @@ yarn add nodegit@0.28.0-alpha.28
     git_log_folder(path: string = './', folderPath: string, gitLogPagination: GitLogPagination, config: Config = CONFIG): Promise<GitLogs>
     git_log_feature_branch_commits(path: string = './', config: Config = CONFIG): Promise<GitLogsShort>
     git_log_feature_branch_users_commits(path: string = './', config: Config = CONFIG): Promise<GitUsers>
+    git_log_filter(path: string = './', filter: GitlogFilter, config: Confing = CONFIG): Promise<GitLogsShort>
     
     // Repo
     git_repo_commits_count(path: string = './', config: Config = CONFIG): Promise<number>
@@ -88,6 +89,17 @@ yarn add nodegit@0.28.0-alpha.28
     // @pattern - search word
 
     // @pathspec - file example "*.ts"
+
+    // @GitlogFilter 
+        // added
+        // modified
+        // deleted:
+        // renamed:
+        // copied: 
+        // typeChanged
+        // unmerged
+        // unknown
+
 ```
 
 ## Usage
@@ -110,6 +122,7 @@ import {
     git_log_folder,
     git_log_feature_branch_commits,
     git_log_feature_branch_users_commits,
+    git_log_filter
     git_repo_commits_count,
     git_repo_users_commit_count,
     git_repo_files_count,
@@ -137,6 +150,7 @@ import {
     const log_folder = await git_log_folder('./my-path/git/git-nodejs-git-json/', './build', { currentPage: 1, commitsPerPage: 10})
     const log_feature_branch_commits = await git_log_feature_branch_commits('./', { stdOut: true });
     const log_feature_branch_users_commits = await git_log_feature_branch_users_commits('./my-path/git/git-nodejs-git-json/', { stdOut: true });
+    const log_filter = await git_log_filter('./my-path/git/git-nodejs-git-json/', 'modified');
     const repo_commits_count = await git_repo_commits_count('./my-path/git/git-nodejs-git-json/')
     const repo_users_commit_count = await git_repo_users_commit_count('./my-path/git/git-nodejs-git-json/');
     const repo_files_count = await git_repo_files_count('./my-path/git/git-nodejs-git-json/');
@@ -183,6 +197,9 @@ import {
 
     // log json object equal to "git log -- <folderpath>"
     console.log(log_folder);
+
+    // log json object equal git log --diff-filiter<A | M | D | R | C> --pretty=format:%H --name-only
+    console.log(log_filter)  
 
     // log number of commits equal to "git rev-list --count HEAD"
     console.log(repo_commits_count);
@@ -631,4 +648,29 @@ GitRepoAncestor = {
         sha: string;
     }[]
 };
+```
+
+#### GitRepoAncestor
+
+```typescript
+// List all dii files filter 
+GitLogFilter = {
+    // Head commit unique ID sha-1
+    sha: string;
+    // Commit date as ISO
+    date: string;
+    // Commit message
+    message: string;
+    // Commit signature author name
+    authorName: string;
+    // Commit signature author email
+    authorEmail: string;
+    // Commit committer name
+    committerName: string;
+    // Commit commiter email
+    committerEmail: string;
+    // Committed diff files
+    files: string[]
+}
+
 ```

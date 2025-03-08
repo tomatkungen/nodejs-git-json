@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.git_log_feature_branch_users_commits = exports.git_log_feature_branch_commits = exports.git_repo_ancestors = exports.git_users_refs = exports.git_repo_unpack = exports.git_repo_files_size = exports.git_repo_grep = exports.git_repo_statistics = exports.git_repo_files = exports.git_repo_files_count = exports.git_repo_users_commit_count = exports.git_repo_commits_count = exports.git_log_folder = exports.git_log_file = exports.git_log_dates = exports.git_users = exports.git_status = exports.git_stash = exports.git_reference = exports.git_log = exports.git_log_short = exports.git_log_pagination = exports.git_log_commit = exports.git_configs = void 0;
+exports.git_log_filter = exports.git_log_feature_branch_users_commits = exports.git_log_feature_branch_commits = exports.git_repo_ancestors = exports.git_users_refs = exports.git_repo_unpack = exports.git_repo_files_size = exports.git_repo_grep = exports.git_repo_statistics = exports.git_repo_files = exports.git_repo_files_count = exports.git_repo_users_commit_count = exports.git_repo_commits_count = exports.git_log_folder = exports.git_log_file = exports.git_log_dates = exports.git_users = exports.git_status = exports.git_stash = exports.git_reference = exports.git_log = exports.git_log_short = exports.git_log_pagination = exports.git_log_commit = exports.git_configs = void 0;
 const git_configs_1 = require("./public/git_configs");
 Object.defineProperty(exports, "git_configs", { enumerable: true, get: function () { return git_configs_1.git_configs; } });
 const git_log_commit_1 = require("./public/git_log_commit");
@@ -17,6 +17,8 @@ const git_log_pagination_1 = require("./public/git_log_pagination");
 Object.defineProperty(exports, "git_log_pagination", { enumerable: true, get: function () { return git_log_pagination_1.git_log_pagination; } });
 const git_log_short_1 = require("./public/git_log_short");
 Object.defineProperty(exports, "git_log_short", { enumerable: true, get: function () { return git_log_short_1.git_log_short; } });
+const git_log_filter_1 = require("./public/git_log_filter");
+Object.defineProperty(exports, "git_log_filter", { enumerable: true, get: function () { return git_log_filter_1.git_log_filter; } });
 const git_reference_1 = require("./public/git_reference");
 Object.defineProperty(exports, "git_reference", { enumerable: true, get: function () { return git_reference_1.git_reference; } });
 const git_repo_commits_count_1 = require("./public/git_repo_commits_count");

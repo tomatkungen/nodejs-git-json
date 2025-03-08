@@ -12,6 +12,26 @@ export type GitLogPagination = {
     commitsPerPage: number;
     currentPage: number;
 };
+export type GitFilterType = {
+    added: 'Added';
+    modified: 'Modified';
+    deleted: 'Deleted';
+    renamed: 'Renamed';
+    copied: 'Copied';
+    typeChanged: 'TypeChanged';
+    unmerged: 'Unmerged';
+    unknown: 'Unknown';
+};
+export type GitLogFilter = {
+    sha: string;
+    date: string;
+    message: string;
+    authorName: string;
+    authorEmail: string;
+    committerName: string;
+    committerEmail: string;
+    files: string[];
+};
 export type GitLogShort = {
     sha: string;
     date: string;
@@ -216,4 +236,5 @@ export type GitRepoStatistics = GitRepoStatistic;
 export type GitRepoGreps = GitRepoGrep[];
 export type GitRepoFilesSize = GitRepoFileSize[];
 export type GitRepoAncestors = GitRepoAncestor;
+export type GitLogFilters = GitLogFilter[];
 export {};

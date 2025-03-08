@@ -4,6 +4,7 @@ import {
     GitCommitHunk,
     GitConfig,
     GitLog,
+    GitLogFilter,
     GitLogShort,
     GitRef,
     GitRepoAncestors,
@@ -33,6 +34,20 @@ export const pr_log_short = (gitLogShort: GitLogShort) => {
     lg(`Date: ${gitLogShort.date}`);
     lg("\n    " + gitLogShort.message);
     lg();
+}
+
+export const pr_log_filter = (gitLogFilter: GitLogFilter) => {
+    lg(cF(`commit ${gitLogFilter.sha}`, 'cfYELLOW'));
+    lg(`Author: ${gitLogFilter.authorName} <${gitLogFilter.authorEmail}>`);
+    lg(`Commiter: ${gitLogFilter.committerName} <${gitLogFilter.committerEmail}>`);
+    lg(`Date: ${gitLogFilter.date}`);
+    lg("\n    " + gitLogFilter.message);
+    lg();
+    
+    gitLogFilter.files.forEach((file) => {
+        lg(`${file}`)
+    });
+    lg()
 }
 
 export const pr_log = (gitLog: GitLog) => {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cF = exports.pr_repo_parent_branches = exports.pr_repo_unpack = exports.pr_repo_file_size = exports.pr_repo_grep = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users_refs = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_short = exports.lgN = exports.lg = void 0;
+exports.cF = exports.pr_repo_parent_branches = exports.pr_repo_unpack = exports.pr_repo_file_size = exports.pr_repo_grep = exports.pr_repo_files = exports.pr_repo_users_commit_count = exports.pr_repo = exports.pr_log_commit = exports.pr_stash = exports.pr_config = exports.pr_users_refs = exports.pr_users = exports.pr_reference = exports.pr_status = exports.pr_log_hunks = exports.pr_log_files = exports.pr_log = exports.pr_log_filter = exports.pr_log_short = exports.lgN = exports.lg = void 0;
 const lg = (...args) => {
     console.log(...args);
 };
@@ -18,6 +18,19 @@ const pr_log_short = (gitLogShort) => {
     (0, exports.lg)();
 };
 exports.pr_log_short = pr_log_short;
+const pr_log_filter = (gitLogFilter) => {
+    (0, exports.lg)((0, exports.cF)(`commit ${gitLogFilter.sha}`, 'cfYELLOW'));
+    (0, exports.lg)(`Author: ${gitLogFilter.authorName} <${gitLogFilter.authorEmail}>`);
+    (0, exports.lg)(`Commiter: ${gitLogFilter.committerName} <${gitLogFilter.committerEmail}>`);
+    (0, exports.lg)(`Date: ${gitLogFilter.date}`);
+    (0, exports.lg)("\n    " + gitLogFilter.message);
+    (0, exports.lg)();
+    gitLogFilter.files.forEach((file) => {
+        (0, exports.lg)(`${file}`);
+    });
+    (0, exports.lg)();
+};
+exports.pr_log_filter = pr_log_filter;
 const pr_log = (gitLog) => {
     (0, exports.lgN)();
     (0, exports.lg)((0, exports.cF)(`commit ${gitLog.sha}`, 'cfYELLOW'));

@@ -1,8 +1,9 @@
 import { Repository } from "nodegit";
-import { GitCommitFile, GitCommitHunk, GitConfig, GitLog, GitLogShort, GitRef, GitRepoAncestors, GitRepoFilePath, GitRepoFileSize, GitRepoGrep, GitRepoUnpack, GitRepoUserCommitCount, GitStash, Gitstatus, GitUser, GitUserRef } from "../types/git_types";
+import { GitCommitFile, GitCommitHunk, GitConfig, GitLog, GitLogFilter, GitLogShort, GitRef, GitRepoAncestors, GitRepoFilePath, GitRepoFileSize, GitRepoGrep, GitRepoUnpack, GitRepoUserCommitCount, GitStash, Gitstatus, GitUser, GitUserRef } from "../types/git_types";
 export declare const lg: (...args: any[]) => void;
 export declare const lgN: () => void;
 export declare const pr_log_short: (gitLogShort: GitLogShort) => void;
+export declare const pr_log_filter: (gitLogFilter: GitLogFilter) => void;
 export declare const pr_log: (gitLog: GitLog) => void;
 export declare const pr_log_files: (gitCommitFile: GitCommitFile) => void;
 export declare const pr_log_hunks: (gitCommitHunk: GitCommitHunk, gitCommitFile: GitCommitFile) => void;

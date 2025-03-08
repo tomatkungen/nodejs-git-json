@@ -6,6 +6,7 @@ import { git_log_file } from './public/git_log_file';
 import { git_log_folder } from './public/git_log_folder';
 import { git_log_pagination } from './public/git_log_pagination';
 import { git_log_short } from './public/git_log_short';
+import { git_log_filter } from "./public/git_log_filter";
 import { git_reference } from './public/git_reference';
 import { git_repo_commits_count } from './public/git_repo_commits_count';
 import { git_repo_files } from './public/git_repo_files';
@@ -49,7 +50,8 @@ export {
     git_users_refs,
     git_repo_ancestors,
     git_log_feature_branch_commits,
-    git_log_feature_branch_users_commits
+    git_log_feature_branch_users_commits,
+    git_log_filter
     // git_http_server
 };
 

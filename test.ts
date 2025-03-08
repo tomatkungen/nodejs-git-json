@@ -13,6 +13,7 @@
 // import { git_repo_statistics } from './src/public/git_repo_statistics';
 // import { git_http_server } from './src/public/git_graphql_server';
 // import { git_repo_ancestors } from './src/public/git_repo_ancestors';
+import { git_log_filter } from './src/public/git_log_filter';
 import { lg } from './src/util/pr_lg';
 // import {git_http_server} from "./src/index";
 // import { git_log } from './src/public/git_log';
@@ -25,11 +26,14 @@ import { lg } from './src/util/pr_lg';
 // import { git_repo } from './src/private/git_repo';
 // import { git_users_refs } from "./src/public/git_users_refs";
 // import { git_log_feature_branch_commits } from './src/public/git_log_feature_branch_commits';
-import { git_log_feature_branch_users_commits } from './src/public/git_log_feature_branch_users_commits';
+// import { git_log_feature_branch_users_commits } from './src/public/git_log_feature_branch_users_commits';
 
 (async () => {
-    const log_feature_branch_users_commits = await git_log_feature_branch_users_commits('./', { stdOut: true });
-    lg(log_feature_branch_users_commits);
+    const log_filter = await git_log_filter('./', 'modified', { stdOut: true });
+    lg(log_filter);
+
+    // const log_feature_branch_users_commits = await git_log_feature_branch_users_commits('./', { stdOut: true });
+    // lg(log_feature_branch_users_commits);
 
     // const log_feature_branch_commits = await git_log_feature_branch_commits('.', { stdOut: true });
     // lg(log_feature_branch_commits);
