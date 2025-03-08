@@ -1,10 +1,11 @@
 import { git_exec } from "../private/git_exec";
 import { git_repo } from "../private/git_repo";
 import { CONFIG, Config } from "../types/config.types";
+import { GitFilterType, GitLogFilter, GitLogFilters } from "../types/git_types";
 import { isStdOut, isStdPrgOut } from "../util/pr_config";
 import { pr_log_filter } from "../util/pr_lg";
 import { pr_lg_prg } from "../util/pr_lg_prg";
-import { GitFilterType, GitLogFilter, GitLogFilters } from './../../src/types/git_types';
+
 
 export const git_log_filter = async (path: string = './', filter: keyof GitFilterType, config: Config = CONFIG): Promise<GitLogFilters> => {
 
